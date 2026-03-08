@@ -623,7 +623,7 @@ function Pricing() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, alignItems: "start" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, alignItems: "stretch" }}>
           {PLANS.map(p => (
             <div key={p.name} style={{
               borderRadius: 16,

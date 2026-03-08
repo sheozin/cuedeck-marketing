@@ -201,7 +201,7 @@ export default function PricingClient({ plans }: { plans: Plan[] }) {
         display: 'grid',
         gridTemplateColumns: 'repeat(3, 1fr)',
         gap: 24,
-        alignItems: 'start',
+        alignItems: 'stretch',
         maxWidth: 1100,
         margin: '0 auto',
       }}>
