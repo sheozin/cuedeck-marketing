@@ -67,7 +67,7 @@ export default async function ContactPage() {
         <section style={{ padding: "64px 40px", background: "#fff" }}>
           <div style={{
             maxWidth: 960, margin: "0 auto",
-            display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24,
+            display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24,
           }}>
             {[
               { Icon: IconMail,     title: "General",    desc: "Questions about CueDeck, partnerships, or anything else.",                         email: emailGeneral },
