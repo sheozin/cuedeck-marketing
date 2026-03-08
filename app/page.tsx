@@ -551,55 +551,57 @@ function HowItWorks() {
 // ─── Pricing ──────────────────────────────────────────────────────────────────
 const PLANS = [
   {
-    name: "Pay-per-event",
-    price: "$39",
-    period: "per event",
-    desc: "Perfect for freelancers and one-off productions.",
-    highlight: false,
-    features: [
-      "1 event",
-      "Up to 5 operators",
-      "All 6 roles included",
-      "Real-time sync",
-      "Basic signage (2 displays)",
-    ],
-    cta: "Buy single event",
-  },
-  {
     name: "Starter",
-    price: "$49",
+    price: "€149",
     period: "/ month",
-    desc: "For small teams running regular events.",
+    desc: "For small teams running occasional events.",
     highlight: false,
+    badge: undefined as string | undefined,
     features: [
-      "1 active event at a time",
       "Up to 5 operators",
-      "All 6 roles included",
-      "Real-time sync",
-      "5 signage displays",
-      "Post-event reports",
+      "Core session management",
+      "3 signage displays",
+      "Broadcast bar",
+      "Email support",
+      "3-day free trial",
     ],
     cta: "Start free trial",
   },
   {
     name: "Pro",
-    price: "$99",
+    price: "€349",
     period: "/ month",
-    desc: "Full power for production companies.",
+    desc: "For professional teams who run events regularly.",
     highlight: true,
     badge: "Most popular",
     features: [
-      "Unlimited active events",
-      "Up to 20 operators",
+      "Unlimited operators",
       "All 6 roles included",
-      "Real-time sync",
       "Unlimited signage displays",
       "AI Incident Advisor",
       "AI post-event reports",
       "Delay cascade",
       "Priority support",
+      "3-day free trial",
     ],
     cta: "Start free trial",
+  },
+  {
+    name: "Enterprise",
+    price: "Custom",
+    period: "",
+    desc: "For large production companies and agencies.",
+    highlight: false,
+    badge: undefined as string | undefined,
+    features: [
+      "Everything in Pro",
+      "Dedicated onboarding",
+      "Custom SLAs",
+      "Volume licensing",
+      "Invoice billing",
+      "Priority phone support",
+    ],
+    cta: "Contact us",
   },
 ];
 
@@ -660,12 +662,12 @@ function Pricing() {
                 ))}
               </ul>
 
-              <a href={TRIAL_URL} style={{
+              <a href={p.name === "Enterprise" ? "/contact" : TRIAL_URL} style={{
                 display: "block", textAlign: "center",
                 padding: "12px 20px", borderRadius: 10,
                 fontWeight: 700, fontSize: 14, textDecoration: "none",
                 background: p.highlight ? "rgba(255,255,255,0.15)" : "#3b82f6",
-                color: p.highlight ? "#fff" : "#fff",
+                color: "#fff",
                 border: p.highlight ? "1px solid rgba(255,255,255,0.25)" : "none",
                 boxShadow: p.highlight ? "none" : "0 2px 8px rgba(59,130,246,0.3)",
               }}>
