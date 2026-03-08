@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import EmailCapture from "../components/EmailCapture";
 import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../keystatic.config'
 
@@ -848,6 +849,7 @@ export default async function HomePage() {
         <Features />
         <HowItWorks />
         <Pricing />
+        <EmailCapture />
         <FinalCTA />
       </main>
       <Footer />
