@@ -199,7 +199,7 @@ export default function PricingClient({ plans }: { plans: Plan[] }) {
       {/* Plan cards */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gridTemplateColumns: 'repeat(3, 1fr)',
         gap: 24,
         alignItems: 'start',
         maxWidth: 1100,

@@ -59,7 +59,7 @@ export default async function AboutPage() {
         <section style={{ padding: "56px 40px", background: "#fff", borderBottom: "1px solid #f3f4f6" }}>
           <div style={{
             maxWidth: 900, margin: "0 auto",
-            display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24,
+            display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24,
           }}>
             {[
               { stat: "500+", label: "Events Powered" },
@@ -117,7 +117,7 @@ export default async function AboutPage() {
               <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", color: "#3b82f6", textTransform: "uppercase" as const, marginBottom: 12 }}>What We Stand For</p>
               <h2 style={{ fontSize: "clamp(26px, 3vw, 38px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.8px" }}>Our values</h2>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
               {[
                 { title: "Reliability",  desc: "Live events don't get second takes. CueDeck uses idempotent operations, real-time sync, and graceful reconnection so it keeps working when you need it most." },
                 { title: "Simplicity",   desc: "A tool no one uses is no tool at all. Every feature has a reason. No bloat, no training manuals — just clear controls that work the way event teams think." },
