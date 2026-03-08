@@ -164,9 +164,13 @@ export default function PricingPage() {
               Start with a 3-day free trial on any plan. No credit card required.
             </p>
 
-            {/* PricingClient renders the toggle, currency selector, and plan cards */}
-            <PricingClient plans={plans} />
+            {/* Toggle + currency rendered inside narrow hero; cards break out below */}
+          </div>
 
+          {/* PricingClient at full width (its own maxWidth: 1100) */}
+          <PricingClient plans={plans} />
+
+          <div style={{ maxWidth: 720, margin: "0 auto" }}>
             <p style={{
               textAlign: "center",
               fontSize: 13,
