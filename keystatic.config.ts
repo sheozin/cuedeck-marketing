@@ -1,7 +1,13 @@
 import { config, collection, fields } from '@keystatic/core'
 
 export default config({
-  storage: { kind: 'local' },
+  storage: {
+    kind: 'github',
+    repo: {
+      owner: 'sheozin',
+      name: 'cuedeck-marketing',
+    },
+  },
   ui: {
     brand: { name: 'CueDeck CMS' },
   },
