@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import { createReader } from '@keystatic/core/reader'
+import keystaticConfig from '../keystatic.config'
 
 const APP_URL = "https://app.cuedeck.io";
 const TRIAL_URL = `${APP_URL}/#signup`;
@@ -306,7 +308,7 @@ function SignageMockup() {
 }
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
-function Hero() {
+function Hero({ heroHeadline, heroSubheadline }: { heroHeadline: string; heroSubheadline: string }) {
   return (
     <section style={{
       paddingTop: 120,
@@ -345,8 +347,7 @@ function Hero() {
             fontSize: 18, color: "#4b5563", lineHeight: 1.7,
             marginBottom: 36, maxWidth: 440,
           }}>
-            CueDeck keeps your entire production team in sync — directors, stage managers,
-            AV, interpreters, registration, and signage — all from one real-time dashboard.
+            {heroSubheadline}
           </p>
 
           <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 32, flexWrap: "wrap" }}>
@@ -830,13 +831,18 @@ function RoleShowcase() {
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
-export default function HomePage() {
+export default async function HomePage() {
+  const reader = createReader(process.cwd(), keystaticConfig)
+  const homepage = await reader.singletons.homepage.read()
+  const heroHeadline = homepage?.heroHeadline ?? 'The Command Center for Live Events'
+  const heroSubheadline = homepage?.heroSubheadline ?? 'Real-time session management, digital signage, and AI-assisted operations for professional event teams.'
+
   return (
     <>
       <GlobalStyle />
       <Nav />
       <main>
-        <Hero />
+        <Hero heroHeadline={heroHeadline} heroSubheadline={heroSubheadline} />
         <SocialProof />
         <RoleShowcase />
         <Features />

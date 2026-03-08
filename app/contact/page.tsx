@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
+import { createReader } from '@keystatic/core/reader'
+import keystaticConfig from '../../keystatic.config'
 
 export const metadata: Metadata = {
   title: "Contact — CueDeck",
@@ -26,7 +28,16 @@ const IconBuilding = () => (
   </svg>
 );
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const reader = createReader(process.cwd(), keystaticConfig)
+  const contact = await reader.singletons.contact.read()
+
+  const heroHeadline = contact?.heroHeadline ?? 'Get in touch'
+  const heroSubheadline = contact?.heroSubheadline ?? "We're a small, focused team. Every message goes directly to a human who works on CueDeck."
+  const emailGeneral = contact?.emailGeneral ?? 'hello@cuedeck.io'
+  const emailSupport = contact?.emailSupport ?? 'support@cuedeck.io'
+  const emailEnterprise = contact?.emailEnterprise ?? 'enterprise@cuedeck.io'
+
   return (
     <>
       <Nav />
@@ -44,10 +55,10 @@ export default function ContactPage() {
               lineHeight: 1.1, letterSpacing: "-1.5px",
               color: "#111827", marginBottom: 16,
             }}>
-              Get in touch
+              {heroHeadline}
             </h1>
             <p style={{ fontSize: 18, color: "#4b5563", lineHeight: 1.7 }}>
-              We&apos;re a small, focused team. Every message goes directly to a human who works on CueDeck.
+              {heroSubheadline}
             </p>
           </div>
         </section>
@@ -59,9 +70,9 @@ export default function ContactPage() {
             display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24,
           }}>
             {[
-              { Icon: IconMail,     title: "General",    desc: "Questions about CueDeck, partnerships, or anything else.",                         email: "hello@cuedeck.io" },
-              { Icon: IconHeadset,  title: "Support",    desc: "Having an issue during an event? We prioritise production-day support.",           email: "support@cuedeck.io" },
-              { Icon: IconBuilding, title: "Enterprise", desc: "Custom plans, volume licensing, dedicated onboarding and SLAs.",                  email: "enterprise@cuedeck.io" },
+              { Icon: IconMail,     title: "General",    desc: "Questions about CueDeck, partnerships, or anything else.",                         email: emailGeneral },
+              { Icon: IconHeadset,  title: "Support",    desc: "Having an issue during an event? We prioritise production-day support.",           email: emailSupport },
+              { Icon: IconBuilding, title: "Enterprise", desc: "Custom plans, volume licensing, dedicated onboarding and SLAs.",                  email: emailEnterprise },
             ].map(card => (
               <div key={card.title} style={{
                 padding: "32px 28px", borderRadius: 12,
@@ -93,7 +104,7 @@ export default function ContactPage() {
             <p style={{ fontSize: 15, color: "#6b7280", marginBottom: 36, lineHeight: 1.6 }}>
               Fill out the form below and we&apos;ll get back to you within one business day.
             </p>
-            <form action="mailto:hello@cuedeck.io" method="POST" encType="text/plain" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <form action={`mailto:${emailGeneral}`} method="POST" encType="text/plain" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               <div>
                 <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 6 }}>Name</label>
                 <input type="text" name="name" required placeholder="Your name" style={{

@@ -1,13 +1,27 @@
 import type { Metadata } from "next";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
+import { createReader } from '@keystatic/core/reader'
+import keystaticConfig from '../../keystatic.config'
 
 export const metadata: Metadata = {
   title: "About — CueDeck",
   description: "Built by event professionals, for event professionals. Learn about the mission behind CueDeck.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const reader = createReader(process.cwd(), keystaticConfig)
+  const about = await reader.singletons.about.read()
+
+  const heroHeadline = about?.heroHeadline ?? 'Built by event professionals, for event professionals.'
+  const heroTagline = about?.heroTagline ?? 'CueDeck was born in the chaos of live events — backstage, on comms, watching schedules slip. We built the tool we always wished existed.'
+  const missionHeading = about?.missionHeading ?? 'Calm under pressure. Always.'
+  const missionBody = about?.missionBody ?? 'Live events are unforgiving. When a speaker is late, a session overruns, or AV goes down, every second counts.\n\nCueDeck replaces that friction with a single real-time console.\n\nWe believe the best events look effortless because the team behind them has the right tools. CueDeck is that tool.'
+  const quoteText = about?.quoteText ?? 'We cut our pre-event briefing from 45 minutes to 10. Everyone already knows their role, their cues, and their fallback. CueDeck made that possible.'
+  const quoteAuthor = about?.quoteAuthor ?? '— Lead Producer, AVE Events International'
+  const ctaHeading = about?.ctaHeading ?? 'Ready to run your event like a pro?'
+  const ctaSubtext = about?.ctaSubtext ?? 'Start your free 3-day trial. No credit card required.'
+
   return (
     <>
       <Nav />
@@ -33,11 +47,10 @@ export default function AboutPage() {
               lineHeight: 1.1, letterSpacing: "-1.5px",
               color: "#111827", marginBottom: 20,
             }}>
-              Built by event professionals,<br />for event professionals.
+              {heroHeadline}
             </h1>
             <p style={{ fontSize: 18, color: "#4b5563", lineHeight: 1.7, maxWidth: 560, margin: "0 auto" }}>
-              CueDeck was born in the chaos of live events — backstage, on comms, watching schedules slip.
-              We built the tool we always wished existed.
+              {heroTagline}
             </p>
           </div>
         </section>
@@ -78,24 +91,20 @@ export default function AboutPage() {
                 Our Mission
               </p>
               <h2 style={{ fontSize: "clamp(26px, 3vw, 38px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.8px", marginBottom: 20, lineHeight: 1.2 }}>
-                Calm under pressure. Always.
+                {missionHeading}
               </h2>
-              <p style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75, marginBottom: 16 }}>
-                Live events are unforgiving. When a speaker is late, a session overruns, or AV goes down, every second counts. Most production teams still rely on radio chatter, shared spreadsheets, and hope.
-              </p>
-              <p style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75, marginBottom: 16 }}>
-                CueDeck replaces that friction with a single real-time console. Directors see everything. Stage managers act instantly. AV, interpreters, registration, and signage all stay in sync — automatically.
-              </p>
-              <p style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75 }}>
-                We believe the best events look effortless because the team behind them has the right tools. CueDeck is that tool.
-              </p>
+              {missionBody.split('\n\n').map((para, i) => (
+                <p key={i} style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75, marginBottom: 16 }}>
+                  {para}
+                </p>
+              ))}
             </div>
             <blockquote style={{ borderLeft: "4px solid #3b82f6", paddingLeft: 28, margin: 0 }}>
               <p style={{ fontSize: 20, fontWeight: 600, color: "#111827", lineHeight: 1.55, marginBottom: 20, fontStyle: "italic" }}>
-                &ldquo;We cut our pre-event briefing from 45 minutes to 10. Everyone already knows their role, their cues, and their fallback. CueDeck made that possible.&rdquo;
+                &ldquo;{quoteText}&rdquo;
               </p>
               <footer style={{ fontSize: 14, color: "#6b7280", fontWeight: 500 }}>
-                — Lead Producer, AVE Events International
+                {quoteAuthor}
               </footer>
             </blockquote>
           </div>
@@ -147,10 +156,10 @@ export default function AboutPage() {
           }} />
           <div style={{ maxWidth: 680, margin: "0 auto", textAlign: "center", position: "relative" }}>
             <h2 style={{ fontSize: "clamp(28px, 3.5vw, 46px)", fontWeight: 800, color: "#fff", letterSpacing: "-1px", marginBottom: 16, lineHeight: 1.15 }}>
-              Ready to run your event like a pro?
+              {ctaHeading}
             </h2>
             <p style={{ fontSize: 18, color: "rgba(255,255,255,0.75)", marginBottom: 40 }}>
-              Start your free 3-day trial. No credit card required.
+              {ctaSubtext}
             </p>
             <a href="https://app.cuedeck.io/#signup" style={{
               display: "inline-flex", alignItems: "center", gap: 8,
