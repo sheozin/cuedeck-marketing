@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Nav from "../components/Nav";
+import Footer from "../components/Footer";
 
 const APP_URL = "https://app.cuedeck.io";
 const TRIAL_URL = `${APP_URL}/#signup`;
@@ -49,42 +51,6 @@ const IconCheck = () => (
     <polyline points="20 6 9 17 4 12"/>
   </svg>
 );
-
-// ─── Nav ─────────────────────────────────────────────────────────────────────
-function Nav() {
-  return (
-    <nav style={{
-      position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
-      background: "rgba(255,255,255,0.92)", backdropFilter: "blur(12px)",
-      borderBottom: "1px solid #e5e7eb",
-      display: "flex", alignItems: "center", justifyContent: "space-between",
-      padding: "0 40px", height: "64px",
-    }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        <span style={{ fontSize: 20, fontWeight: 800, letterSpacing: "-0.5px", color: "#111827" }}>
-          Cue<span style={{ color: "#3b82f6" }}>Deck</span>
-        </span>
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: "32px" }}>
-        <a href="#features" style={{ fontSize: 14, color: "#4b5563", textDecoration: "none", fontWeight: 500 }}>Features</a>
-        <a href="#how"      style={{ fontSize: 14, color: "#4b5563", textDecoration: "none", fontWeight: 500 }}>How it works</a>
-        <a href="#pricing"  style={{ fontSize: 14, color: "#4b5563", textDecoration: "none", fontWeight: 500 }}>Pricing</a>
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-        <a href={APP_URL} style={{ fontSize: 14, color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>
-          Sign in
-        </a>
-        <a href={TRIAL_URL} style={{
-          fontSize: 14, fontWeight: 600, padding: "9px 20px", borderRadius: "8px",
-          background: "#3b82f6", color: "#fff", textDecoration: "none",
-          boxShadow: "0 1px 3px rgba(59,130,246,0.4)",
-        }}>
-          Start free trial
-        </a>
-      </div>
-    </nav>
-  );
-}
 
 // ─── Dashboard Mockup ─────────────────────────────────────────────────────────
 function DashboardMockup() {
@@ -161,6 +127,180 @@ function DashboardMockup() {
       </div>
       {/* Fade */}
       <div style={{ height: 36, background: "linear-gradient(to bottom, transparent, #111827)", marginTop: -4 }} />
+    </div>
+  );
+}
+
+// ─── Timeline Mockup ──────────────────────────────────────────────────────────
+function TimelineMockup() {
+  const rooms = [
+    { name: "Main Stage", color: "#3b82f6", sessions: [
+      { title: "Opening Ceremony",  start: 9,   end: 10.25, status: "ENDED" },
+      { title: "Keynote: Future AI", start: 10.5, end: 11.5, status: "ENDED" },
+      { title: "Closing & Network", start: 13,  end: 14.5, status: "ENDED" },
+    ]},
+    { name: "Room B", color: "#8b5cf6", sessions: [
+      { title: "Workshop: AI Tools", start: 11, end: 12.5, status: "ENDED" },
+    ]},
+    { name: "Foyer", color: "#f59e0b", sessions: [
+      { title: "Coffee Break", start: 10,  end: 10.5, status: "ENDED" },
+      { title: "Lunch Break",  start: 12.5, end: 13.5, status: "ENDED" },
+    ]},
+  ];
+  const startHr = 9, endHr = 15;
+  const totalHrs = endHr - startHr;
+  const nowHr = 14.68; // 14:41 in decimal
+  const toPercent = (hr: number) => ((hr - startHr) / totalHrs) * 100;
+  const hours = [9,10,11,12,13,14,15];
+
+  return (
+    <div style={{
+      width: "100%", maxWidth: 560, borderRadius: 14, overflow: "hidden",
+      boxShadow: "0 25px 60px rgba(0,0,0,0.18), 0 8px 20px rgba(0,0,0,0.1)",
+    }}>
+      {/* Titlebar */}
+      <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 16px", background: "#0d1220", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#ef4444", opacity: 0.7, display: "inline-block" }} />
+        <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#eab308", opacity: 0.7, display: "inline-block" }} />
+        <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#22c55e", opacity: 0.7, display: "inline-block" }} />
+        <span style={{ marginLeft: 8, fontSize: 11, color: "#475569" }}>Timeline View</span>
+        <span style={{ marginLeft: "auto", fontSize: 11, color: "#60a5fa", fontWeight: 600 }}>AVE Test Event</span>
+      </div>
+      {/* Toolbar */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 16px", background: "#0f1623", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div style={{ display: "flex", gap: 8 }}>
+          {["DIRECTOR","STAGE","AV"].map(r => (
+            <span key={r} style={{ fontSize: 9, padding: "2px 6px", borderRadius: 3, background: r==="DIRECTOR"?"#1e3a5f":"transparent", color: r==="DIRECTOR"?"#60a5fa":"#475569", border: r==="DIRECTOR"?"1px solid rgba(59,130,246,0.4)":"none" }}>{r}</span>
+          ))}
+        </div>
+        <span style={{ fontFamily: "monospace", color: "#fff", fontWeight: 700, fontSize: 12 }}>14:41:22</span>
+      </div>
+      {/* Timeline grid */}
+      <div style={{ background: "#111827", padding: "12px 0 16px" }}>
+        {/* Hour axis */}
+        <div style={{ display: "flex", paddingLeft: 64, paddingRight: 12, marginBottom: 8, position: "relative" }}>
+          {hours.map(h => (
+            <div key={h} style={{ flex: 1, fontSize: 9, color: "#475569", textAlign: "left" }}>{h}:00</div>
+          ))}
+        </div>
+        {/* Rooms */}
+        {rooms.map(room => (
+          <div key={room.name} style={{ display: "flex", alignItems: "center", marginBottom: 6, padding: "0 12px 0 0" }}>
+            <div style={{ width: 64, flexShrink: 0, fontSize: 9, color: "#64748b", textAlign: "right", paddingRight: 10, overflow: "hidden", whiteSpace: "nowrap" as const }}>
+              {room.name}
+            </div>
+            <div style={{ flex: 1, height: 24, position: "relative", background: "rgba(255,255,255,0.02)", borderRadius: 3 }}>
+              {room.sessions.map(s => (
+                <div key={s.title} style={{
+                  position: "absolute",
+                  left: `${toPercent(s.start)}%`,
+                  width: `${toPercent(s.end) - toPercent(s.start)}%`,
+                  top: 2, bottom: 2,
+                  background: `${room.color}33`,
+                  border: `1px solid ${room.color}88`,
+                  borderRadius: 3,
+                  display: "flex", alignItems: "center",
+                  padding: "0 4px", overflow: "hidden",
+                }}>
+                  <span style={{ fontSize: 8, color: room.color, fontWeight: 600, whiteSpace: "nowrap" as const, overflow: "hidden", textOverflow: "ellipsis" }}>
+                    {s.title}
+                  </span>
+                </div>
+              ))}
+              {/* NOW marker */}
+              <div style={{
+                position: "absolute",
+                left: `${toPercent(nowHr)}%`,
+                top: -4, bottom: -4, width: 1,
+                background: "#f97316",
+                opacity: 0.8,
+              }} />
+            </div>
+          </div>
+        ))}
+        {/* NOW label */}
+        <div style={{ paddingLeft: 64, position: "relative" }}>
+          <span style={{
+            position: "absolute",
+            left: `calc(64px + ${toPercent(nowHr)}% * (100% - 76px) / 100%)`,
+            fontSize: 8, color: "#f97316", fontWeight: 700, transform: "translateX(-50%)",
+          }}>NOW</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Signage Mockup ───────────────────────────────────────────────────────────
+function SignageMockup() {
+  return (
+    <div style={{
+      width: "100%", maxWidth: 560, borderRadius: 14, overflow: "hidden",
+      boxShadow: "0 25px 60px rgba(0,0,0,0.18), 0 8px 20px rgba(0,0,0,0.1)",
+    }}>
+      {/* Titlebar */}
+      <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 16px", background: "#0d1220", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#ef4444", opacity: 0.7, display: "inline-block" }} />
+        <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#eab308", opacity: 0.7, display: "inline-block" }} />
+        <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#22c55e", opacity: 0.7, display: "inline-block" }} />
+        <span style={{ marginLeft: 8, fontSize: 11, color: "#475569" }}>Signage Control</span>
+        <span style={{ marginLeft: "auto", fontSize: 10, color: "#22c55e" }}>1 display online</span>
+      </div>
+      <div style={{ background: "#111827", padding: "14px 14px 18px", display: "flex", flexDirection: "column", gap: 10 }}>
+        {/* Global override section */}
+        <div>
+          <p style={{ fontSize: 9, fontWeight: 700, color: "#64748b", letterSpacing: "0.08em", textTransform: "uppercase" as const, marginBottom: 8 }}>Global Display Override</p>
+          <div style={{ display: "flex", flexWrap: "wrap" as const, gap: 5 }}>
+            {["☕ Break Screen","⚡ 5-Min Recall","🖼 Sponsors","📊 Agenda Grid","📶 WiFi Info","🗓 Schedule"].map(btn => (
+              <button key={btn} style={{
+                fontSize: 9, padding: "4px 8px", borderRadius: 4, cursor: "pointer",
+                background: "rgba(59,130,246,0.1)", color: "#60a5fa",
+                border: "1px solid rgba(59,130,246,0.25)",
+              }}>{btn}</button>
+            ))}
+          </div>
+        </div>
+        {/* Registered displays */}
+        <div>
+          <p style={{ fontSize: 9, fontWeight: 700, color: "#64748b", letterSpacing: "0.08em", textTransform: "uppercase" as const, marginBottom: 8 }}>Registered Displays (1)</p>
+          <div style={{
+            background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)",
+            borderRadius: 8, padding: "10px 12px",
+            display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8,
+          }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: "#f1f5f9" }}>Lobby</span>
+                <span style={{ fontSize: 9, padding: "1px 5px", borderRadius: 3, background: "rgba(59,130,246,0.15)", color: "#60a5fa", border: "1px solid rgba(59,130,246,0.3)" }}>lobby</span>
+              </div>
+              <div style={{ display: "flex", gap: 8, fontSize: 9, color: "#64748b", marginBottom: 4 }}>
+                <span>sponsors</span><span>·</span><span>portrait</span><span>·</span><span>⟳ 2 slides</span>
+              </div>
+              <span style={{ fontSize: 9, padding: "2px 7px", borderRadius: 3, background: "rgba(234,179,8,0.12)", color: "#fbbf24", border: "1px solid rgba(234,179,8,0.3)" }}>⚡ override: sponsors</span>
+            </div>
+            <div style={{ display: "flex", gap: 5 }}>
+              {["▶ Launch","QR","Edit"].map(a => (
+                <button key={a} style={{ fontSize: 9, padding: "3px 7px", borderRadius: 4, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#94a3b8", cursor: "pointer" }}>{a}</button>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* Sponsor library */}
+        <div>
+          <p style={{ fontSize: 9, fontWeight: 700, color: "#64748b", letterSpacing: "0.08em", textTransform: "uppercase" as const, marginBottom: 8 }}>Sponsor Library (2)</p>
+          <div style={{ display: "flex", gap: 8 }}>
+            {["AVE Egypt","AVE Events"].map(name => (
+              <div key={name} style={{
+                width: 80, height: 48, borderRadius: 6,
+                background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                <span style={{ fontSize: 9, color: "#64748b", textAlign: "center" as const }}>{name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -579,33 +719,6 @@ function FinalCTA() {
   );
 }
 
-// ─── Footer ───────────────────────────────────────────────────────────────────
-function Footer() {
-  return (
-    <footer style={{ background: "#f9fafb", borderTop: "1px solid #e5e7eb", padding: "40px 40px" }}>
-      <div style={{
-        maxWidth: 1200, margin: "0 auto",
-        display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16,
-      }}>
-        <span style={{ fontSize: 18, fontWeight: 800, letterSpacing: "-0.4px", color: "#111827" }}>
-          Cue<span style={{ color: "#3b82f6" }}>Deck</span>
-        </span>
-        <div style={{ display: "flex", gap: 28 }}>
-          {[
-            { label: "Features", href: "#features" },
-            { label: "Pricing",  href: "#pricing" },
-            { label: "Sign in",  href: APP_URL },
-            { label: "Contact",  href: "mailto:hello@cuedeck.io" },
-          ].map(link => (
-            <a key={link.label} href={link.href} style={{ fontSize: 13, color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>{link.label}</a>
-          ))}
-        </div>
-        <p style={{ fontSize: 13, color: "#9ca3af" }}>© 2026 CueDeck. All rights reserved.</p>
-      </div>
-    </footer>
-  );
-}
-
 // ─── Global styles ────────────────────────────────────────────────────────────
 const GlobalStyle = () => (
   <style>{`
@@ -623,6 +736,99 @@ const GlobalStyle = () => (
   `}</style>
 );
 
+// ─── Role Showcase ────────────────────────────────────────────────────────────
+function RoleShowcase() {
+  return (
+    <section style={{ padding: "96px 40px", background: "#f9fafb", borderTop: "1px solid #f3f4f6" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 64 }}>
+          <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", color: "#3b82f6", textTransform: "uppercase" as const, marginBottom: 12 }}>PRODUCT TOUR</p>
+          <h2 style={{ fontSize: "clamp(28px, 3vw, 42px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.8px", marginBottom: 16 }}>
+            Every view your team needs
+          </h2>
+          <p style={{ fontSize: 17, color: "#6b7280", maxWidth: 500, margin: "0 auto", lineHeight: 1.6 }}>
+            Directors see the full picture. Stage managers see their cues. Signage operators control every display. One console, six roles.
+          </p>
+        </div>
+
+        {/* Three feature rows */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
+
+          {/* Row 1: Director view (existing DashboardMockup) */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+            <div>
+              <div style={{ display: "inline-block", padding: "3px 10px", borderRadius: 6, background: "rgba(59,130,246,0.08)", border: "1px solid rgba(59,130,246,0.2)", fontSize: 11, fontWeight: 600, color: "#3b82f6", marginBottom: 16 }}>DIRECTOR VIEW</div>
+              <h3 style={{ fontSize: "clamp(22px, 2.5vw, 30px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.6px", marginBottom: 14, lineHeight: 1.2 }}>
+                Complete session control at a glance
+              </h3>
+              <p style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75, marginBottom: 20 }}>
+                See every session, every status, and every operator in one screen. Trigger transitions, send broadcasts, apply delay cascades, and monitor your AI agents — all without leaving the console.
+              </p>
+              <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {["8-state session machine (PLANNED → LIVE → ENDED)", "One-click delay cascade across all downstream sessions", "Broadcast bar with quick presets for common messages"].map(f => (
+                  <li key={f} style={{ display: "flex", gap: 8, fontSize: 14, color: "#4b5563" }}>
+                    <span style={{ color: "#22c55e", flexShrink: 0, fontWeight: 700 }}>✓</span>{f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <DashboardMockup />
+            </div>
+          </div>
+
+          {/* Row 2: Timeline (reversed) */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+            <div style={{ display: "flex", justifyContent: "flex-start" }}>
+              <TimelineMockup />
+            </div>
+            <div>
+              <div style={{ display: "inline-block", padding: "3px 10px", borderRadius: 6, background: "rgba(139,92,246,0.08)", border: "1px solid rgba(139,92,246,0.2)", fontSize: 11, fontWeight: 600, color: "#8b5cf6", marginBottom: 16 }}>TIMELINE VIEW</div>
+              <h3 style={{ fontSize: "clamp(22px, 2.5vw, 30px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.6px", marginBottom: 14, lineHeight: 1.2 }}>
+                Your full programme on one horizontal canvas
+              </h3>
+              <p style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75, marginBottom: 20 }}>
+                Switch to Timeline view and see every session across every room plotted on a shared time axis. The NOW marker moves in real time. Spot conflicts, overruns, and gaps instantly.
+              </p>
+              <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {["Room-by-room horizontal layout with live NOW cursor", "Colour-coded by room for instant spatial orientation", "Toggle between List and Timeline with one click"].map(f => (
+                  <li key={f} style={{ display: "flex", gap: 8, fontSize: 14, color: "#4b5563" }}>
+                    <span style={{ color: "#22c55e", flexShrink: 0, fontWeight: 700 }}>✓</span>{f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Row 3: Signage */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+            <div>
+              <div style={{ display: "inline-block", padding: "3px 10px", borderRadius: 6, background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)", fontSize: 11, fontWeight: 600, color: "#d97706", marginBottom: 16 }}>SIGNAGE CONTROL</div>
+              <h3 style={{ fontSize: "clamp(22px, 2.5vw, 30px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.6px", marginBottom: 14, lineHeight: 1.2 }}>
+                Drive every display from the console
+              </h3>
+              <p style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75, marginBottom: 20 }}>
+                Register lobby screens, wayfinding displays, and sponsor panels. Set per-display content sequences or push a global override to all screens instantly — no extra software needed.
+              </p>
+              <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {["Auto-rotating sequences: sponsors → agenda → schedule", "Video support (MP4/WebM) in sponsor carousel", "One-click global overrides for break screens or recall"].map(f => (
+                  <li key={f} style={{ display: "flex", gap: 8, fontSize: 14, color: "#4b5563" }}>
+                    <span style={{ color: "#22c55e", flexShrink: 0, fontWeight: 700 }}>✓</span>{f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <SignageMockup />
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function HomePage() {
   return (
@@ -632,6 +838,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <SocialProof />
+        <RoleShowcase />
         <Features />
         <HowItWorks />
         <Pricing />

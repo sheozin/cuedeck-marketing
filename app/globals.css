@@ -4,8 +4,8 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: #0d1220;
-  color: #cbd5e1;
+  background: #fff;
+  color: #111827;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
