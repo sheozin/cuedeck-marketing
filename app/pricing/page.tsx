@@ -13,17 +13,37 @@ const CONTACT_URL = "/contact";
 
 const plans = [
   {
-    name: "Starter",
-    price: { monthly: 149, annual: 119 },
-    description: "For small teams running occasional events.",
+    name: "Pay-per-event",
+    price: { monthly: 39, annual: 39 },
+    period: "per event",
+    description: "Perfect for freelancers and one-off productions.",
     highlight: false,
     badge: null as string | null,
     features: [
+      "1 event",
       "Up to 5 operators",
-      "Core session management",
-      "3 signage displays",
-      "Broadcast bar",
-      "Email support",
+      "All 6 roles included",
+      "Real-time sync",
+      "Basic signage (2 displays)",
+    ],
+    cta: "Buy single event",
+    ctaHref: TRIAL_URL,
+    ctaStyle: "outline",
+  },
+  {
+    name: "Starter",
+    price: { monthly: 49, annual: 39 },
+    period: "/month",
+    description: "For small teams running regular events.",
+    highlight: false,
+    badge: null as string | null,
+    features: [
+      "1 active event at a time",
+      "Up to 5 operators",
+      "All 6 roles included",
+      "Real-time sync",
+      "5 signage displays",
+      "Post-event reports",
       "3-day free trial",
     ],
     cta: "Start free trial",
@@ -32,42 +52,25 @@ const plans = [
   },
   {
     name: "Pro",
-    price: { monthly: 349, annual: 279 },
-    description: "For professional teams who run events regularly.",
+    price: { monthly: 99, annual: 79 },
+    period: "/month",
+    description: "Full power for production companies.",
     highlight: true,
     badge: "Most popular" as string | null,
     features: [
-      "Unlimited operators",
-      "All 6 roles (Director, Stage, AV, Interp, Reg, Signage)",
+      "Unlimited active events",
+      "Up to 20 operators",
+      "All 6 roles included",
       "Unlimited signage displays",
-      "AI incident advisor",
-      "AI cue engine",
-      "Post-event reports",
-      "Priority support (2 h response)",
+      "AI Incident Advisor",
+      "AI post-event reports",
+      "Delay cascade",
+      "Priority support",
       "3-day free trial",
     ],
     cta: "Start free trial",
     ctaHref: TRIAL_URL,
     ctaStyle: "filled",
-  },
-  {
-    name: "Enterprise",
-    price: null,
-    description: "For agencies and venues running multiple events.",
-    highlight: false,
-    badge: null as string | null,
-    features: [
-      "Everything in Pro",
-      "Multi-event management",
-      "Dedicated onboarding",
-      "SLA guarantee",
-      "API access",
-      "White-label option",
-      "Volume licensing",
-    ],
-    cta: "Talk to us",
-    ctaHref: CONTACT_URL,
-    ctaStyle: "outline",
   },
 ];
 
@@ -170,7 +173,7 @@ export default function PricingPage() {
               color: "#9ca3af",
               marginTop: 32,
             }}>
-              All base prices in EUR, excl. VAT. Annual billing saves 20%.{" "}
+              All base prices in USD. Annual billing saves ~20%.{" "}
               <a href={CONTACT_URL} style={{ color: "#3b82f6", textDecoration: "none", fontWeight: 500 }}>
                 Need per-event pricing?
               </a>

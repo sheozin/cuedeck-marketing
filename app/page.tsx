@@ -551,57 +551,57 @@ function HowItWorks() {
 // ─── Pricing ──────────────────────────────────────────────────────────────────
 const PLANS = [
   {
-    name: "Starter",
-    price: "€149",
-    period: "/ month",
-    desc: "For small teams running occasional events.",
+    name: "Pay-per-event",
+    price: "$39",
+    period: "per event",
+    desc: "Perfect for freelancers and one-off productions.",
     highlight: false,
     badge: undefined as string | undefined,
     features: [
+      "1 event",
       "Up to 5 operators",
-      "Core session management",
-      "3 signage displays",
-      "Broadcast bar",
-      "Email support",
-      "3-day free trial",
+      "All 6 roles included",
+      "Real-time sync",
+      "Basic signage (2 displays)",
+    ],
+    cta: "Buy single event",
+  },
+  {
+    name: "Starter",
+    price: "$49",
+    period: "/ month",
+    desc: "For small teams running regular events.",
+    highlight: false,
+    badge: undefined as string | undefined,
+    features: [
+      "1 active event at a time",
+      "Up to 5 operators",
+      "All 6 roles included",
+      "Real-time sync",
+      "5 signage displays",
+      "Post-event reports",
     ],
     cta: "Start free trial",
   },
   {
     name: "Pro",
-    price: "€349",
+    price: "$99",
     period: "/ month",
-    desc: "For professional teams who run events regularly.",
+    desc: "Full power for production companies.",
     highlight: true,
     badge: "Most popular",
     features: [
-      "Unlimited operators",
+      "Unlimited active events",
+      "Up to 20 operators",
       "All 6 roles included",
+      "Real-time sync",
       "Unlimited signage displays",
       "AI Incident Advisor",
       "AI post-event reports",
       "Delay cascade",
       "Priority support",
-      "3-day free trial",
     ],
     cta: "Start free trial",
-  },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    period: "",
-    desc: "For large production companies and agencies.",
-    highlight: false,
-    badge: undefined as string | undefined,
-    features: [
-      "Everything in Pro",
-      "Dedicated onboarding",
-      "Custom SLAs",
-      "Volume licensing",
-      "Invoice billing",
-      "Priority phone support",
-    ],
-    cta: "Contact us",
   },
 ];
 
@@ -662,7 +662,7 @@ function Pricing() {
                 ))}
               </ul>
 
-              <a href={p.name === "Enterprise" ? "/contact" : TRIAL_URL} style={{
+              <a href={TRIAL_URL} style={{
                 display: "block", textAlign: "center",
                 padding: "12px 20px", borderRadius: 10,
                 fontWeight: 700, fontSize: 14, textDecoration: "none",

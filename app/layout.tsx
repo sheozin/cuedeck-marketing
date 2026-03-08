@@ -67,9 +67,9 @@ const jsonLd = {
       operatingSystem: "Web",
       url: BASE_URL,
       offers: [
-        { "@type": "Offer", name: "Starter", price: "149", priceCurrency: "EUR", billingIncrement: "month" },
-        { "@type": "Offer", name: "Pro",     price: "349", priceCurrency: "EUR", billingIncrement: "month" },
-        { "@type": "Offer", name: "Enterprise", priceCurrency: "EUR", availability: "https://schema.org/InStock" },
+        { "@type": "Offer", name: "Pay-per-event", price: "39",  priceCurrency: "USD" },
+        { "@type": "Offer", name: "Starter",        price: "49",  priceCurrency: "USD", billingIncrement: "month" },
+        { "@type": "Offer", name: "Pro",             price: "99",  priceCurrency: "USD", billingIncrement: "month" },
       ],
       description: "Real-time live event management platform for production teams.",
     },

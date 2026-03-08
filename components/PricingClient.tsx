@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 interface Plan {
   name: string;
   price: { monthly: number; annual: number } | null;
+  period?: string;
   description: string;
   highlight: boolean;
   badge: string | null;
@@ -21,17 +22,17 @@ interface CurrencyConfig {
   code: string;
 }
 
-// ─── Currency Map ─────────────────────────────────────────────────────────────
+// ─── Currency Map (USD is the base — factor 1.0) ──────────────────────────────
 const CURRENCIES: Record<string, CurrencyConfig> = {
-  EUR: { symbol: '€', factor: 1.0,  code: 'EUR' },
-  USD: { symbol: '$', factor: 1.08, code: 'USD' },
-  GBP: { symbol: '£', factor: 0.86, code: 'GBP' },
-  AED: { symbol: 'AED ', factor: 3.97, code: 'AED' },
-  SGD: { symbol: 'S$', factor: 1.46, code: 'SGD' },
+  USD: { symbol: '$',    factor: 1.0,  code: 'USD' },
+  EUR: { symbol: '€',   factor: 0.93, code: 'EUR' },
+  GBP: { symbol: '£',   factor: 0.79, code: 'GBP' },
+  AED: { symbol: 'AED ', factor: 3.67, code: 'AED' },
+  SGD: { symbol: 'S$',  factor: 1.35, code: 'SGD' },
 };
 
 const SUPPORTED_CODES = Object.keys(CURRENCIES);
-const DEFAULT_CURRENCY = 'EUR';
+const DEFAULT_CURRENCY = 'USD';
 const LS_KEY = 'cd_currency';
 
 // ─── IconCheck SVG ────────────────────────────────────────────────────────────
@@ -264,14 +265,14 @@ export default function PricingClient({ plans }: { plans: Plan[] }) {
                     color: plan.highlight ? '#fff' : '#111827',
                     lineHeight: 1,
                   }}>
-                    {formatPrice(annual ? plan.price.annual : plan.price.monthly)}
+                    {formatPrice(annual && plan.name !== 'Pay-per-event' ? plan.price.annual : plan.price.monthly)}
                   </span>
                   <span style={{
                     fontSize: 14,
                     color: plan.highlight ? 'rgba(255,255,255,0.6)' : '#9ca3af',
                     paddingBottom: 6,
                   }}>
-                    /month
+                    {plan.period ?? '/month'}
                   </span>
                 </div>
               ) : (
