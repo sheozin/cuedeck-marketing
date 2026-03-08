@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
+import PricingClient from "../../components/PricingClient";
 
 export const metadata: Metadata = {
   title: "Pricing — CueDeck",
@@ -97,128 +98,130 @@ const faqs = [
   },
 ];
 
+const includedFeatures = [
+  { icon: "⚡", title: "Real-time sync",      desc: "Sub-second updates across all operator devices, no refresh needed." },
+  { icon: "🛡️", title: "Role-based access",   desc: "Each operator sees exactly what they need — nothing more." },
+  { icon: "📡", title: "Digital signage",     desc: "Drive lobby screens, sponsor carousels, and break slides from the console." },
+  { icon: "🤖", title: "AI agents",           desc: "Incident advisor, pre-cue engine, and post-event report generator." },
+  { icon: "🔒", title: "Bank-grade security", desc: "TLS + AES-256 encryption, row-level security on all data." },
+  { icon: "🔁", title: "Auto-reconnect",      desc: "If a device drops, it reconnects and catches up automatically." },
+];
+
 export default function PricingPage() {
   return (
     <>
       <Nav />
-      <main className="pt-16 bg-white">
+      <main style={{ paddingTop: 64, background: "#fff" }}>
 
-        {/* Hero */}
-        <section className="px-5 py-20 text-center" style={{ background: "linear-gradient(135deg, #f0f7ff 0%, #fafafa 60%, #fff 100%)" }}>
-          <div className="max-w-2xl mx-auto">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full mb-6 text-xs font-semibold tracking-wider text-blue-600 border border-blue-200 bg-blue-50">
-              PRICING
+        {/* ── Hero ──────────────────────────────────────────────────────── */}
+        <section style={{
+          padding: "96px 40px 64px",
+          background: "linear-gradient(135deg, #f0f7ff 0%, #fafafa 60%, #fff 100%)",
+          textAlign: "center",
+        }}>
+          <div style={{ maxWidth: 720, margin: "0 auto" }}>
+            {/* Label */}
+            <div style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "5px 12px",
+              borderRadius: 99,
+              marginBottom: 24,
+              background: "rgba(59,130,246,0.08)",
+              border: "1px solid rgba(59,130,246,0.2)",
+              fontSize: 12,
+              fontWeight: 600,
+              color: "#3b82f6",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+            }}>
+              Pricing
             </div>
-            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 mb-4" style={{ letterSpacing: "-1.5px" }}>
+
+            <h1 style={{
+              fontSize: "clamp(28px, 3vw, 42px)",
+              fontWeight: 800,
+              color: "#111827",
+              letterSpacing: "-0.8px",
+              marginBottom: 16,
+              lineHeight: 1.15,
+            }}>
               Simple, transparent pricing
             </h1>
-            <p className="text-lg text-gray-500 leading-relaxed mb-8">
+
+            <p style={{
+              fontSize: 17,
+              color: "#6b7280",
+              lineHeight: 1.6,
+              marginBottom: 48,
+              maxWidth: 480,
+              margin: "0 auto 48px",
+            }}>
               Start with a 3-day free trial on any plan. No credit card required.
             </p>
 
-            {/* Monthly / Annual toggle (static display) */}
-            <div className="inline-flex items-center gap-3 bg-gray-100 rounded-xl p-1">
-              <span className="px-4 py-2 rounded-lg bg-white text-sm font-semibold text-gray-900 shadow-sm">Monthly</span>
-              <span className="px-4 py-2 rounded-lg text-sm font-medium text-gray-500">
-                Annual
-                <span className="ml-1.5 text-xs font-bold text-green-600 bg-green-50 border border-green-200 rounded-full px-2 py-0.5">Save 20%</span>
-              </span>
-            </div>
+            {/* PricingClient renders the toggle, currency selector, and plan cards */}
+            <PricingClient plans={plans} />
+
+            <p style={{
+              textAlign: "center",
+              fontSize: 13,
+              color: "#9ca3af",
+              marginTop: 32,
+            }}>
+              All base prices in EUR, excl. VAT. Annual billing saves 20%.{" "}
+              <a href={CONTACT_URL} style={{ color: "#3b82f6", textDecoration: "none", fontWeight: 500 }}>
+                Need per-event pricing?
+              </a>
+            </p>
           </div>
         </section>
 
-        {/* Plans */}
-        <section className="px-5 py-16">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-            {plans.map((plan) => (
-              <div
-                key={plan.name}
-                className="relative flex flex-col rounded-2xl border p-8"
-                style={{
-                  borderColor: plan.highlight ? "#3b82f6" : "#e5e7eb",
-                  background: plan.highlight ? "linear-gradient(180deg, #eff6ff 0%, #fff 40%)" : "#fff",
-                  boxShadow: plan.highlight
-                    ? "0 8px 32px rgba(59,130,246,0.15), 0 2px 8px rgba(0,0,0,0.06)"
-                    : "0 1px 4px rgba(0,0,0,0.05)",
-                }}
-              >
-                {plan.badge && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <span className="px-4 py-1.5 rounded-full text-xs font-bold tracking-wider bg-blue-600 text-white shadow">
-                      {plan.badge.toUpperCase()}
-                    </span>
-                  </div>
-                )}
-
-                <div className="mb-6">
-                  <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-2">{plan.name}</p>
-                  {plan.price ? (
-                    <div className="flex items-baseline gap-1 mb-2">
-                      <span className="text-4xl font-extrabold text-gray-900" style={{ letterSpacing: "-1.5px" }}>
-                        &euro;{plan.price.monthly}
-                      </span>
-                      <span className="text-sm text-gray-400 font-medium">/month</span>
-                    </div>
-                  ) : (
-                    <div className="text-4xl font-extrabold text-gray-900 mb-2" style={{ letterSpacing: "-1.5px" }}>
-                      Custom
-                    </div>
-                  )}
-                  <p className="text-sm text-gray-500 leading-relaxed">{plan.description}</p>
-                </div>
-
-                <ul className="flex-1 space-y-3 mb-8">
-                  {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm text-gray-700">
-                      <svg className="w-4 h-4 mt-0.5 shrink-0 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-
-                <a
-                  href={plan.ctaHref}
-                  className="block text-center py-3 px-6 rounded-xl font-semibold text-sm transition-all"
-                  style={
-                    plan.ctaStyle === "filled"
-                      ? { background: "#3b82f6", color: "#fff", boxShadow: "0 2px 8px rgba(59,130,246,0.4)" }
-                      : { background: "transparent", color: "#374151", border: "1.5px solid #d1d5db" }
-                  }
-                >
-                  {plan.cta} &rarr;
-                </a>
-              </div>
-            ))}
-          </div>
-
-          <p className="text-center text-sm text-gray-400 mt-8">
-            All prices in EUR, excl. VAT. Annual billing saves 20%.{" "}
-            <a href={CONTACT_URL} className="text-blue-500 hover:underline">Need per-event pricing?</a>
-          </p>
-        </section>
-
-        {/* Feature comparison strip */}
-        <section className="px-5 py-12 bg-gray-50 border-y border-gray-100">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-center text-2xl font-extrabold text-gray-900 mb-10" style={{ letterSpacing: "-0.5px" }}>
+        {/* ── What's included ───────────────────────────────────────────── */}
+        <section style={{
+          padding: "64px 40px",
+          background: "#f9fafb",
+          borderTop: "1px solid #f3f4f6",
+          borderBottom: "1px solid #f3f4f6",
+        }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+            <h2 style={{
+              textAlign: "center",
+              fontSize: "clamp(22px, 2.5vw, 30px)",
+              fontWeight: 800,
+              color: "#111827",
+              letterSpacing: "-0.5px",
+              marginBottom: 40,
+            }}>
               What&apos;s included in every plan
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {[
-                { icon: "⚡", title: "Real-time sync",     desc: "Sub-second updates across all operator devices, no refresh needed." },
-                { icon: "🛡️", title: "Role-based access",  desc: "Each operator sees exactly what they need — nothing more." },
-                { icon: "📡", title: "Digital signage",    desc: "Drive lobby screens, sponsor carousels, and break slides from the console." },
-                { icon: "🤖", title: "AI agents",          desc: "Incident advisor, pre-cue engine, and post-event report generator." },
-                { icon: "🔒", title: "Bank-grade security", desc: "TLS + AES-256 encryption, row-level security on all data." },
-                { icon: "🔁", title: "Auto-reconnect",     desc: "If a device drops, it reconnects and catches up automatically." },
-              ].map((item) => (
-                <div key={item.title} className="flex gap-3 p-4 bg-white rounded-xl border border-gray-100 shadow-sm">
-                  <span className="text-xl shrink-0">{item.icon}</span>
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: 16,
+            }}>
+              {includedFeatures.map(item => (
+                <div
+                  key={item.title}
+                  style={{
+                    display: "flex",
+                    gap: 14,
+                    padding: "20px 20px",
+                    background: "#fff",
+                    borderRadius: 12,
+                    border: "1px solid #e5e7eb",
+                    boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+                  }}
+                >
+                  <span style={{ fontSize: 20, flexShrink: 0, lineHeight: 1.4 }}>{item.icon}</span>
                   <div>
-                    <p className="text-sm font-semibold text-gray-900 mb-0.5">{item.title}</p>
-                    <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
+                    <p style={{ fontSize: 14, fontWeight: 600, color: "#111827", marginBottom: 4 }}>
+                      {item.title}
+                    </p>
+                    <p style={{ fontSize: 13, color: "#6b7280", lineHeight: 1.6 }}>
+                      {item.desc}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -226,37 +229,113 @@ export default function PricingPage() {
           </div>
         </section>
 
-        {/* FAQ */}
-        <section className="px-5 py-20">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-12" style={{ letterSpacing: "-0.8px" }}>
-              Frequently asked questions
-            </h2>
-            <div className="space-y-6">
-              {faqs.map((faq) => (
-                <div key={faq.q} className="border-b border-gray-100 pb-6">
-                  <p className="text-base font-semibold text-gray-900 mb-2">{faq.q}</p>
-                  <p className="text-sm text-gray-500 leading-relaxed">{faq.a}</p>
+        {/* ── FAQ ───────────────────────────────────────────────────────── */}
+        <section style={{ padding: "96px 40px" }}>
+          <div style={{ maxWidth: 720, margin: "0 auto" }}>
+            <div style={{ textAlign: "center", marginBottom: 56 }}>
+              <p style={{
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: "0.1em",
+                color: "#3b82f6",
+                textTransform: "uppercase",
+                marginBottom: 12,
+              }}>
+                FAQ
+              </p>
+              <h2 style={{
+                fontSize: "clamp(24px, 2.5vw, 36px)",
+                fontWeight: 800,
+                color: "#111827",
+                letterSpacing: "-0.8px",
+              }}>
+                Frequently asked questions
+              </h2>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+              {faqs.map((faq, i) => (
+                <div
+                  key={faq.q}
+                  style={{
+                    padding: "28px 0",
+                    borderBottom: i < faqs.length - 1 ? "1px solid #f3f4f6" : "none",
+                  }}
+                >
+                  <p style={{
+                    fontSize: 15,
+                    fontWeight: 700,
+                    color: "#111827",
+                    marginBottom: 8,
+                    lineHeight: 1.4,
+                  }}>
+                    {faq.q}
+                  </p>
+                  <p style={{
+                    fontSize: 14,
+                    color: "#6b7280",
+                    lineHeight: 1.7,
+                  }}>
+                    {faq.a}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* CTA */}
-        <section className="px-5 py-20 text-center text-white" style={{ background: "linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%)" }}>
-          <div className="max-w-xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-extrabold mb-4" style={{ letterSpacing: "-1px" }}>
+        {/* ── CTA strip ─────────────────────────────────────────────────── */}
+        <section style={{
+          padding: "96px 40px",
+          background: "linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%)",
+          textAlign: "center",
+          position: "relative",
+          overflow: "hidden",
+        }}>
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            pointerEvents: "none",
+            opacity: 0.07,
+            backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.8) 1px, transparent 0)",
+            backgroundSize: "28px 28px",
+          }} />
+          <div style={{ maxWidth: 600, margin: "0 auto", position: "relative" }}>
+            <h2 style={{
+              fontSize: "clamp(26px, 3vw, 40px)",
+              fontWeight: 800,
+              color: "#fff",
+              letterSpacing: "-1px",
+              marginBottom: 16,
+              lineHeight: 1.15,
+            }}>
               Ready to run your next event?
             </h2>
-            <p className="text-blue-200 mb-8 text-lg">
+            <p style={{
+              fontSize: 17,
+              color: "rgba(255,255,255,0.75)",
+              marginBottom: 40,
+              lineHeight: 1.6,
+            }}>
               3-day free trial. No credit card. Cancel anytime.
             </p>
             <a
               href={TRIAL_URL}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-base bg-white text-blue-700 shadow-lg hover:shadow-xl transition-shadow"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "15px 36px",
+                borderRadius: 12,
+                fontWeight: 700,
+                fontSize: 16,
+                textDecoration: "none",
+                background: "#fff",
+                color: "#1d4ed8",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
+              }}
             >
-              Start free trial &rarr;
+              Start free trial →
             </a>
           </div>
         </section>
