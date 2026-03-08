@@ -84,6 +84,45 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        {/* Mobile responsive overrides — inline <style> bypasses Tailwind purge */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          html, body { overflow-x: hidden; }
+
+          @media (max-width: 768px) {
+            /* Collapse auto-fit minmax(320px) grids — at 375px the 295px content
+               area is smaller than 320px min, so columns overflow without this. */
+            [style*="minmax(320px, 1fr)"] {
+              grid-template-columns: 1fr !important;
+            }
+            /* Reduce large gaps when stacked */
+            [style*="gap: 60px"], [style*="gap:60px"] {
+              gap: 32px !important;
+            }
+            [style*="gap: 64px"], [style*="gap:64px"] {
+              gap: 32px !important;
+            }
+            /* Constrain mockup widths */
+            [style*="max-width: 540px"],
+            [style*="max-width: 560px"] {
+              max-width: 100% !important;
+            }
+            /* Mockup right-col: stop pushing centre */
+            [style*="justify-content: flex-end"] {
+              justify-content: center !important;
+            }
+            /* Scale down large font sizes in mockup titlebar */
+            h1 { letter-spacing: -0.5px !important; }
+          }
+
+          @media (max-width: 500px) {
+            /* Hide dashboard mockup role pills that wrap badly */
+            [style*="padding: 0px 40px"],
+            [style*="padding:0 40px"] {
+              padding-left: 16px !important;
+              padding-right: 16px !important;
+            }
+          }
+        ` }} />
       </head>
       <body>
         {children}

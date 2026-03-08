@@ -83,7 +83,9 @@ function DashboardMockup() {
       {/* Toolbar */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", background: "#0f1623", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontWeight: 700, color: "#fff", fontSize: 13 }}>LEOD</span>
+          <span style={{ fontWeight: 800, letterSpacing: "-0.3px", fontSize: 13 }}>
+            <span style={{ color: "#fff" }}>Cue</span><span style={{ color: "#3b82f6" }}>Deck</span>
+          </span>
           <span style={{ fontSize: 11, color: "#64748b" }}>AVE Annual Summit</span>
         </div>
         <div style={{ display: "flex", gap: 6 }}>
@@ -457,7 +459,7 @@ function Features() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
           {FEATURES.map(f => (
             <div key={f.title} style={{
               padding: "28px 28px 32px",

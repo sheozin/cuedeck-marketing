@@ -1,48 +1,64 @@
 @import "tailwindcss";
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden; /* Prevent horizontal scroll from any overflow */
+}
 
 body {
   background: #fff;
   color: #111827;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 ::selection { background: rgba(59,130,246,.35); color: #fff; }
 
 /* ─── Responsive helpers ──────────────────────────────────────────────────── */
 
-/* Force all 2–4 column inline-style grids to single column on mobile */
 @media (max-width: 768px) {
-  /* Hero sections: reduce padding */
+  /* Reduce horizontal padding on all sections */
   section { padding-left: 20px !important; padding-right: 20px !important; }
 
+  /* ── Grid collapses ─────────────────────────────────────────────────────── */
+
+  /* Hero + role-showcase: auto-fit minmax(320px) grids — collapse to 1 col.
+     At 375px with 40px side padding the inner width is 295px < 320px minimum,
+     so without this rule the grid column overflows to the right. */
+  [style*="minmax(320px, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Explicit repeat(3) and repeat(4) grids */
   [style*="grid-template-columns: repeat(3"] {
     grid-template-columns: 1fr !important;
   }
   [style*="grid-template-columns: repeat(4"] {
     grid-template-columns: 1fr 1fr !important;
   }
+
+  /* Any 2-column equal-fraction grid */
   [style*="grid-template-columns: 1fr 1fr"] {
     grid-template-columns: 1fr !important;
   }
 
-  /* Gap reduction on mobile */
-  [style*="gap: 72"] {
-    gap: 40px !important;
-  }
+  /* ── Gap reduction ──────────────────────────────────────────────────────── */
+  [style*="gap: 72"] { gap: 40px !important; }
+  [style*="gap: 64"] { gap: 32px !important; }
+  [style*="gap: 60"] { gap: 32px !important; }
 
-  /* Mockup images — constrain width */
-  [style*="maxWidth: 540"] {
-    max-width: 100% !important;
-  }
+  /* ── Mockup max-widths ──────────────────────────────────────────────────── */
+  /* React renders maxWidth: 540 → max-width: 540px in the DOM */
+  [style*="max-width: 540px"] { max-width: 100% !important; }
+  [style*="max-width: 560px"] { max-width: 100% !important; }
 
-  /* Hero headings — reduce letter spacing */
+  /* ── Typography ─────────────────────────────────────────────────────────── */
   h1 { letter-spacing: -0.5px !important; }
 
-  /* Blockquote — full width on mobile */
+  /* ── Misc ───────────────────────────────────────────────────────────────── */
   blockquote { padding-left: 16px !important; margin-top: 32px !important; }
 }
 
@@ -50,12 +66,13 @@ body {
   [style*="grid-template-columns: repeat(2"] {
     grid-template-columns: 1fr !important;
   }
-  /* Timeline mockup overflow */
-  [style*="overflowX"] {
+
+  /* Timeline SVG mockup — allow horizontal scroll rather than overflow */
+  [style*="overflow-x"] {
     overflow-x: auto !important;
   }
 }
 
-/* Smooth link transitions */
+/* ─── Link transitions ────────────────────────────────────────────────────── */
 a { transition: opacity 0.15s; }
 a:hover { opacity: 0.8; }
