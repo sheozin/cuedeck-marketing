@@ -121,6 +121,321 @@ function H3({ children }: { children: React.ReactNode }) {
   return <h3 style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 10, marginTop: 24 }}>{children}</h3>;
 }
 
+// ─── Console mockup wrapper (dark frame) ────────────────────────────────────────
+function MockFrame({ title, children }: { title?: string; children: React.ReactNode }) {
+  return (
+    <div style={{
+      borderRadius: 12, overflow: 'hidden', marginBottom: 20, marginTop: 8,
+      boxShadow: '0 8px 30px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08)',
+      border: '1px solid rgba(255,255,255,0.06)', maxWidth: 600,
+    }}>
+      {/* Titlebar */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: '#0d1220', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ef4444', opacity: 0.65, display: 'inline-block' }} />
+        <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#eab308', opacity: 0.65, display: 'inline-block' }} />
+        <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#22c55e', opacity: 0.65, display: 'inline-block' }} />
+        {title && <span style={{ marginLeft: 8, fontSize: 10, color: '#475569' }}>{title}</span>}
+      </div>
+      {/* Content */}
+      <div style={{ background: '#111827', padding: '12px 14px' }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// ─── Mockup: UI Overview (annotated layout) ─────────────────────────────────────
+function MockUIOverview() {
+  return (
+    <MockFrame title="app.cuedeck.io — Director View">
+      <div style={{ display: 'flex', gap: 8 }}>
+        {/* Sidebar */}
+        <div style={{
+          width: 100, flexShrink: 0, background: 'rgba(255,255,255,0.03)',
+          borderRadius: 6, padding: '8px 6px', border: '1px solid rgba(255,255,255,0.06)',
+          display: 'flex', flexDirection: 'column', gap: 4,
+        }}>
+          <div style={{ fontSize: 8, fontWeight: 700, color: '#60a5fa', marginBottom: 4 }}>
+            <span style={{ color: '#fff' }}>Cue</span>Deck
+          </div>
+          {['Sessions', 'Timeline', 'Signage', 'Operators', 'AI Agents', 'Event Log', 'Billing'].map((item, i) => (
+            <div key={item} style={{
+              fontSize: 8, padding: '3px 6px', borderRadius: 3, color: i === 0 ? '#60a5fa' : '#64748b',
+              background: i === 0 ? 'rgba(59,130,246,0.12)' : 'transparent',
+            }}>{item}</div>
+          ))}
+          <div style={{ fontSize: 7, color: '#334155', marginTop: 'auto', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 4 }}>
+            ← Sidebar
+          </div>
+        </div>
+        {/* Main area */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {/* Top bar */}
+          <div style={{
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            padding: '4px 8px', background: 'rgba(255,255,255,0.03)', borderRadius: 4,
+            border: '1px solid rgba(255,255,255,0.06)',
+          }}>
+            <div style={{ display: 'flex', gap: 4 }}>
+              {['DIR', 'STG', 'AV', 'SIG'].map((r, i) => (
+                <span key={r} style={{
+                  fontSize: 7, padding: '1px 4px', borderRadius: 2,
+                  background: i === 0 ? '#1e3a5f' : 'transparent',
+                  color: i === 0 ? '#60a5fa' : '#475569',
+                }}>{r}</span>
+              ))}
+            </div>
+            <span style={{ fontSize: 9, fontFamily: 'monospace', color: '#fff', fontWeight: 700 }}>14:32:07</span>
+          </div>
+          {/* Broadcast bar */}
+          <div style={{
+            padding: '4px 8px', background: 'rgba(59,130,246,0.08)', borderRadius: 4,
+            border: '1px dashed rgba(59,130,246,0.3)', fontSize: 7, color: '#60a5fa',
+          }}>
+            📢 Broadcast: &quot;Doors open in 5 minutes&quot;
+          </div>
+          {/* Session cards */}
+          {[
+            { n: 1, title: 'Opening Ceremony', status: 'ENDED', color: '#6b7280' },
+            { n: 2, title: 'Keynote: Future of AI', status: 'LIVE', color: '#ff3b30' },
+            { n: 3, title: 'Coffee Break', status: 'READY', color: '#22c55e' },
+            { n: 4, title: 'Workshop: Data Design', status: 'PLANNED', color: '#3b82f6' },
+          ].map(s => (
+            <div key={s.n} style={{
+              display: 'flex', alignItems: 'center', gap: 6, padding: '5px 8px', borderRadius: 5,
+              background: s.status === 'LIVE' ? 'rgba(255,59,48,0.06)' : 'rgba(255,255,255,0.02)',
+              border: `1px solid ${s.status === 'LIVE' ? 'rgba(255,59,48,0.2)' : 'rgba(255,255,255,0.05)'}`,
+            }}>
+              <span style={{ fontSize: 8, color: '#475569', width: 10 }}>{s.n}</span>
+              <span style={{ fontSize: 9, color: s.status === 'ENDED' ? '#64748b' : '#e2e8f0', flex: 1, fontWeight: 500 }}>{s.title}</span>
+              <span style={{
+                fontSize: 7, padding: '1px 6px', borderRadius: 99, fontWeight: 700,
+                background: `${s.color}22`, color: s.color, border: `1px solid ${s.color}44`,
+              }}>{s.status}</span>
+            </div>
+          ))}
+          <div style={{ fontSize: 7, color: '#334155', textAlign: 'right' }}>↑ Session List Area</div>
+        </div>
+      </div>
+    </MockFrame>
+  );
+}
+
+// ─── Mockup: Session Card anatomy ───────────────────────────────────────────────
+function MockSessionCard() {
+  return (
+    <MockFrame title="Session Card — LIVE state">
+      <div style={{
+        padding: '10px 12px', borderRadius: 8,
+        background: 'rgba(255,59,48,0.06)',
+        border: '1px solid rgba(255,59,48,0.2)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+          <span style={{ fontSize: 11, color: '#64748b', fontWeight: 600 }}>3</span>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 13, fontWeight: 600, color: '#f1f5f9' }}>Keynote: The Next Wave</div>
+            <div style={{ fontSize: 10, color: '#64748b' }}>Dr. Sarah Chen · Main Stage · 10:30–11:15</div>
+          </div>
+          <span style={{
+            fontSize: 9, padding: '2px 8px', borderRadius: 99, fontWeight: 700,
+            background: 'rgba(255,59,48,0.15)', color: '#ff3b30', border: '1px solid rgba(255,59,48,0.3)',
+          }}>LIVE</span>
+        </div>
+        {/* Progress bar */}
+        <div style={{ height: 4, background: 'rgba(255,255,255,0.06)', borderRadius: 99, marginBottom: 8, overflow: 'hidden' }}>
+          <div style={{ width: '68%', height: '100%', background: '#ff3b30', borderRadius: 99 }} />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ fontSize: 10, color: '#94a3b8' }}>
+            <span style={{ color: '#f1f5f9', fontWeight: 600, fontFamily: 'monospace' }}>30:42</span> elapsed · <span style={{ color: '#f1f5f9', fontWeight: 600, fontFamily: 'monospace' }}>14:18</span> remaining
+          </div>
+          <div style={{ display: 'flex', gap: 4 }}>
+            <span style={{ fontSize: 8, padding: '3px 8px', borderRadius: 4, background: 'rgba(249,115,22,0.12)', color: '#fdba74', border: '1px solid rgba(249,115,22,0.3)' }}>HOLD</span>
+            <span style={{ fontSize: 8, padding: '3px 8px', borderRadius: 4, background: 'rgba(107,114,128,0.12)', color: '#9ca3af', border: '1px solid rgba(107,114,128,0.3)' }}>END</span>
+          </div>
+        </div>
+      </div>
+    </MockFrame>
+  );
+}
+
+// ─── Mockup: Broadcast Bar ──────────────────────────────────────────────────────
+function MockBroadcast() {
+  return (
+    <MockFrame title="Broadcast System">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {/* Input bar */}
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          padding: '8px 10px', background: 'rgba(255,255,255,0.04)', borderRadius: 6,
+          border: '1px solid rgba(59,130,246,0.25)',
+        }}>
+          <span style={{ fontSize: 12 }}>📢</span>
+          <span style={{ flex: 1, fontSize: 11, color: '#94a3b8' }}>Type broadcast message...</span>
+          <span style={{ fontSize: 9, color: '#475569' }}>0/280</span>
+          <span style={{ fontSize: 9, padding: '3px 10px', borderRadius: 4, background: '#3b82f6', color: '#fff', fontWeight: 600 }}>Send</span>
+        </div>
+        {/* Presets */}
+        <div>
+          <div style={{ fontSize: 8, color: '#475569', marginBottom: 4, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Quick Presets</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+            {['🚪 Doors open 5min', '⏸ Hold — tech issue', '✅ All clear', '☕ Break 15min', '👔 VIP standby'].map(p => (
+              <span key={p} style={{
+                fontSize: 8, padding: '3px 8px', borderRadius: 4,
+                background: 'rgba(59,130,246,0.08)', color: '#60a5fa',
+                border: '1px solid rgba(59,130,246,0.2)', cursor: 'pointer',
+              }}>{p}</span>
+            ))}
+          </div>
+        </div>
+        {/* Active broadcast */}
+        <div style={{
+          padding: '8px 10px', borderRadius: 6,
+          background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        }}>
+          <div>
+            <div style={{ fontSize: 8, color: '#3b82f6', fontWeight: 600, marginBottom: 2 }}>ACTIVE BROADCAST</div>
+            <div style={{ fontSize: 11, color: '#e2e8f0' }}>☕ Break time — back in 15 minutes</div>
+          </div>
+          <span style={{ fontSize: 10, color: '#475569', cursor: 'pointer' }}>✕</span>
+        </div>
+      </div>
+    </MockFrame>
+  );
+}
+
+// ─── Mockup: Delay Cascade ──────────────────────────────────────────────────────
+function MockDelayCascade() {
+  return (
+    <MockFrame title="Delay Cascade — +10 min applied">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        {[
+          { n: 3, title: 'Keynote: The Next Wave', time: '10:30', newTime: null, status: 'LIVE', delayed: false },
+          { n: 4, title: 'Coffee Break', time: '11:15', newTime: '11:25', status: 'READY', delayed: true },
+          { n: 5, title: 'Panel: Data Ethics', time: '11:45', newTime: '11:55', status: 'PLANNED', delayed: true },
+          { n: 6, title: 'Workshop: Intro to AI', time: '12:30', newTime: '12:40', status: 'PLANNED', delayed: true },
+        ].map(s => (
+          <div key={s.n} style={{
+            display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 6,
+            background: s.delayed ? 'rgba(249,115,22,0.06)' : 'rgba(255,255,255,0.02)',
+            border: `1px solid ${s.delayed ? 'rgba(249,115,22,0.2)' : 'rgba(255,255,255,0.05)'}`,
+          }}>
+            <span style={{ fontSize: 9, color: '#475569', width: 12 }}>{s.n}</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 10, color: '#e2e8f0', fontWeight: 500 }}>{s.title}</div>
+              <div style={{ fontSize: 9, color: '#64748b' }}>
+                {s.delayed ? (
+                  <><span style={{ textDecoration: 'line-through', color: '#475569' }}>{s.time}</span> → <span style={{ color: '#fdba74', fontWeight: 600 }}>{s.newTime}</span> <span style={{ color: '#f97316', fontSize: 8 }}>+10min</span></>
+                ) : (
+                  <span>{s.time}</span>
+                )}
+              </div>
+            </div>
+            <span style={{
+              fontSize: 7, padding: '1px 6px', borderRadius: 99, fontWeight: 700,
+              background: s.status === 'LIVE' ? 'rgba(255,59,48,0.15)' : s.status === 'READY' ? 'rgba(34,197,94,0.12)' : 'rgba(59,130,246,0.12)',
+              color: s.status === 'LIVE' ? '#ff3b30' : s.status === 'READY' ? '#22c55e' : '#3b82f6',
+            }}>{s.status}</span>
+          </div>
+        ))}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 4, marginTop: 4 }}>
+          <span style={{ fontSize: 8, padding: '3px 10px', borderRadius: 4, background: 'rgba(255,255,255,0.05)', color: '#94a3b8', border: '1px solid rgba(255,255,255,0.1)' }}>Reset to planned</span>
+        </div>
+      </div>
+    </MockFrame>
+  );
+}
+
+// ─── Mockup: Stage Monitor ──────────────────────────────────────────────────────
+function MockStageMonitor() {
+  return (
+    <div style={{
+      borderRadius: 12, overflow: 'hidden', marginBottom: 20, marginTop: 8,
+      boxShadow: '0 8px 30px rgba(0,0,0,0.15)', maxWidth: 600,
+      background: '#000', border: '1px solid rgba(255,255,255,0.08)',
+    }}>
+      <div style={{ padding: '24px 20px', textAlign: 'center' }}>
+        <div style={{ fontSize: 10, color: '#64748b', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6 }}>NOW PRESENTING</div>
+        <div style={{ fontSize: 22, fontWeight: 800, color: '#fff', marginBottom: 6 }}>Keynote: The Next Wave</div>
+        <div style={{ fontSize: 14, color: '#94a3b8', marginBottom: 16 }}>Dr. Sarah Chen · Main Stage</div>
+        <div style={{ fontFamily: 'monospace', fontSize: 40, fontWeight: 800, color: '#22c55e', marginBottom: 6 }}>14:18</div>
+        <div style={{ fontSize: 11, color: '#64748b' }}>remaining</div>
+        {/* Progress bar */}
+        <div style={{ height: 4, background: 'rgba(255,255,255,0.08)', borderRadius: 99, margin: '16px auto 16px', maxWidth: 300, overflow: 'hidden' }}>
+          <div style={{ width: '68%', height: '100%', background: '#22c55e', borderRadius: 99 }} />
+        </div>
+        <div style={{
+          fontSize: 10, color: '#475569', padding: '6px 12px', borderRadius: 6,
+          background: 'rgba(255,255,255,0.04)', display: 'inline-block',
+        }}>
+          NEXT: Coffee Break · 11:15
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Mockup: AI Agents Panel ────────────────────────────────────────────────────
+function MockAIAgents() {
+  return (
+    <MockFrame title="AI Agents — Director Panel">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {[
+          { icon: '🔍', name: 'Incident Advisor', desc: 'AI diagnosis & resolution steps', status: 'Ready', statusColor: '#22c55e' },
+          { icon: '⏰', name: 'Cue Engine', desc: 'Pre-cue alerts 8 min before start', status: 'Active · 2 upcoming', statusColor: '#3b82f6' },
+          { icon: '📊', name: 'Report Generator', desc: 'Post-event summary & variance', status: 'Ready', statusColor: '#22c55e' },
+        ].map(a => (
+          <div key={a.name} style={{
+            display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px', borderRadius: 6,
+            background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
+          }}>
+            <span style={{ fontSize: 18 }}>{a.icon}</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 11, fontWeight: 600, color: '#f1f5f9' }}>{a.name}</div>
+              <div style={{ fontSize: 9, color: '#64748b' }}>{a.desc}</div>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: 8, color: a.statusColor, fontWeight: 600 }}>{a.status}</div>
+              <span style={{
+                fontSize: 8, padding: '2px 8px', borderRadius: 4, marginTop: 2, display: 'inline-block',
+                background: 'rgba(59,130,246,0.1)', color: '#60a5fa', border: '1px solid rgba(59,130,246,0.25)',
+              }}>Open</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </MockFrame>
+  );
+}
+
+// ─── Mockup: Keyboard Shortcuts ─────────────────────────────────────────────────
+function MockKeyboard() {
+  return (
+    <div style={{
+      display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16, marginTop: 8,
+    }}>
+      {[
+        { key: 'B', label: 'Broadcast' },
+        { key: 'R', label: 'Ready' },
+        { key: 'G', label: 'Go Live' },
+        { key: 'H', label: 'Hold' },
+        { key: 'E', label: 'End' },
+        { key: 'F', label: 'Filter' },
+      ].map(k => (
+        <div key={k.key} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+          <div style={{
+            width: 36, height: 36, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: '#f9fafb', border: '1px solid #e5e7eb', boxShadow: '0 2px 0 #d1d5db',
+            fontSize: 14, fontWeight: 700, color: '#111827', fontFamily: 'monospace',
+          }}>{k.key}</div>
+          <span style={{ fontSize: 9, color: '#9ca3af' }}>{k.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ─── Section content definitions ────────────────────────────────────────────────
 
 const SECTIONS: DocSection[] = [
@@ -182,6 +497,7 @@ const SECTIONS: DocSection[] = [
     content: (
       <>
         <P>The CueDeck console is divided into five main regions:</P>
+        <MockUIOverview />
 
         <H3>1. Top Bar</H3>
         <P>Contains the CueDeck logo, current event name, role switcher pills (Director / Stage / AV / etc.), database and realtime connection indicators, and the synced clock.</P>
@@ -289,6 +605,7 @@ const SECTIONS: DocSection[] = [
     content: (
       <>
         <P>Each session card displays action buttons appropriate to its current state. The available controls change dynamically as the session progresses.</P>
+        <MockSessionCard />
 
         <H3>Card Anatomy</H3>
         <UL items={[
@@ -324,6 +641,7 @@ const SECTIONS: DocSection[] = [
     content: (
       <>
         <P>The broadcast system lets directors send real-time messages to all connected operators. Messages appear as a banner at the top of every operator&apos;s screen.</P>
+        <MockBroadcast />
 
         <H3>Sending a Broadcast</H3>
         <OL items={[
@@ -358,6 +676,7 @@ const SECTIONS: DocSection[] = [
     content: (
       <>
         <P>When a session runs late, the delay cascade automatically adjusts all downstream sessions to maintain the correct schedule gap.</P>
+        <MockDelayCascade />
 
         <H3>Applying a Delay</H3>
         <OL items={[
@@ -464,6 +783,7 @@ const SECTIONS: DocSection[] = [
     content: (
       <>
         <P>The Stage Monitor (confidence monitor) provides a fullscreen overlay for speakers and stage crew showing essential session information.</P>
+        <MockStageMonitor />
 
         <H3>What It Shows</H3>
         <UL items={[
@@ -495,6 +815,7 @@ const SECTIONS: DocSection[] = [
     content: (
       <>
         <P>CueDeck includes three AI-powered agent modules that assist directors during and after events. Agents are powered by Anthropic&apos;s Claude and are available on Pro plans.</P>
+        <MockAIAgents />
 
         <H3>1. Incident Advisor</H3>
         <P>When something goes wrong (technical failure, speaker no-show, schedule conflict), open the Incident Advisor. It analyses the current state of your event and provides:</P>
@@ -602,6 +923,7 @@ const SECTIONS: DocSection[] = [
     content: (
       <>
         <P>CueDeck supports keyboard shortcuts for fast operation during live events. Shortcuts are available in all roles.</P>
+        <MockKeyboard />
 
         <Table
           headers={['Shortcut', 'Action']}
