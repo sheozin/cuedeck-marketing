@@ -89,8 +89,8 @@ function Badge({ label, color }: { label: string; color: string }) {
 /** Simple table */
 function Table({ headers, rows }: { headers: string[]; rows: string[][] }) {
   return (
-    <div style={{ overflowX: 'auto', marginBottom: 18, borderRadius: 10, border: '1px solid #e5e7eb' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+    <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', marginBottom: 18, borderRadius: 10, border: '1px solid #e5e7eb', maxWidth: '100%' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 480 }}>
         <thead>
           <tr>
             {headers.map((h, i) => (
@@ -127,7 +127,7 @@ function MockFrame({ title, children }: { title?: string; children: React.ReactN
     <div style={{
       borderRadius: 12, overflow: 'hidden', marginBottom: 20, marginTop: 8,
       boxShadow: '0 8px 30px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08)',
-      border: '1px solid rgba(255,255,255,0.06)', maxWidth: 600,
+      border: '1px solid rgba(255,255,255,0.06)', maxWidth: 600, width: '100%',
     }}>
       {/* Titlebar */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: '#0d1220', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
@@ -151,7 +151,7 @@ function MockUIOverview() {
       <div style={{ display: 'flex', gap: 8 }}>
         {/* Sidebar */}
         <div style={{
-          width: 100, flexShrink: 0, background: 'rgba(255,255,255,0.03)',
+          width: 100, minWidth: 70, flexShrink: 1, background: 'rgba(255,255,255,0.03)',
           borderRadius: 6, padding: '8px 6px', border: '1px solid rgba(255,255,255,0.06)',
           display: 'flex', flexDirection: 'column', gap: 4,
         }}>
@@ -352,14 +352,14 @@ function MockStageMonitor() {
   return (
     <div style={{
       borderRadius: 12, overflow: 'hidden', marginBottom: 20, marginTop: 8,
-      boxShadow: '0 8px 30px rgba(0,0,0,0.15)', maxWidth: 600,
+      boxShadow: '0 8px 30px rgba(0,0,0,0.15)', maxWidth: 600, width: '100%',
       background: '#000', border: '1px solid rgba(255,255,255,0.08)',
     }}>
       <div style={{ padding: '24px 20px', textAlign: 'center' }}>
         <div style={{ fontSize: 10, color: '#64748b', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6 }}>NOW PRESENTING</div>
-        <div style={{ fontSize: 22, fontWeight: 800, color: '#fff', marginBottom: 6 }}>Keynote: The Next Wave</div>
+        <div style={{ fontSize: 'clamp(16px, 4vw, 22px)', fontWeight: 800, color: '#fff', marginBottom: 6 }}>Keynote: The Next Wave</div>
         <div style={{ fontSize: 14, color: '#94a3b8', marginBottom: 16 }}>Dr. Sarah Chen · Main Stage</div>
-        <div style={{ fontFamily: 'monospace', fontSize: 40, fontWeight: 800, color: '#22c55e', marginBottom: 6 }}>14:18</div>
+        <div style={{ fontFamily: 'monospace', fontSize: 'clamp(28px, 8vw, 40px)', fontWeight: 800, color: '#22c55e', marginBottom: 6 }}>14:18</div>
         <div style={{ fontSize: 11, color: '#64748b' }}>remaining</div>
         {/* Progress bar */}
         <div style={{ height: 4, background: 'rgba(255,255,255,0.08)', borderRadius: 99, margin: '16px auto 16px', maxWidth: 300, overflow: 'hidden' }}>
@@ -1055,18 +1055,21 @@ export default function DocsPage() {
   return (
     <>
       <style>{`
-        * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        body { font-family: -apple-system, 'Inter', BlinkMacSystemFont, 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased; background: #fff; }
         a { transition: opacity 0.15s; }
         a:hover { opacity: 0.82; }
+        .docs-page-wrap { overflow-x: hidden; width: 100%; }
+        .docs-hero { padding-top: 120px; }
+        @media (max-width: 1023px) {
+          .docs-hero { padding-top: 180px !important; }
+        }
       `}</style>
 
       <Nav />
 
+      <div className="docs-page-wrap">
       {/* ── Hero ─────────────────────────────────────────────────── */}
-      <section style={{
-        paddingTop: 120,
+      <section className="docs-hero" style={{
         paddingBottom: 48,
         background: 'linear-gradient(135deg, #f0f7ff 0%, #fafafa 40%, #fff7ed 100%)',
       }}>
@@ -1142,6 +1145,7 @@ export default function DocsPage() {
           </a>
         </div>
       </section>
+      </div>{/* end docs-page-wrap */}
 
       <Footer />
     </>

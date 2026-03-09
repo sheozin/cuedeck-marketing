@@ -122,7 +122,7 @@ export default function DocsClient({ sections }: { sections: DocSection[] }) {
 
   // ── Section content renderer ────────────────────────────────────────────────
   const renderSections = (
-    <div className="docs-content-area" style={{ flex: 1, minWidth: 0, paddingBottom: 80 }}>
+    <div className="docs-content-area" style={{ flex: 1, minWidth: 0, maxWidth: '100%', paddingBottom: 80, overflowX: 'hidden' }}>
       {sections.map(s => {
         const isOpen = collapsed[s.id] !== true;
         return (
@@ -186,11 +186,13 @@ export default function DocsClient({ sections }: { sections: DocSection[] }) {
       <style>{`
         .docs-toc-desktop { display: block; }
         .docs-toc-mobile-wrap { display: none; }
+        .docs-flex-row { gap: 48px; }
         @media (max-width: 1023px) {
           .docs-toc-desktop { display: none !important; }
           .docs-toc-mobile-wrap { display: block !important; }
           .docs-content-area section { scroll-margin-top: 148px !important; }
           .docs-content-area { padding-top: 76px; }
+          .docs-flex-row { gap: 0 !important; }
         }
       `}</style>
 
@@ -263,12 +265,12 @@ export default function DocsClient({ sections }: { sections: DocSection[] }) {
       </div>
 
       {/* ══════════ Desktop: sidebar + content row ══════════ */}
-      <div style={{
+      <div className="docs-flex-row" style={{
         display: 'flex',
-        gap: 48,
         maxWidth: 1100,
         margin: '0 auto',
         padding: '0 24px',
+        overflowX: 'hidden',
       }}>
         {/* Desktop TOC Sidebar */}
         <nav className="docs-toc-desktop" style={{
