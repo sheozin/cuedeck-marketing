@@ -554,7 +554,7 @@ function HowItWorks() {
 const PLANS = [
   {
     name: "Pay-per-event",
-    price: "$39",
+    price: "€39",
     period: "per event",
     desc: "Perfect for freelancers and one-off productions.",
     highlight: false,
@@ -570,7 +570,7 @@ const PLANS = [
   },
   {
     name: "Starter",
-    price: "$49",
+    price: "€59",
     period: "/ month",
     desc: "For small teams running regular events.",
     highlight: false,
@@ -587,7 +587,7 @@ const PLANS = [
   },
   {
     name: "Pro",
-    price: "$99",
+    price: "€99",
     period: "/ month",
     desc: "Full power for production companies.",
     highlight: true,

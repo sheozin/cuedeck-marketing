@@ -60,12 +60,13 @@ keystatic.config.ts — CMS config (local storage mode)
 - **NEVER** show "LEOD" on the marketing site — always "CueDeck"
 
 ## Pricing
-- **Pay-per-event:** $39 / per event
-- **Starter:** $49/month (annual: $39/mo, saves 20%)
-- **Pro:** $99/month (annual: $79/mo, saves 20%) — "Most popular"
-- Base currency: **USD** (factor 1.0)
-- Multi-currency via `ipapi.co` geolocation: EUR ×0.93, GBP ×0.79, AED ×3.67, SGD ×1.35
-- `DEFAULT_CURRENCY = 'USD'` in PricingClient.tsx
+- **Pay-per-event:** €39 / per event
+- **Starter:** €59/month (annual: €47/mo, saves 20%)
+- **Pro:** €99/month (annual: €79/mo, saves 20%) — "Most popular"
+- All prices **tax-inclusive** (EU VAT handled by Stripe Tax)
+- Base currency: **EUR** (factor 1.0)
+- Multi-currency via `ipapi.co` geolocation: USD ×1.08, GBP ×0.85, AED ×3.95, SGD ×1.45
+- `DEFAULT_CURRENCY = 'EUR'` in PricingClient.tsx
 
 ## Mobile Responsive Strategy
 - Viewport: 375px iPhone standard

@@ -32,7 +32,7 @@ const plans = [
   },
   {
     name: "Starter",
-    price: { monthly: 49, annual: 39 },
+    price: { monthly: 59, annual: 47 },
     period: "/month",
     description: "For small teams running regular events.",
     highlight: false,
@@ -177,7 +177,7 @@ export default function PricingPage() {
               color: "#9ca3af",
               marginTop: 32,
             }}>
-              All base prices in USD. Annual billing saves ~20%.{" "}
+              All prices in EUR (tax inclusive). Annual billing saves ~20%.{" "}
               <a href={CONTACT_URL} style={{ color: "#3b82f6", textDecoration: "none", fontWeight: 500 }}>
                 Need per-event pricing?
               </a>

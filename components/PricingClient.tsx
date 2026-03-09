@@ -22,17 +22,17 @@ interface CurrencyConfig {
   code: string;
 }
 
-// ─── Currency Map (USD is the base — factor 1.0) ──────────────────────────────
+// ─── Currency Map (EUR is the base — factor 1.0) ──────────────────────────────
 const CURRENCIES: Record<string, CurrencyConfig> = {
-  USD: { symbol: '$',    factor: 1.0,  code: 'USD' },
-  EUR: { symbol: '€',   factor: 0.93, code: 'EUR' },
-  GBP: { symbol: '£',   factor: 0.79, code: 'GBP' },
-  AED: { symbol: 'AED ', factor: 3.67, code: 'AED' },
-  SGD: { symbol: 'S$',  factor: 1.35, code: 'SGD' },
+  EUR: { symbol: '€',    factor: 1.0,  code: 'EUR' },
+  USD: { symbol: '$',    factor: 1.08, code: 'USD' },
+  GBP: { symbol: '£',   factor: 0.85, code: 'GBP' },
+  AED: { symbol: 'AED ', factor: 3.95, code: 'AED' },
+  SGD: { symbol: 'S$',  factor: 1.45, code: 'SGD' },
 };
 
 const SUPPORTED_CODES = Object.keys(CURRENCIES);
-const DEFAULT_CURRENCY = 'USD';
+const DEFAULT_CURRENCY = 'EUR';
 const LS_KEY = 'cd_currency';
 
 // ─── IconCheck SVG ────────────────────────────────────────────────────────────
