@@ -40,6 +40,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: BASE_URL,
   },
+  other: {
+    "theme-color": "#0f172a",
+  },
 };
 
 const jsonLd = {
@@ -80,6 +83,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={inter.variable}>
       <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#0f172a" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

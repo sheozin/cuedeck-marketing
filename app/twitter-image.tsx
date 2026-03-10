@@ -22,37 +22,13 @@ export default async function Image() {
           fontFamily: 'system-ui, -apple-system, sans-serif',
         }}
       >
-        {/* Badge */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            background: 'rgba(255,255,255,0.1)',
-            border: '1px solid rgba(255,255,255,0.2)',
-            borderRadius: '99px',
-            padding: '8px 20px',
-            marginBottom: '40px',
-          }}
-        >
-          <span
-            style={{
-              color: '#93c5fd',
-              fontSize: 15,
-              fontWeight: 700,
-              letterSpacing: '0.1em',
-            }}
-          >
-            LIVE EVENT OPERATIONS PLATFORM
-          </span>
-        </div>
-
-        {/* Logo mark + brand name */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 24 }}>
+        {/* Logo mark + wordmark */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 32 }}>
           <div
             style={{
-              width: 80,
-              height: 80,
-              borderRadius: 18,
+              width: 64,
+              height: 64,
+              borderRadius: 14,
               background: 'linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%)',
               display: 'flex',
               alignItems: 'center',
@@ -60,7 +36,7 @@ export default async function Image() {
               boxShadow: '0 4px 16px rgba(59,130,246,0.4)',
             }}
           >
-            <svg viewBox="0 0 64 64" width="56" height="56">
+            <svg viewBox="0 0 64 64" width="44" height="44">
               <path
                 d="M 40 17 A 17 17 0 1 0 40 47"
                 stroke="white"
@@ -70,18 +46,10 @@ export default async function Image() {
               />
             </svg>
           </div>
-          <div
-            style={{
-              fontSize: 90,
-              fontWeight: 900,
-              lineHeight: 0.95,
-              letterSpacing: '-4px',
-              display: 'flex',
-            }}
-          >
+          <span style={{ fontSize: 64, fontWeight: 900, letterSpacing: '-2px', display: 'flex' }}>
             <span style={{ color: '#ffffff' }}>Cue</span>
             <span style={{ color: '#60a5fa' }}>Deck</span>
-          </div>
+          </span>
         </div>
 
         {/* Tagline */}

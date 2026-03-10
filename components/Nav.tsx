@@ -28,7 +28,17 @@ export default function Nav() {
         padding: "0 24px", height: "64px", maxWidth: 1280, margin: "0 auto",
       }}>
         {/* Logo */}
-        <a href="/" style={{ textDecoration: "none", flexShrink: 0 }}>
+        <a href="/" style={{ textDecoration: "none", flexShrink: 0, display: "flex", alignItems: "center", gap: 8 }}>
+          <svg viewBox="0 0 64 64" width="28" height="28" style={{ flexShrink: 0 }}>
+            <defs>
+              <linearGradient id="nav-logo-bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#1d4ed8"/>
+                <stop offset="100%" stopColor="#3b82f6"/>
+              </linearGradient>
+            </defs>
+            <rect width="64" height="64" rx="14" fill="url(#nav-logo-bg)"/>
+            <path d="M 40 17 A 17 17 0 1 0 40 47" stroke="white" strokeWidth="7" strokeLinecap="round" fill="none"/>
+          </svg>
           <span style={{ fontSize: 20, fontWeight: 800, letterSpacing: "-0.5px", color: "#111827" }}>
             Cue<span style={{ color: "#3b82f6" }}>Deck</span>
           </span>
