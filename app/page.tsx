@@ -4,6 +4,8 @@ import Footer from "../components/Footer";
 import EmailCapture from "../components/EmailCapture";
 import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../keystatic.config'
+import { readdirSync, readFileSync, existsSync } from 'fs'
+import { join } from 'path'
 
 const APP_URL = "https://app.cuedeck.io";
 const TRIAL_URL = `${APP_URL}/#signup`;
@@ -835,6 +837,80 @@ function RoleShowcase() {
   );
 }
 
+// ─── FAQ Data ─────────────────────────────────────────────────────────────────
+const homeFaqs = [
+  { q: "What is CueDeck?", a: "CueDeck is a real-time production console for live events. It gives every operator — directors, stage managers, AV techs, interpreters, registration, and signage — a role-based dashboard that updates in under 100 milliseconds." },
+  { q: "How does real-time sync work?", a: "CueDeck uses live database subscriptions via Supabase Realtime. When a director changes a session status, every connected operator sees the update instantly — no polling, no refreshing." },
+  { q: "What roles does CueDeck support?", a: "Six roles: Director (full control), Stage (session transitions), AV (hold capability), Interpreter (read-only language view), Registration (read-only desk view), and Signage (display management)." },
+  { q: "Do I need to install any software?", a: "No. CueDeck runs entirely in the browser. Open it on any device — laptop, tablet, or phone. Signage displays work the same way: just open the display URL in a browser on your screen." },
+  { q: "Can I use CueDeck for multi-room events?", a: "Yes. Sessions are assigned to rooms, and operators can filter by room. Signage displays can be configured to show content for specific rooms. The director sees everything across all rooms." },
+  { q: "How does digital signage work?", a: "Register displays from the console, choose a content mode (schedule, wayfinding, sponsors, break screen, and more), and launch the display URL on any browser. Displays update in real time and support global overrides." },
+];
+
+const homeFaqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: homeFaqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
+// ─── FAQ Section ──────────────────────────────────────────────────────────────
+function FAQ() {
+  return (
+    <section style={{ padding: "80px 40px", background: "#fff" }}>
+      <div style={{ maxWidth: 800, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 48 }}>
+          <div style={{ display: "inline-block", padding: "3px 10px", borderRadius: 6, background: "rgba(59,130,246,0.08)", border: "1px solid rgba(59,130,246,0.2)", fontSize: 11, fontWeight: 600, color: "#3b82f6", marginBottom: 16 }}>FAQ</div>
+          <h2 style={{ fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.5px", lineHeight: 1.2 }}>
+            Frequently asked questions
+          </h2>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+          {homeFaqs.map((f, i) => (
+            <details key={i} style={{ borderBottom: "1px solid #e5e7eb", padding: "20px 0" }}>
+              <summary style={{ fontSize: 16, fontWeight: 600, color: "#111827", cursor: "pointer", listStyle: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                {f.q}
+                <span style={{ fontSize: 20, color: "#9ca3af", flexShrink: 0, marginLeft: 16 }}>+</span>
+              </summary>
+              <p style={{ fontSize: 15, color: "#4b5563", lineHeight: 1.75, marginTop: 12 }}>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── From the Blog ────────────────────────────────────────────────────────────
+function LatestPosts({ posts }: { posts: { slug: string; title: string; excerpt: string; date: string }[] }) {
+  if (!posts.length) return null;
+  return (
+    <section style={{ padding: "80px 40px", background: "#fafafa" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 48 }}>
+          <div style={{ display: "inline-block", padding: "3px 10px", borderRadius: 6, background: "rgba(16,185,129,0.08)", border: "1px solid rgba(16,185,129,0.2)", fontSize: 11, fontWeight: 600, color: "#059669", marginBottom: 16 }}>FROM THE BLOG</div>
+          <h2 style={{ fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.5px", lineHeight: 1.2 }}>
+            Insights for event production teams
+          </h2>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {posts.map((p) => (
+            <Link key={p.slug} href={`/blog/${p.slug}`} style={{ textDecoration: "none", background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, padding: 24, display: "flex", flexDirection: "column", gap: 12, transition: "border-color 0.15s, box-shadow 0.15s" }}>
+              <time style={{ fontSize: 12, color: "#9ca3af", fontWeight: 500 }}>{new Date(p.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</time>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{p.title}</h3>
+              <p style={{ fontSize: 14, color: "#6b7280", lineHeight: 1.6, flex: 1 }}>{p.excerpt}</p>
+              <span style={{ fontSize: 13, fontWeight: 600, color: "#3b82f6" }}>Read more &rarr;</span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default async function HomePage() {
   const reader = createReader(process.cwd(), keystaticConfig)
@@ -842,10 +918,38 @@ export default async function HomePage() {
   const heroHeadline = homepage?.heroHeadline ?? 'The Command Center for Live Events'
   const heroSubheadline = homepage?.heroSubheadline ?? 'Real-time session management, digital signage, and AI-assisted operations for professional event teams.'
 
+  // Fetch latest 3 blog posts for "From the Blog" section
+  const postsDir = join(process.cwd(), 'content', 'posts')
+  const latestPosts = existsSync(postsDir)
+    ? readdirSync(postsDir, { withFileTypes: true })
+        .filter(d => d.isDirectory())
+        .map(d => {
+          const mdxPath = join(postsDir, d.name, 'index.mdx')
+          if (!existsSync(mdxPath)) return null
+          const raw = readFileSync(mdxPath, 'utf-8')
+          const fm: Record<string, string> = {}
+          const match = raw.match(/^---\n([\s\S]*?)\n---/)
+          if (match) {
+            match[1].split('\n').forEach(line => {
+              const [key, ...rest] = line.split(': ')
+              if (key) fm[key.trim()] = rest.join(': ').trim()
+            })
+          }
+          return fm.date ? { slug: d.name, title: fm.title || d.name, excerpt: fm.excerpt || '', date: fm.date } : null
+        })
+        .filter((p): p is { slug: string; title: string; excerpt: string; date: string } => p !== null)
+        .sort((a, b) => b.date.localeCompare(a.date))
+        .slice(0, 3)
+    : []
+
   return (
     <>
       <GlobalStyle />
       <Nav />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeFaqJsonLd) }}
+      />
       <main>
         <Hero heroHeadline={heroHeadline} heroSubheadline={heroSubheadline} />
         <SocialProof />
@@ -853,6 +957,8 @@ export default async function HomePage() {
         <Features />
         <HowItWorks />
         <Pricing />
+        <LatestPosts posts={latestPosts} />
+        <FAQ />
         <EmailCapture />
         <FinalCTA />
       </main>

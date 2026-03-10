@@ -1,6 +1,7 @@
+import Link from 'next/link'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { readFileSync, existsSync } from 'fs'
+import { readFileSync, existsSync, readdirSync } from 'fs'
 import { join } from 'path'
 import Nav from '../../../components/Nav'
 import Footer from '../../../components/Footer'
@@ -52,10 +53,19 @@ function renderMarkdown(md: string): string {
     })
 }
 
+function getRelatedPosts(currentSlug: string, count = 3) {
+  const postsDir = join(process.cwd(), 'content', 'posts')
+  const slugs = readdirSync(postsDir).filter(s => s !== currentSlug && existsSync(join(postsDir, s, 'index.mdx')))
+  const posts = slugs.map(s => getPost(s)).filter((p): p is NonNullable<ReturnType<typeof getPost>> => p !== null)
+  posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  return posts.slice(0, count)
+}
+
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params
   const post = getPost(slug)
   if (!post) notFound()
+  const related = getRelatedPosts(slug)
 
   return (
     <>
@@ -79,6 +89,26 @@ export default async function BlogPostPage({ params }: Props) {
           style={{ maxWidth: 720, margin: '0 auto', padding: '64px 40px' }}
           dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }}
         />
+
+        {/* Keep Reading */}
+        {related.length > 0 && (
+          <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 40px 48px' }}>
+            <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: 40 }}>
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 20, letterSpacing: '-0.2px' }}>Keep reading</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                {related.map(r => (
+                  <Link key={r.slug} href={`/blog/${r.slug}`} style={{ textDecoration: 'none', display: 'flex', gap: 12, alignItems: 'baseline' }}>
+                    <time style={{ fontSize: 12, color: '#9ca3af', flexShrink: 0, minWidth: 80 }}>{r.date}</time>
+                    <div>
+                      <span style={{ fontSize: 15, fontWeight: 600, color: '#111827' }}>{r.title}</span>
+                      <p style={{ fontSize: 13, color: '#6b7280', marginTop: 4, lineHeight: 1.5 }}>{r.excerpt}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Back */}
         <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 40px 80px' }}>
