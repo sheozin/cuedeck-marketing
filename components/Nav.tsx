@@ -35,7 +35,7 @@ export default function Nav() {
         </a>
 
         {/* Desktop nav links */}
-        <div className="hidden md:flex" style={{ alignItems: "center", gap: "28px" }}>
+        <div className="hidden lg:flex" style={{ alignItems: "center", gap: "28px" }}>
           {links.map(l => (
             <a key={l.href} href={l.href} style={{ fontSize: 14, color: "#4b5563", textDecoration: "none", fontWeight: 500 }}>
               {l.label}
@@ -44,7 +44,7 @@ export default function Nav() {
         </div>
 
         {/* Desktop CTA */}
-        <div className="hidden md:flex" style={{ alignItems: "center", gap: "12px" }}>
+        <div className="hidden lg:flex" style={{ alignItems: "center", gap: "12px" }}>
           <a href={APP_URL} style={{ fontSize: 14, color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>
             Sign in
           </a>
@@ -59,7 +59,7 @@ export default function Nav() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden"
+          className="lg:hidden"
           onClick={() => setOpen(o => !o)}
           aria-label="Toggle menu"
           style={{ background: "none", border: "none", cursor: "pointer", padding: "8px", color: "#374151" }}
@@ -78,7 +78,7 @@ export default function Nav() {
 
       {/* Mobile menu dropdown */}
       {open && (
-        <div className="md:hidden" style={{
+        <div className="lg:hidden" style={{
           background: "#fff", borderTop: "1px solid #f3f4f6",
           padding: "12px 24px 20px",
         }}>

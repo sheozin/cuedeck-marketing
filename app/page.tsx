@@ -324,8 +324,9 @@ function Hero({ heroHeadline, heroSubheadline }: { heroHeadline: string; heroSub
       alignItems: "center",
     }}>
       <div style={{
-        maxWidth: 1200, margin: "0 auto", padding: "0 40px",
-        display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 60, alignItems: "center",
+        maxWidth: 1200, width: "100%", margin: "0 auto", padding: "0 24px",
+        display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 60, alignItems: "center",
+        overflow: "hidden",
       }}>
         {/* Left */}
         <div>
@@ -461,7 +462,7 @@ function Features() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 24 }}>
           {FEATURES.map(f => (
             <div key={f.title} style={{
               padding: "28px 28px 32px",
@@ -625,7 +626,7 @@ function Pricing() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, alignItems: "stretch" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 24, alignItems: "stretch" }}>
           {PLANS.map(p => (
             <div key={p.name} style={{
               borderRadius: 16,
@@ -731,15 +732,17 @@ function FinalCTA() {
 const GlobalStyle = () => (
   <style>{`
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: -apple-system, 'Inter', BlinkMacSystemFont, 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased; background: #fff; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { font-family: -apple-system, 'Inter', BlinkMacSystemFont, 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased; background: #fff; overflow-x: hidden; }
     a { transition: opacity 0.15s; }
     a:hover { opacity: 0.82; }
-    @media (max-width: 900px) {
+    @media (max-width: 1023px) {
       nav { padding: 0 20px !important; }
-      nav > div:nth-child(2) { display: none !important; }
-      section > div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
-      section > div[style*="grid-template-columns: repeat(3"] { grid-template-columns: 1fr !important; }
+    }
+    @media (max-width: 640px) {
+      section { padding-left: 16px !important; padding-right: 16px !important; }
+      section > div { max-width: 100% !important; overflow: hidden !important; }
+      h1 { font-size: clamp(28px, 7vw, 36px) !important; }
     }
   `}</style>
 );
@@ -763,7 +766,7 @@ function RoleShowcase() {
         <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
 
           {/* Row 1: Director view (existing DashboardMockup) */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 64, alignItems: "center" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 64, alignItems: "center" }}>
             <div>
               <div style={{ display: "inline-block", padding: "3px 10px", borderRadius: 6, background: "rgba(59,130,246,0.08)", border: "1px solid rgba(59,130,246,0.2)", fontSize: 11, fontWeight: 600, color: "#3b82f6", marginBottom: 16 }}>DIRECTOR VIEW</div>
               <h3 style={{ fontSize: "clamp(22px, 2.5vw, 30px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.6px", marginBottom: 14, lineHeight: 1.2 }}>
@@ -786,7 +789,7 @@ function RoleShowcase() {
           </div>
 
           {/* Row 2: Timeline (reversed) */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 64, alignItems: "center" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 64, alignItems: "center" }}>
             <div style={{ display: "flex", justifyContent: "flex-start" }}>
               <TimelineMockup />
             </div>
@@ -809,7 +812,7 @@ function RoleShowcase() {
           </div>
 
           {/* Row 3: Signage */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 64, alignItems: "center" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 64, alignItems: "center" }}>
             <div>
               <div style={{ display: "inline-block", padding: "3px 10px", borderRadius: 6, background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)", fontSize: 11, fontWeight: 600, color: "#d97706", marginBottom: 16 }}>SIGNAGE CONTROL</div>
               <h3 style={{ fontSize: "clamp(22px, 2.5vw, 30px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.6px", marginBottom: 14, lineHeight: 1.2 }}>

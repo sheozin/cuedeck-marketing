@@ -219,7 +219,7 @@ export default function PricingPage() {
             </h2>
             <div style={{
               display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))",
               gap: 16,
             }}>
               {includedFeatures.map(item => (
