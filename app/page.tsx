@@ -4,8 +4,7 @@ import Footer from "../components/Footer";
 import EmailCapture from "../components/EmailCapture";
 import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../keystatic.config'
-import { readdirSync, readFileSync, existsSync } from 'fs'
-import { join } from 'path'
+import { getAllPosts, formatDate } from '../lib/posts'
 
 const APP_URL = "https://app.cuedeck.io";
 const TRIAL_URL = `${APP_URL}/#signup`;
@@ -888,7 +887,7 @@ function FAQ() {
 }
 
 // ─── From the Blog ────────────────────────────────────────────────────────────
-function LatestPosts({ posts }: { posts: { slug: string; title: string; excerpt: string; date: string }[] }) {
+function LatestPosts({ posts }: { posts: { slug: string; title: string; excerpt: string; date: string; featuredImage: string | null }[] }) {
   if (!posts.length) return null;
   return (
     <section style={{ padding: "80px 40px", background: "#fafafa" }}>
@@ -901,11 +900,16 @@ function LatestPosts({ posts }: { posts: { slug: string; title: string; excerpt:
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
           {posts.map((p) => (
-            <Link key={p.slug} href={`/blog/${p.slug}`} style={{ textDecoration: "none", background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, padding: 24, display: "flex", flexDirection: "column", gap: 12, transition: "border-color 0.15s, box-shadow 0.15s" }}>
-              <time style={{ fontSize: 12, color: "#9ca3af", fontWeight: 500 }}>{new Date(p.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</time>
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{p.title}</h3>
-              <p style={{ fontSize: 14, color: "#6b7280", lineHeight: 1.6, flex: 1 }}>{p.excerpt}</p>
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#3b82f6" }}>Read more &rarr;</span>
+            <Link key={p.slug} href={`/blog/${p.slug}`} style={{ textDecoration: "none", background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden", display: "flex", flexDirection: "column", transition: "border-color 0.15s, box-shadow 0.15s" }}>
+              {p.featuredImage && (
+                <img src={p.featuredImage} alt={p.title} style={{ width: "100%", height: 160, objectFit: "cover" }} />
+              )}
+              <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 12, flex: 1 }}>
+                <time style={{ fontSize: 12, color: "#9ca3af", fontWeight: 500 }}>{formatDate(p.date)}</time>
+                <h3 style={{ fontSize: 18, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{p.title}</h3>
+                <p style={{ fontSize: 14, color: "#6b7280", lineHeight: 1.6, flex: 1 }}>{p.excerpt}</p>
+                <span style={{ fontSize: 13, fontWeight: 600, color: "#3b82f6" }}>Read more &rarr;</span>
+              </div>
             </Link>
           ))}
         </div>
@@ -922,28 +926,7 @@ export default async function HomePage() {
   const heroSubheadline = homepage?.heroSubheadline ?? 'Real-time session management, digital signage, and AI-assisted operations for professional event teams.'
 
   // Fetch latest 3 blog posts for "From the Blog" section
-  const postsDir = join(process.cwd(), 'content', 'posts')
-  const latestPosts = existsSync(postsDir)
-    ? readdirSync(postsDir, { withFileTypes: true })
-        .filter(d => d.isDirectory())
-        .map(d => {
-          const mdxPath = join(postsDir, d.name, 'index.mdx')
-          if (!existsSync(mdxPath)) return null
-          const raw = readFileSync(mdxPath, 'utf-8')
-          const fm: Record<string, string> = {}
-          const match = raw.match(/^---\n([\s\S]*?)\n---/)
-          if (match) {
-            match[1].split('\n').forEach(line => {
-              const [key, ...rest] = line.split(': ')
-              if (key) fm[key.trim()] = rest.join(': ').trim()
-            })
-          }
-          return fm.date ? { slug: d.name, title: fm.title || d.name, excerpt: fm.excerpt || '', date: fm.date } : null
-        })
-        .filter((p): p is { slug: string; title: string; excerpt: string; date: string } => p !== null)
-        .sort((a, b) => b.date.localeCompare(a.date))
-        .slice(0, 3)
-    : []
+  const latestPosts = getAllPosts().slice(0, 3)
 
   return (
     <>

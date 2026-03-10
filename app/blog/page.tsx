@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { readdirSync, readFileSync, existsSync } from 'fs'
-import { join } from 'path'
+import { getAllPosts, formatDate } from '../../lib/posts'
 import Nav from '../../components/Nav'
 import Footer from '../../components/Footer'
 
@@ -10,46 +9,8 @@ export const metadata: Metadata = {
   description: 'Insights, tips, and updates from the CueDeck team on live event production.',
 }
 
-interface Post {
-  slug: string
-  title: string
-  date: string
-  excerpt: string
-  author: string
-}
-
-function getPosts(): Post[] {
-  const postsDir = join(process.cwd(), 'content', 'posts')
-  if (!existsSync(postsDir)) return []
-
-  const slugs = readdirSync(postsDir, { withFileTypes: true })
-    .filter(d => d.isDirectory())
-    .map(d => d.name)
-
-  return slugs.map(slug => {
-    const mdxPath = join(postsDir, slug, 'index.mdx')
-    if (!existsSync(mdxPath)) return null
-    const raw = readFileSync(mdxPath, 'utf-8')
-    const frontmatterMatch = raw.match(/^---\n([\s\S]*?)\n---/)
-    const fm: Record<string, string> = {}
-    if (frontmatterMatch) {
-      frontmatterMatch[1].split('\n').forEach(line => {
-        const [key, ...rest] = line.split(': ')
-        if (key) fm[key.trim()] = rest.join(': ').trim()
-      })
-    }
-    return {
-      slug,
-      title: fm.title || slug,
-      date: fm.date || '',
-      excerpt: fm.excerpt || '',
-      author: fm.author || 'CueDeck Team',
-    }
-  }).filter(Boolean).sort((a, b) => b!.date.localeCompare(a!.date)) as Post[]
-}
-
 export default function BlogPage() {
-  const posts = getPosts()
+  const posts = getAllPosts()
 
   return (
     <>
@@ -74,8 +35,23 @@ export default function BlogPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
               {posts.map(post => (
                 <article key={post.slug} style={{ borderBottom: '1px solid #f3f4f6', paddingBottom: 40 }}>
+                  {post.featuredImage && (
+                    <Link href={`/blog/${post.slug}`} style={{ textDecoration: 'none', display: 'block', marginBottom: 16 }}>
+                      <img
+                        src={post.featuredImage}
+                        alt={post.title}
+                        style={{
+                          width: '100%',
+                          height: 200,
+                          objectFit: 'cover',
+                          borderRadius: 8,
+                          display: 'block',
+                        }}
+                      />
+                    </Link>
+                  )}
                   <div style={{ display: 'flex', gap: 12, marginBottom: 12, alignItems: 'center' }}>
-                    <span style={{ fontSize: 12, color: '#9ca3af' }}>{post.date}</span>
+                    <span style={{ fontSize: 12, color: '#9ca3af' }}>{formatDate(post.date)}</span>
                     <span style={{ fontSize: 12, color: '#d1d5db' }}>·</span>
                     <span style={{ fontSize: 12, color: '#9ca3af' }}>{post.author}</span>
                   </div>

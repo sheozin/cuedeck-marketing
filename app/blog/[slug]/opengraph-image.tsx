@@ -1,25 +1,15 @@
 import { ImageResponse } from 'next/og'
-import { readFileSync, existsSync } from 'fs'
-import { join } from 'path'
+import { getPost } from '../../../lib/posts'
 
 export const runtime = 'nodejs'
 export const alt = 'CueDeck Blog'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
-function getPostTitle(slug: string): string {
-  const mdxPath = join(process.cwd(), 'content', 'posts', slug, 'index.mdx')
-  if (!existsSync(mdxPath)) return 'CueDeck Blog'
-  const raw = readFileSync(mdxPath, 'utf-8')
-  const match = raw.match(/^---\n([\s\S]*?)\n---/)
-  if (!match) return 'CueDeck Blog'
-  const titleLine = match[1].split('\n').find(l => l.startsWith('title:'))
-  return titleLine ? titleLine.split(': ').slice(1).join(': ').trim() : 'CueDeck Blog'
-}
-
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const title = getPostTitle(slug)
+  const post = getPost(slug)
+  const title = post?.title || 'CueDeck Blog'
 
   return new ImageResponse(
     (

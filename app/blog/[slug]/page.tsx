@@ -1,36 +1,12 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { readFileSync, existsSync, readdirSync } from 'fs'
-import { join } from 'path'
+import { getPost, getRelatedPosts, formatDate } from '../../../lib/posts'
 import Nav from '../../../components/Nav'
 import Footer from '../../../components/Footer'
 
 interface Props {
   params: Promise<{ slug: string }>
-}
-
-function getPost(slug: string) {
-  const mdxPath = join(process.cwd(), 'content', 'posts', slug, 'index.mdx')
-  if (!existsSync(mdxPath)) return null
-  const raw = readFileSync(mdxPath, 'utf-8')
-  const frontmatterMatch = raw.match(/^---\n([\s\S]*?)\n---/)
-  const fm: Record<string, string> = {}
-  if (frontmatterMatch) {
-    frontmatterMatch[1].split('\n').forEach(line => {
-      const [key, ...rest] = line.split(': ')
-      if (key) fm[key.trim()] = rest.join(': ').trim()
-    })
-  }
-  const content = raw.replace(/^---\n[\s\S]*?\n---\n/, '')
-  return {
-    slug,
-    title: fm.title || slug,
-    date: fm.date || '',
-    excerpt: fm.excerpt || '',
-    author: fm.author || 'CueDeck Team',
-    content,
-  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -40,25 +16,41 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: `${post.title} — CueDeck Blog`, description: post.excerpt }
 }
 
-// Simple markdown-to-HTML renderer (no external deps)
-function renderMarkdown(md: string): string {
-  return md
+// Markdown-to-HTML renderer with image + list support
+function renderMarkdown(md: string, slug: string): string {
+  // First resolve relative image paths to the API route
+  let processed = md.replace(
+    /!\[([^\]]*)\]\(\.\/([^)]+)\)/g,
+    `![$1](/api/content-image/${slug}/$2)`
+  )
+
+  return processed
     .replace(/^## (.+)$/gm, '<h2 style="font-size:22px;font-weight:700;color:#111827;margin:32px 0 12px;letter-spacing:-0.3px">$1</h2>')
     .replace(/^### (.+)$/gm, '<h3 style="font-size:18px;font-weight:600;color:#111827;margin:24px 0 10px">$1</h3>')
     .replace(/\*\*(.+?)\*\*/g, '<strong style="font-weight:600;color:#111827">$1</strong>')
+    // Inline images → figure with caption
+    .replace(
+      /^!\[([^\]]*)\]\(([^)]+)\)$/gm,
+      '<figure style="margin:24px 0"><img src="$2" alt="$1" style="width:100%;height:auto;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.06)" /><figcaption style="font-size:13px;color:#9ca3af;margin-top:8px;text-align:center">$1</figcaption></figure>'
+    )
+    // Links (after images so image alt text isn't matched)
     .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" style="color:#3b82f6;text-decoration:none">$1</a>')
+    // Unordered list items
+    .replace(/^- (.+)$/gm, '<li style="font-size:16px;line-height:1.75;color:#374151;margin-bottom:4px;margin-left:20px">$1</li>')
+    // Inline code
+    .replace(/`([^`]+)`/g, '<code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;font-size:14px;color:#1f2937">$1</code>')
+    // Paragraphs (skip elements already wrapped in HTML tags)
     .replace(/^(.+)$/gm, (line) => {
-      if (line.startsWith('<h') || line.startsWith('<ul') || line.startsWith('<li') || line.trim() === '') return line
+      if (
+        line.startsWith('<h') ||
+        line.startsWith('<ul') ||
+        line.startsWith('<li') ||
+        line.startsWith('<figure') ||
+        line.startsWith('<code') ||
+        line.trim() === ''
+      ) return line
       return `<p style="font-size:16px;line-height:1.75;color:#374151;margin-bottom:16px">${line}</p>`
     })
-}
-
-function getRelatedPosts(currentSlug: string, count = 3) {
-  const postsDir = join(process.cwd(), 'content', 'posts')
-  const slugs = readdirSync(postsDir).filter(s => s !== currentSlug && existsSync(join(postsDir, s, 'index.mdx')))
-  const posts = slugs.map(s => getPost(s)).filter((p): p is NonNullable<ReturnType<typeof getPost>> => p !== null)
-  posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  return posts.slice(0, count)
 }
 
 export default async function BlogPostPage({ params }: Props) {
@@ -74,7 +66,7 @@ export default async function BlogPostPage({ params }: Props) {
         {/* Hero */}
         <div style={{ background: 'linear-gradient(135deg, #f0f7ff 0%, #fafafa 100%)', padding: '80px 40px 60px', textAlign: 'center' }}>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginBottom: 20, alignItems: 'center' }}>
-            <span style={{ fontSize: 12, color: '#9ca3af' }}>{post.date}</span>
+            <span style={{ fontSize: 12, color: '#9ca3af' }}>{formatDate(post.date)}</span>
             <span style={{ fontSize: 12, color: '#d1d5db' }}>·</span>
             <span style={{ fontSize: 12, color: '#9ca3af' }}>{post.author}</span>
           </div>
@@ -84,10 +76,28 @@ export default async function BlogPostPage({ params }: Props) {
           <p style={{ fontSize: 17, color: '#6b7280', maxWidth: 560, margin: '0 auto' }}>{post.excerpt}</p>
         </div>
 
+        {/* Featured image */}
+        {post.featuredImage && (
+          <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 40px' }}>
+            <img
+              src={post.featuredImage}
+              alt={post.title}
+              style={{
+                width: '100%',
+                height: 'auto',
+                borderRadius: 12,
+                marginTop: -30,
+                boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+                display: 'block',
+              }}
+            />
+          </div>
+        )}
+
         {/* Content */}
         <div
           style={{ maxWidth: 720, margin: '0 auto', padding: '64px 40px' }}
-          dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }}
+          dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content, slug) }}
         />
 
         {/* Keep Reading */}
@@ -98,7 +108,7 @@ export default async function BlogPostPage({ params }: Props) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {related.map(r => (
                   <Link key={r.slug} href={`/blog/${r.slug}`} style={{ textDecoration: 'none', display: 'flex', gap: 12, alignItems: 'baseline' }}>
-                    <time style={{ fontSize: 12, color: '#9ca3af', flexShrink: 0, minWidth: 80 }}>{r.date}</time>
+                    <time style={{ fontSize: 12, color: '#9ca3af', flexShrink: 0, minWidth: 80 }}>{formatDate(r.date)}</time>
                     <div>
                       <span style={{ fontSize: 15, fontWeight: 600, color: '#111827' }}>{r.title}</span>
                       <p style={{ fontSize: 13, color: '#6b7280', marginTop: 4, lineHeight: 1.5 }}>{r.excerpt}</p>

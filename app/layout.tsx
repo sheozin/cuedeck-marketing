@@ -84,6 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={inter.variable}>
       <head>
         <link rel="manifest" href="/manifest.json" />
+        <link rel="alternate" type="application/rss+xml" title="CueDeck Blog" href="/blog/feed.xml" />
         <meta name="theme-color" content="#0f172a" />
         <script
           type="application/ld+json"

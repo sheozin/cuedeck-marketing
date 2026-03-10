@@ -32,6 +32,7 @@ export default function Footer() {
             { label: "Contact",  href: "/contact" },
             { label: "Privacy",  href: "/privacy" },
             { label: "Terms",    href: "/terms" },
+            { label: "RSS",      href: "/blog/feed.xml" },
             { label: "Sign in",  href: APP_URL },
           ].map(link => (
             <a key={link.label} href={link.href} style={{ fontSize: 13, color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>{link.label}</a>

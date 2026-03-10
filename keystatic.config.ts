@@ -26,6 +26,10 @@ export default config({
         }),
         excerpt: fields.text({ label: 'Excerpt', multiline: true }),
         author: fields.text({ label: 'Author', defaultValue: 'CueDeck Team' }),
+        featuredImage: fields.image({
+          label: 'Featured Image',
+          description: 'Hero image shown at top of post and as thumbnail on listing. Recommended: 1200x630px.',
+        }),
         content: fields.mdx({ label: 'Content' }),
       },
     }),
