@@ -15,11 +15,11 @@ export default config({
     posts: collection({
       label: 'Blog Posts',
       slugField: 'title',
-      path: 'content/posts/*',
+      path: 'content/posts/*/',
       entryLayout: 'content',
       format: { contentField: 'content' },
       schema: {
-        title: fields.text({ label: 'Title' }),
+        title: fields.slug({ name: { label: 'Title' } }),
         date: fields.date({
           label: 'Publish Date',
           defaultValue: { kind: 'today' },
