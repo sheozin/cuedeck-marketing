@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
+import ContactForm from "../../components/ContactForm";
 import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../../keystatic.config'
 
@@ -104,42 +105,7 @@ export default async function ContactPage() {
             <p style={{ fontSize: 15, color: "#6b7280", marginBottom: 36, lineHeight: 1.6 }}>
               Fill out the form below and we&apos;ll get back to you within one business day.
             </p>
-            <form action={`mailto:${emailGeneral}`} method="POST" encType="text/plain" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              <div>
-                <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 6 }}>Name</label>
-                <input type="text" name="name" required placeholder="Your name" style={{
-                  width: "100%", padding: "10px 14px", borderRadius: 8,
-                  border: "1px solid #d1d5db", fontSize: 14, color: "#111827",
-                  background: "#fff", outline: "none", boxSizing: "border-box",
-                }} />
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 6 }}>Email</label>
-                <input type="email" name="email" required placeholder="you@example.com" style={{
-                  width: "100%", padding: "10px 14px", borderRadius: 8,
-                  border: "1px solid #d1d5db", fontSize: 14, color: "#111827",
-                  background: "#fff", outline: "none", boxSizing: "border-box",
-                }} />
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 6 }}>Message</label>
-                <textarea name="message" required rows={6} placeholder="Tell us what you need..." style={{
-                  width: "100%", padding: "10px 14px", borderRadius: 8,
-                  border: "1px solid #d1d5db", fontSize: 14, color: "#111827",
-                  background: "#fff", outline: "none", resize: "vertical",
-                  fontFamily: "inherit", boxSizing: "border-box",
-                }} />
-              </div>
-              <div>
-                <button type="submit" style={{
-                  padding: "12px 28px", borderRadius: 10, fontWeight: 700, fontSize: 15,
-                  cursor: "pointer", background: "#3b82f6", color: "#fff", border: "none",
-                  boxShadow: "0 2px 8px rgba(59,130,246,0.35)",
-                }}>
-                  Send message
-                </button>
-              </div>
-            </form>
+            <ContactForm />
           </div>
         </section>
 
