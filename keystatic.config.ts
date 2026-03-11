@@ -19,7 +19,7 @@ export default config({
       entryLayout: 'content',
       format: { contentField: 'content' },
       schema: {
-        title: fields.slug({ name: { label: 'Title' } }),
+        title: fields.text({ label: 'Title' }),
         date: fields.date({
           label: 'Publish Date',
           defaultValue: { kind: 'today' },
