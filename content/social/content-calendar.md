@@ -535,3 +535,99 @@ We're offering a 3-day free trial with full access to every feature. No credit c
 Your next event deserves better than spreadsheets.
 
 Try CueDeck: cuedeck.io
+
+---
+
+## Supplementary: Unpromoted Blog Posts
+
+### Blog Promo A — Introducing CueDeck
+**Twitter:**
+We've produced hundreds of live events.
+
+Used everything from printed run sheets to custom Slack bots to coordinate our teams.
+
+Nothing worked well enough.
+
+So we built CueDeck.
+
+→ cuedeck.io/blog/introducing-cuedeck
+
+**LinkedIn:**
+Running a live event is controlled chaos. Directors, stage managers, AV, interpreters, registration, signage — everyone in their own bubble.
+
+A 10-minute delay cascades into a 40-minute disaster because nobody told the AV team.
+
+We've been on the production floor at hundreds of events across Europe and the Middle East. We tried everything. Custom Slack bots. Printed run sheets. Shared spreadsheets. Nothing worked well enough.
+
+So we built CueDeck — a single real-time console where every role gets exactly the information they need, updated the instant something changes.
+
+No calls. No messages. No chaos.
+
+Read our launch story: cuedeck.io/blog/introducing-cuedeck
+
+#EventProduction #LiveEvents #EventTech #EventManagement #CueDeck
+
+### Blog Promo B — 5 Signs Your Event Needs a Command Center
+**Twitter:**
+5 signs your event production team needs a command center:
+
+1. You're coordinating on WhatsApp
+2. Your run-of-show lives in a shared spreadsheet
+3. AV finds out about delays after the audience does
+4. Lobby screens update via USB stick
+5. Pre-event briefings run 45+ minutes
+
+If 3+ hit home → cuedeck.io/blog/5-signs-your-event-needs-a-command-center
+
+#EventProduction #LiveEvents #EventTech
+
+**LinkedIn:**
+Most event teams don't realise they have a coordination problem until they're in the middle of a disaster.
+
+5 signs your production team has outgrown its current tools:
+
+1. Comms run through WhatsApp — messages get buried, status updates arrive 90 seconds after they matter
+2. Run-of-show lives in a shared spreadsheet — conflicting edits, no single source of truth
+3. AV finds out about delays after the audience does — because delay cascades aren't automatic
+4. Lobby screens update via USB stick — in 2026, this shouldn't exist
+5. Pre-event briefings take 45+ minutes — because your team can't check the system themselves
+
+If three or more hit home, your team is working harder than it needs to.
+
+Full breakdown: cuedeck.io/blog/5-signs-your-event-needs-a-command-center
+
+#EventProduction #LiveEvents #EventTech #EventManagement #CueDeck
+
+### Blog Promo C — How We Cut Briefing Time by 80%
+**Twitter:**
+45-minute pre-event briefings → 9 minutes.
+
+The AVE Events team didn't change their briefing format. They changed what the briefing needed to do.
+
+When every operator arrives already briefed from the system, you're aligning — not downloading.
+
+Full breakdown: cuedeck.io/blog/how-we-cut-briefing-time-by-80-percent
+
+#EventProduction #LiveEvents #EventTech
+
+**LinkedIn:**
+Before CueDeck, the team at AVE Events International ran a 45-minute briefing before every event day.
+
+After switching to CueDeck: 9 minutes.
+
+This isn't about running meetings better. It's about what the briefing was doing in the first place.
+
+The old briefing existed to transfer information — read the run of show, share updates, answer questions about things nobody had seen yet.
+
+When every operator logs in with their role-specific view before the briefing starts, none of that information transfer is needed. The briefing becomes an alignment check.
+
+3-part format:
+→ Status check (2 min) — everyone logged in, changes confirmed
+→ Dependency review (5 min) — unusual sessions, room resets, language switches
+→ Open questions (2 min)
+
+That's it. Nine minutes and the team is coordinated.
+
+Read how they did it: cuedeck.io/blog/how-we-cut-briefing-time-by-80-percent
+
+#EventProduction #LiveEvents #EventTech #EventManagement #CueDeck

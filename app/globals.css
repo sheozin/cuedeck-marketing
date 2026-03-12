@@ -76,3 +76,25 @@ body {
 /* ─── Link transitions ────────────────────────────────────────────────────── */
 a { transition: opacity 0.15s; }
 a:hover { opacity: 0.8; }
+
+/* ─── Tutorials page ─────────────────────────────────────────────────────── */
+.tutorial-card { text-decoration: none; display: flex; flex-direction: column; }
+.tutorial-card-inner {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.tutorial-card:hover .tutorial-card-inner,
+.tutorial-card-inner:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+  transform: translateY(-2px);
+}
+@media (max-width: 768px) {
+  .tutorials-grid { grid-template-columns: 1fr !important; }
+  .tutorials-hero-stats { flex-direction: column; gap: 16px !important; }
+}
