@@ -814,37 +814,37 @@ const SECTIONS: DocSection[] = [
     icon: '🤖',
     content: (
       <>
-        <P>CueDeck includes three AI-powered agent modules that assist directors during and after events. Agents are powered by Anthropic&apos;s Claude and are available on Pro plans.</P>
+        <P>CueDeck includes three AI-powered agent modules that assist directors during and after events. Agents are powered by Anthropic&apos;s Claude and are available on Trial, Pro, and Enterprise plans. No setup or configuration required — AI works automatically when you&apos;re logged in.</P>
         <MockAIAgents />
 
         <H3>1. Incident Advisor</H3>
-        <P>When something goes wrong (technical failure, speaker no-show, schedule conflict), open the Incident Advisor. It analyses the current state of your event and provides:</P>
+        <P>When a technical warning fires (audio loss, video signal drop, mic failure), the Incident Advisor opens automatically. It analyses the current state of your event and provides:</P>
         <UL items={[
-          'AI-generated diagnosis of the incident',
-          'Numbered resolution steps ranked by urgency',
-          'Suggested broadcast messages to send to your team',
-          'Timeline impact assessment',
+          'AI-generated technical diagnosis of what is likely happening and why',
+          'Numbered resolution steps ranked by urgency — click each to check off',
+          'Estimated resolution time so you know how much buffer you have',
+          'Escalate or mark resolved in one click, with the outcome logged to the event log',
         ]} />
+        <Callout type="tip">The Incident Advisor fires automatically when system warnings are detected. You can also trigger a test at any time from the AI Agents panel in the sidebar.</Callout>
 
         <H3>2. Cue Engine</H3>
-        <P>The Cue Engine fires automatic pre-cue alerts 8 minutes before each session is scheduled to start. It helps stage managers prepare by:</P>
+        <P>The Cue Engine monitors your session schedule and fires automatic pre-cue alerts 8 minutes before each session is due to start. It helps your team prepare by:</P>
         <UL items={[
-          'Showing a countdown modal with session details',
-          'Listing technical requirements for the upcoming session',
-          'Highlighting any notes or special instructions',
+          'Showing a countdown modal with the upcoming session details (speaker, room, type)',
+          'Generating a role-appropriate pre-cue checklist for AV, stage, and interpretation',
+          'Highlighting any special technical requirements or notes on the session',
           'Auto-dismissing when the session transitions to READY or LIVE',
         ]} />
 
         <H3>3. Report Generator</H3>
-        <P>After your event, the Report Generator creates a comprehensive post-event report with four tabs:</P>
+        <P>After your event ends, click &ldquo;Generate Report&rdquo; in the AI Agents panel. Claude analyses everything that happened — session timing, delays, and any incidents — and produces a comprehensive four-tab report:</P>
         <UL items={[
-          'Executive Summary — AI-written overview of how the event went',
-          'Session Variance — Planned vs. actual timing for every session',
-          'Incidents Log — All issues flagged during the event',
-          'Recommendations — AI suggestions for improving future events',
+          'Executive Summary — AI-written narrative overview of how the event ran',
+          'Session Variance — Planned vs. actual timing for every session with variance flags',
+          'Incidents Log — All issues flagged and how they were resolved',
+          'Recommendations — Specific, actionable suggestions for your next event',
         ]} />
-
-        <Callout type="note">AI agents require an API key stored in your browser. Go to the AI Agents panel in the sidebar to configure your key. The key is stored in localStorage and never sent to CueDeck servers.</Callout>
+        <Callout type="note">AI agents run entirely server-side. Your Anthropic API credentials are never stored in the browser or exposed to your operators — AI just works as part of your CueDeck plan.</Callout>
       </>
     ),
   },

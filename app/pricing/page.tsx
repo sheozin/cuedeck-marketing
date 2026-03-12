@@ -99,6 +99,10 @@ const faqs = [
     q: "Can I cancel anytime?",
     a: "Yes, no lock-in. Cancel from your account settings at any time. If you're on annual billing we'll prorate any unused months.",
   },
+  {
+    q: "Which plans include the AI features?",
+    a: "AI agents (Incident Advisor, Cue Engine, and Report Generator) are included on Trial, Pro, and Enterprise plans. They run server-side — no API key or configuration required. Just log in and they work automatically.",
+  },
 ];
 
 const includedFeatures = [

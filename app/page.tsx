@@ -847,6 +847,8 @@ const homeFaqs = [
   { q: "Do I need to install any software?", a: "No. CueDeck runs entirely in the browser. Open it on any device — laptop, tablet, or phone. Signage displays work the same way: just open the display URL in a browser on your screen." },
   { q: "Can I use CueDeck for multi-room events?", a: "Yes. Sessions are assigned to rooms, and operators can filter by room. Signage displays can be configured to show content for specific rooms. The director sees everything across all rooms." },
   { q: "How does digital signage work?", a: "Register displays from the console, choose a content mode (schedule, wayfinding, sponsors, break screen, and more), and launch the display URL on any browser. Displays update in real time and support global overrides." },
+  { q: "What do the AI agents actually do?", a: "CueDeck includes three AI agents powered by Anthropic's Claude. The Incident Advisor fires automatically when technical warnings are detected and gives your team a diagnosis and step-by-step fix checklist. The Cue Engine sends pre-cue alerts 8 minutes before each session with an AI-generated preparation checklist. The Report Generator produces a full post-event analysis — session variance, incidents log, and improvement recommendations — in one click." },
+  { q: "Do I need to set up anything to use the AI features?", a: "No. AI runs entirely on CueDeck's servers — there is nothing to configure, no API key to manage, and no browser extension to install. As long as you are on a Trial, Pro, or Enterprise plan and logged in, AI features work automatically." },
 ];
 
 const homeFaqJsonLd = {
