@@ -24,23 +24,23 @@ const EPISODES: {
   youtubeUrl: string | null
   accentColor: string
 }[] = [
-  { num: '01', shortTitle: 'Welcome & Overview', duration: '4–5 min', category: 'start', youtubeUrl: null, accentColor: '#3b82f6',
+  { num: '01', shortTitle: 'Welcome & Overview', duration: '4–5 min', category: 'start', youtubeUrl: 'https://www.youtube.com/watch?v=YzZuZiprSao', accentColor: '#3b82f6',
     desc: 'A full overview of what CueDeck does and a walkthrough of the six roles — director, stage, AV, interpretation, registration, and signage.' },
-  { num: '02', shortTitle: 'Your First Event', duration: '6–7 min', category: 'start', youtubeUrl: null, accentColor: '#3b82f6',
+  { num: '02', shortTitle: 'Your First Event', duration: '6–7 min', category: 'start', youtubeUrl: 'https://www.youtube.com/watch?v=v0CM_4XKMcQ', accentColor: '#3b82f6',
     desc: 'Create an event from scratch — event details, sessions, rooms, speakers, and running order. Ends with a full programme ready to go live.' },
-  { num: '03', shortTitle: 'Running Live', duration: '5–6 min', category: 'start', youtubeUrl: null, accentColor: '#3b82f6',
+  { num: '03', shortTitle: 'Running Live', duration: '5–6 min', category: 'start', youtubeUrl: 'https://www.youtube.com/watch?v=NDeJfYDrcns', accentColor: '#3b82f6',
     desc: 'The core of CueDeck: the full session lifecycle — PLANNED, READY, CALLING, LIVE, HOLD, OVERRUN, ENDED — with the delay nudge cascade.' },
-  { num: '04', shortTitle: 'Roles & Team', duration: '5 min', category: 'start', youtubeUrl: null, accentColor: '#3b82f6',
+  { num: '04', shortTitle: 'Roles & Team', duration: '5 min', category: 'start', youtubeUrl: 'https://www.youtube.com/watch?v=DxrMZCBU4Cs', accentColor: '#3b82f6',
     desc: 'Explore all 6 roles and exactly what each can see and do. Walk through the team invite flow to get your whole crew connected before show day.' },
-  { num: '05', shortTitle: 'Broadcast Bar', duration: '4 min', category: 'start', youtubeUrl: null, accentColor: '#3b82f6',
+  { num: '05', shortTitle: 'Broadcast Bar', duration: '4 min', category: 'start', youtubeUrl: 'https://www.youtube.com/watch?v=2ZqYHw2TI_E', accentColor: '#3b82f6',
     desc: 'No more group chats during a live event. Send a message to every connected device instantly. One-click presets for your most common announcements.' },
-  { num: '06', shortTitle: 'Delay Cascade', duration: '6–7 min', category: 'prod', youtubeUrl: null, accentColor: '#f59e0b',
+  { num: '06', shortTitle: 'Delay Cascade', duration: '6–7 min', category: 'prod', youtubeUrl: 'https://www.youtube.com/watch?v=vq4hef-0uCg', accentColor: '#f59e0b',
     desc: 'When a session runs long, CueDeck automatically shifts every subsequent session. See anchor sessions, cascade visualiser, and instant reset.' },
-  { num: '07', shortTitle: 'Signage Setup', duration: '6–7 min', category: 'signage', youtubeUrl: null, accentColor: '#10b981',
+  { num: '07', shortTitle: 'Signage Setup', duration: '6–7 min', category: 'signage', youtubeUrl: 'https://www.youtube.com/watch?v=ZD8xXyBt7ec', accentColor: '#10b981',
     desc: 'Turn any browser tab into a live venue display. Lobby monitors, stage-side screens, backstage tablets — all updating in realtime from your console.' },
-  { num: '08', shortTitle: 'All 11 Display Modes', duration: '8–10 min', category: 'signage', youtubeUrl: null, accentColor: '#10b981',
+  { num: '08', shortTitle: 'All 11 Display Modes', duration: '8–10 min', category: 'signage', youtubeUrl: 'https://www.youtube.com/watch?v=ntM9NZkPWR8', accentColor: '#10b981',
     desc: 'A complete walkthrough of every display mode: schedule, agenda, timeline, programme grid, next-up, sponsors, stage timer, and more.' },
-  { num: '09', shortTitle: 'Stage Monitor', duration: '5–6 min', category: 'signage', youtubeUrl: null, accentColor: '#10b981',
+  { num: '09', shortTitle: 'Stage Monitor', duration: '5–6 min', category: 'signage', youtubeUrl: 'https://www.youtube.com/watch?v=5pnrAtIQBZI', accentColor: '#10b981',
     desc: 'A fullscreen overlay showing the current LIVE session in giant text. Colour-coded by urgency — green, amber, red, OVERRUN, HOLD.' },
   { num: '10', shortTitle: 'Stage Timer', duration: '5–6 min', category: 'signage', youtubeUrl: null, accentColor: '#10b981',
     desc: 'A fullscreen speaker countdown — standby, green, amber, red, overrun flash, and hold freeze. Set up once, runs for the whole event.' },
@@ -234,10 +234,10 @@ export default function TutorialsPage() {
           }}>
             <div style={{
               width: 8, height: 8, borderRadius: '50%',
-              background: '#fbbf24', boxShadow: '0 0 8px #fbbf24',
+              background: '#34d399', boxShadow: '0 0 8px #34d399',
             }} />
             <span style={{ fontSize: 13, color: '#e2e8f0', fontWeight: 500 }}>
-              Series launching soon — subscribe on YouTube to be notified
+              9 of 21 episodes live — more coming soon
             </span>
           </div>
         </div>
@@ -306,7 +306,7 @@ export default function TutorialsPage() {
               }}>
                 Start free trial
               </a>
-              <a href="https://www.youtube.com/@cuedeck" target="_blank" rel="noopener noreferrer" style={{
+              <a href="https://www.youtube.com/@CueDeckApp" target="_blank" rel="noopener noreferrer" style={{
                 fontSize: 15, fontWeight: 600, padding: '12px 28px', borderRadius: 10,
                 background: '#fff', color: '#374151', textDecoration: 'none',
                 border: '1.5px solid #e5e7eb',
