@@ -50,6 +50,22 @@ const IconBarChart = () => (
     <line x1="2" y1="20" x2="22" y2="20"/>
   </svg>
 );
+const IconTimer = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="13" r="8"/>
+    <path d="M12 9v4l2 2"/>
+    <path d="M5 3L2 6"/>
+    <path d="M22 6l-3-3"/>
+    <path d="M12 5V3"/>
+    <path d="M10 3h4"/>
+  </svg>
+);
+const IconLink = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+  </svg>
+);
 const IconCheck = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="20 6 9 17 4 12"/>
@@ -443,6 +459,16 @@ const FEATURES = [
     title: "Post-event Reports",
     desc: "AI-generated executive summary, session-by-session variance analysis, and incidents log — ready to share in one click.",
   },
+  {
+    Icon: IconTimer,
+    title: "Stage Timer",
+    desc: "Full-screen countdown visible from any stage. Colour-coded urgency (green → amber → red), HOLD freeze, OVERRUN flash — speakers always know where they stand.",
+  },
+  {
+    Icon: IconLink,
+    title: "Display Pairing",
+    desc: "Pair signage screens in seconds — each display shows a 6-character code, enter it in the console, done. No network setup, no IP addresses.",
+  },
 ];
 
 function Features() {
@@ -821,7 +847,7 @@ function RoleShowcase() {
                 Register lobby screens, wayfinding displays, and sponsor panels. Set per-display content sequences or push a global override to all screens instantly — no extra software needed.
               </p>
               <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {["Auto-rotating sequences: sponsors → agenda → schedule", "Video support (MP4/WebM) in sponsor carousel", "One-click global overrides for break screens or recall"].map(f => (
+                {["Instant display pairing with 6-character codes", "Auto-rotating sequences: sponsors → agenda → schedule", "One-click global overrides for break screens or recall"].map(f => (
                   <li key={f} style={{ display: "flex", gap: 8, fontSize: 14, color: "#4b5563" }}>
                     <span style={{ color: "#22c55e", flexShrink: 0, fontWeight: 700 }}>✓</span>{f}
                   </li>
@@ -830,6 +856,69 @@ function RoleShowcase() {
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <SignageMockup />
+            </div>
+          </div>
+
+          {/* Row 4: Stage Timer (reversed layout) */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 64, alignItems: "center" }}>
+            <div style={{ display: "flex", justifyContent: "flex-start" }}>
+              <div style={{ width: "100%", maxWidth: 540 }}>
+                <img
+                  src="/screenshots/stage-timer.png"
+                  alt="CueDeck Stage Timer — full-screen countdown with 14:52 remaining, green LIVE indicator"
+                  style={{ width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
+                />
+                <img
+                  src="/screenshots/stage-timer-overrun.png"
+                  alt="CueDeck Stage Timer — overrun state with flashing red +2:15 warning"
+                  style={{ width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)", marginTop: 16 }}
+                />
+              </div>
+            </div>
+            <div>
+              <div style={{ display: "inline-block", padding: "3px 10px", borderRadius: 6, background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", fontSize: 11, fontWeight: 600, color: "#ef4444", marginBottom: 16 }}>STAGE TIMER</div>
+              <h3 style={{ fontSize: "clamp(22px, 2.5vw, 30px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.6px", marginBottom: 14, lineHeight: 1.2 }}>
+                Speaker-facing countdown your presenters will love
+              </h3>
+              <p style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75, marginBottom: 20 }}>
+                Open the Stage Timer on any screen facing the stage. Speakers see a massive countdown that shifts from green to amber to red as time runs low. If they overrun, the timer flashes red with the overage — no ambiguity, no awkward signals.
+              </p>
+              <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {["Colour-coded urgency: green → amber → red → flashing overrun", "HOLD freeze keeps the clock paused during breaks or delays", "Progress bar and live session info visible at a glance"].map(f => (
+                  <li key={f} style={{ display: "flex", gap: 8, fontSize: 14, color: "#4b5563" }}>
+                    <span style={{ color: "#22c55e", flexShrink: 0, fontWeight: 700 }}>✓</span>{f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Row 5: Display Pairing */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 64, alignItems: "center" }}>
+            <div>
+              <div style={{ display: "inline-block", padding: "3px 10px", borderRadius: 6, background: "rgba(16,185,129,0.08)", border: "1px solid rgba(16,185,129,0.2)", fontSize: 11, fontWeight: 600, color: "#10b981", marginBottom: 16 }}>DISPLAY PAIRING</div>
+              <h3 style={{ fontSize: "clamp(22px, 2.5vw, 30px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.6px", marginBottom: 14, lineHeight: 1.2 }}>
+                Connect screens in seconds, not minutes
+              </h3>
+              <p style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75, marginBottom: 20 }}>
+                Every new display shows a 6-character pairing code. Type it into the console and the screen connects instantly — no network configuration, no IP addresses, no USB sticks. Works on any device with a browser.
+              </p>
+              <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {["6-character code with 5-minute auto-expiry for security", "Works across networks — pair from anywhere", "Manual UUID fallback for pre-provisioned displays"].map(f => (
+                  <li key={f} style={{ display: "flex", gap: 8, fontSize: 14, color: "#4b5563" }}>
+                    <span style={{ color: "#22c55e", flexShrink: 0, fontWeight: 700 }}>✓</span>{f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <div style={{ width: "100%", maxWidth: 540 }}>
+                <img
+                  src="/screenshots/display-pairing.png"
+                  alt="CueDeck Display Pairing — screen showing pairing code A7K-3M2 with green connection status"
+                  style={{ width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
+                />
+              </div>
             </div>
           </div>
 
