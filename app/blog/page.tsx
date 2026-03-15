@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { getAllPosts, formatDate } from '../../lib/posts'
+import { createClient } from '@supabase/supabase-js'
 import Nav from '../../components/Nav'
 import Footer from '../../components/Footer'
 
@@ -9,8 +9,23 @@ export const metadata: Metadata = {
   description: 'Insights, tips, and updates from the CueDeck team on live event production.',
 }
 
-export default function BlogPage() {
-  const posts = getAllPosts()
+function formatDate(iso: string): string {
+  const d = new Date(iso)
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
+export default async function BlogPage() {
+  const sb = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { auth: { persistSession: false } },
+  )
+
+  const { data: posts } = await sb
+    .from('blog_posts')
+    .select('id, slug, title, excerpt, cover_image, tags, published_at, read_time_minutes')
+    .eq('status', 'published')
+    .order('published_at', { ascending: false })
 
   return (
     <>
@@ -29,31 +44,31 @@ export default function BlogPage() {
 
         {/* Posts */}
         <div style={{ maxWidth: 800, margin: '0 auto', padding: '64px 40px' }}>
-          {posts.length === 0 ? (
+          {!posts || posts.length === 0 ? (
             <p style={{ color: '#9ca3af', textAlign: 'center', fontSize: 16 }}>No posts yet — check back soon.</p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
               {posts.map(post => (
-                <article key={post.slug} style={{ borderBottom: '1px solid #f3f4f6', paddingBottom: 40 }}>
-                  {post.featuredImage && (
+                <article key={post.id} style={{ borderBottom: '1px solid #f3f4f6', paddingBottom: 40 }}>
+                  {post.cover_image && (
                     <Link href={`/blog/${post.slug}`} style={{ textDecoration: 'none', display: 'block', marginBottom: 16 }}>
                       <img
-                        src={post.featuredImage}
+                        src={post.cover_image}
                         alt={post.title}
-                        style={{
-                          width: '100%',
-                          height: 200,
-                          objectFit: 'cover',
-                          borderRadius: 8,
-                          display: 'block',
-                        }}
+                        style={{ width: '100%', height: 200, objectFit: 'cover', borderRadius: 8, display: 'block' }}
                       />
                     </Link>
                   )}
                   <div style={{ display: 'flex', gap: 12, marginBottom: 12, alignItems: 'center' }}>
-                    <span style={{ fontSize: 12, color: '#9ca3af' }}>{formatDate(post.date)}</span>
+                    <span style={{ fontSize: 12, color: '#9ca3af' }}>{formatDate(post.published_at)}</span>
                     <span style={{ fontSize: 12, color: '#d1d5db' }}>·</span>
-                    <span style={{ fontSize: 12, color: '#9ca3af' }}>{post.author}</span>
+                    <span style={{ fontSize: 12, color: '#9ca3af' }}>CueDeck Team</span>
+                    {post.read_time_minutes && (
+                      <>
+                        <span style={{ fontSize: 12, color: '#d1d5db' }}>·</span>
+                        <span style={{ fontSize: 12, color: '#9ca3af' }}>{post.read_time_minutes} min read</span>
+                      </>
+                    )}
                   </div>
                   <Link href={`/blog/${post.slug}`} style={{ textDecoration: 'none' }}>
                     <h2 style={{ fontSize: 22, fontWeight: 700, color: '#111827', marginBottom: 10, letterSpacing: '-0.3px', lineHeight: 1.3 }}>

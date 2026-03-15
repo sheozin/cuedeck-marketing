@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getPost, getRelatedPosts, formatDate } from '../../../lib/posts'
+import { createClient } from '@supabase/supabase-js'
 import Nav from '../../../components/Nav'
 import Footer from '../../../components/Footer'
 
@@ -9,14 +9,33 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
-  const post = getPost(slug)
-  if (!post) return {}
-  return { title: `${post.title} — CueDeck Blog`, description: post.excerpt }
+function sbClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { auth: { persistSession: false } },
+  )
 }
 
-// Content comes from developer-controlled MDX files (trusted server-side source)
+function formatDate(iso: string): string {
+  const d = new Date(iso)
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const sb = sbClient()
+  const { data } = await sb
+    .from('blog_posts')
+    .select('title, excerpt')
+    .eq('slug', slug)
+    .eq('status', 'published')
+    .single()
+  if (!data) return {}
+  return { title: `${data.title} — CueDeck Blog`, description: data.excerpt }
+}
+
+// Content comes from developer-controlled MDX files or admin-authored DB content (trusted server-side source)
 function renderMarkdown(md: string, slug: string): string {
   let processed = md.replace(
     /!\[([^\]]*)\]\(\.\/([^)]+)\)/g,
@@ -47,14 +66,84 @@ function renderMarkdown(md: string, slug: string): string {
     })
 }
 
+interface TiptapNode {
+  type: string
+  text?: string
+  content?: TiptapNode[]
+  marks?: { type: string; attrs?: Record<string, unknown> }[]
+  attrs?: Record<string, unknown>
+}
+
+function renderTiptap(nodes: TiptapNode[]): string {
+  return nodes.map((node) => {
+    if (node.type === 'paragraph') {
+      const inner = node.content ? renderTiptap(node.content) : ''
+      return inner ? `<p>${inner}</p>` : ''
+    }
+    if (node.type === 'heading') {
+      const level = (node.attrs?.level as number) ?? 2
+      const inner = node.content ? renderTiptap(node.content) : ''
+      return `<h${level}>${inner}</h${level}>`
+    }
+    if (node.type === 'bulletList') {
+      return `<ul>${node.content ? renderTiptap(node.content) : ''}</ul>`
+    }
+    if (node.type === 'listItem') {
+      return `<li>${node.content ? renderTiptap(node.content) : ''}</li>`
+    }
+    if (node.type === 'text') {
+      let t = node.text ?? ''
+      const marks = node.marks ?? []
+      if (marks.some((m) => m.type === 'bold')) t = `<strong>${t}</strong>`
+      if (marks.some((m) => m.type === 'italic')) t = `<em>${t}</em>`
+      if (marks.some((m) => m.type === 'code')) t = `<code>${t}</code>`
+      const linkMark = marks.find((m) => m.type === 'link')
+      if (linkMark) {
+        const href = (linkMark.attrs?.href as string) ?? '#'
+        t = `<a href="${href}" class="prose-link">${t}</a>`
+      }
+      return t
+    }
+    if (node.type === 'hardBreak') return '<br/>'
+    return node.content ? renderTiptap(node.content) : ''
+  }).join('')
+}
+
+/** Render content_json to HTML. Handles markdown-wrapped and Tiptap JSON formats. */
+function renderContent(contentJson: Record<string, unknown>, slug: string): string {
+  if (!contentJson) return ''
+  if (contentJson.type === 'markdown' && typeof contentJson.content === 'string') {
+    return renderMarkdown(contentJson.content, slug)
+  }
+  if (contentJson.type === 'doc' && Array.isArray(contentJson.content)) {
+    return renderTiptap(contentJson.content as TiptapNode[])
+  }
+  return ''
+}
+
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params
-  const post = getPost(slug)
-  if (!post) notFound()
-  const related = getRelatedPosts(slug)
+  const sb = sbClient()
 
-  const wordCount = post.content.split(/\s+/).length
-  const readMin = Math.max(1, Math.round(wordCount / 200))
+  const { data: post } = await sb
+    .from('blog_posts')
+    .select('*')
+    .eq('slug', slug)
+    .eq('status', 'published')
+    .single()
+
+  if (!post) notFound()
+
+  const { data: related } = await sb
+    .from('blog_posts')
+    .select('id, slug, title, cover_image, published_at')
+    .eq('status', 'published')
+    .neq('slug', slug)
+    .order('published_at', { ascending: false })
+    .limit(3)
+
+  const contentHtml = renderContent(post.content_json as Record<string, unknown>, slug)
+  const readMin = post.read_time_minutes ?? 5
 
   return (
     <>
@@ -111,9 +200,9 @@ export default async function BlogPostPage({ params }: Props) {
               <span style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>C</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 14, color: '#6b7280' }}>
-              <span style={{ fontWeight: 600, color: '#374151' }}>{post.author}</span>
+              <span style={{ fontWeight: 600, color: '#374151' }}>CueDeck Team</span>
               <span style={{ color: '#d1d5db' }}>·</span>
-              <time>{formatDate(post.date)}</time>
+              <time>{formatDate(post.published_at)}</time>
               <span style={{ color: '#d1d5db' }}>·</span>
               <span>{readMin} min read</span>
             </div>
@@ -121,10 +210,10 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
 
         {/* Featured image */}
-        {post.featuredImage && (
+        {post.cover_image && (
           <div style={{ maxWidth: 860, margin: '0 auto', padding: '36px 40px 0' }}>
             <img
-              src={post.featuredImage}
+              src={post.cover_image}
               alt={post.title}
               style={{
                 width: '100%', height: 'auto',
@@ -139,7 +228,7 @@ export default async function BlogPostPage({ params }: Props) {
         <div
           className="post-prose"
           style={{ maxWidth: 720, margin: '0 auto', padding: '48px 40px 16px' }}
-          dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content, slug) }}
+          dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
 
         {/* CTA strip */}
@@ -183,7 +272,7 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
 
         {/* Keep reading */}
-        {related.length > 0 && (
+        {related && related.length > 0 && (
           <div style={{ background: '#f9fafb', borderTop: '1px solid #f3f4f6', padding: '56px 40px' }}>
             <div style={{ maxWidth: 860, margin: '0 auto' }}>
               <h2 style={{ fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 28, letterSpacing: '-0.3px' }}>
@@ -192,7 +281,7 @@ export default async function BlogPostPage({ params }: Props) {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
                 {related.map(r => (
                   <Link
-                    key={r.slug}
+                    key={r.id}
                     href={`/blog/${r.slug}`}
                     className="related-card"
                     style={{ textDecoration: 'none', display: 'block' }}
@@ -204,16 +293,16 @@ export default async function BlogPostPage({ params }: Props) {
                       overflow: 'hidden',
                       height: '100%',
                     }}>
-                      {r.featuredImage && (
+                      {r.cover_image && (
                         <img
-                          src={r.featuredImage}
+                          src={r.cover_image}
                           alt={r.title}
                           style={{ width: '100%', height: 120, objectFit: 'cover', display: 'block' }}
                         />
                       )}
                       <div style={{ padding: '16px' }}>
                         <time style={{ fontSize: 12, color: '#9ca3af', display: 'block', marginBottom: 6 }}>
-                          {formatDate(r.date)}
+                          {formatDate(r.published_at)}
                         </time>
                         <div
                           className="related-title"

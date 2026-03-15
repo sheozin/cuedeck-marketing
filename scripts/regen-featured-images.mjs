@@ -121,13 +121,13 @@ async function main() {
 
   await generateFeaturedImage(
     'stage-manager-workflow-guide',
-    "Stage Manager\u2019s Guide to CueDeck",
+    "Stage Manager's Guide to CueDeck",
     'From ARM to GO LIVE'
   );
 
   await generateFeaturedImage(
     'director-workflow-guide',
-    "The Director\u2019s Workflow",
+    "The Director's Workflow",
     'Running a Live Event with CueDeck'
   );
 
