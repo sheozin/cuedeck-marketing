@@ -23,19 +23,28 @@ export function AdminProviders({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const supabase = getCmsClient();
 
-    // Load current user
+    // Load current user and verify they have a cms_users row.
+    // A valid Supabase session is not enough — the user must be explicitly
+    // provisioned as a CMS user. This blocks CueDeck app users from accessing
+    // the CMS even if they share the same Supabase project.
     async function loadUser() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
+      if (authError || !user) {
         router.push('/login');
         return;
       }
-      const { data } = await supabase
+      const { data, error: roleError } = await supabase
         .from('cms_users')
         .select('*')
         .eq('id', user.id)
         .single();
-      if (data) setUser(data as CmsUser);
+      if (roleError || !data) {
+        // Valid session but no CMS access — sign out and redirect
+        await supabase.auth.signOut();
+        router.push('/login?error=no_cms_access');
+        return;
+      }
+      setUser(data as CmsUser);
     }
 
     loadUser();

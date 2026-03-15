@@ -1,23 +1,34 @@
+import { createServerClient } from '@supabase/ssr';
 import { NextRequest } from 'next/server';
 
 export const runtime = 'edge';
 
 export async function POST(req: NextRequest) {
-  // Restrict to same-origin requests only
-  const origin = req.headers.get('origin');
-  const host = req.headers.get('host');
-  if (origin && host && !origin.includes(host)) {
-    return Response.json({ error: 'Forbidden' }, { status: 403 });
+  // Verify the caller has a valid Supabase session before proxying anything
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() { return req.cookies.getAll(); },
+        setAll() {}, // edge route — no response cookie refresh needed
+      },
+    },
+  );
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { prompt, apiKey } = await req.json() as { prompt: string; apiKey: string };
-
-  if (!prompt || !apiKey) {
-    return Response.json({ error: 'Missing prompt or API key' }, { status: 400 });
+  // Use the server-side key — never accept a key from the client body
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    return Response.json({ error: 'AI service not configured' }, { status: 503 });
   }
 
-  if (!apiKey.startsWith('sk-ant-')) {
-    return Response.json({ error: 'Invalid API key format' }, { status: 400 });
+  const { prompt } = await req.json() as { prompt: string };
+  if (!prompt) {
+    return Response.json({ error: 'Missing prompt' }, { status: 400 });
   }
 
   const res = await fetch('https://api.anthropic.com/v1/messages', {

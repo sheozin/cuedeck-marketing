@@ -7,7 +7,9 @@ import { getCmsClient } from '@/lib/supabase/cms-client';
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get('next') || '/admin';
+  // Validate next to prevent open redirect — must be a relative /admin path
+  const rawNext = searchParams.get('next') ?? '/admin';
+  const next = rawNext.startsWith('/admin') ? rawNext : '/admin';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,7 +36,7 @@ function LoginForm() {
     setError('');
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${window.location.origin}${next}` },
+      options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}` },
     });
     setLoading(false);
     if (error) { setError(error.message); return; }

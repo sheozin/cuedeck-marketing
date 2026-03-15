@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+// Note: ANTHROPIC_API_KEY must be set as a server-side environment variable
 
 type AiAction = 'generate' | 'improve' | 'expand' | 'summarize' | 'seo' | 'meta';
 
@@ -18,22 +19,10 @@ export default function AiAgentsPage() {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [apiKey, setApiKey] = useState(() => {
-    if (typeof window !== 'undefined') return localStorage.getItem('cuedeck_cms_ai_key') ?? '';
-    return '';
-  });
-  const [showKeyInput, setShowKeyInput] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
-
-  function saveApiKey(key: string) {
-    setApiKey(key);
-    localStorage.setItem('cuedeck_cms_ai_key', key);
-    setShowKeyInput(false);
-  }
 
   async function handleRun() {
     if (!input.trim()) return;
-    if (!apiKey) { setShowKeyInput(true); return; }
 
     setLoading(true);
     setOutput('');
@@ -43,10 +32,11 @@ export default function AiAgentsPage() {
     const fullPrompt = `${selectedAction.prompt}\n\n${input}`;
 
     try {
+      // API key lives server-side (ANTHROPIC_API_KEY env var) — not sent from client
       const res = await fetch('/api/cms-ai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: fullPrompt, apiKey }),
+        body: JSON.stringify({ prompt: fullPrompt }),
         signal: abortRef.current.signal,
       });
 
@@ -88,39 +78,10 @@ export default function AiAgentsPage() {
 
   return (
     <div style={{ maxWidth: '900px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
-        <div>
-          <h1 style={{ fontSize: '22px', fontWeight: 700, color: '#f1f5f9', marginBottom: '4px' }}>AI Writing Assistant</h1>
-          <p style={{ color: '#64748b', fontSize: '14px' }}>Powered by Claude — generate, improve, and optimize content</p>
-        </div>
-        <button
-          onClick={() => setShowKeyInput(true)}
-          style={{ padding: '8px 14px', background: '#1e293b', border: 'none', borderRadius: '8px', color: '#64748b', fontSize: '13px', cursor: 'pointer' }}
-        >
-          {apiKey ? '🔑 API Key set' : '+ Set API Key'}
-        </button>
+      <div style={{ marginBottom: '28px' }}>
+        <h1 style={{ fontSize: '22px', fontWeight: 700, color: '#f1f5f9', marginBottom: '4px' }}>AI Writing Assistant</h1>
+        <p style={{ color: '#64748b', fontSize: '14px' }}>Powered by Claude — generate, improve, and optimize content</p>
       </div>
-
-      {/* API key modal */}
-      {showKeyInput && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setShowKeyInput(false)}>
-          <div style={{ background: '#111827', border: '1px solid #1e293b', borderRadius: '12px', padding: '28px', width: '100%', maxWidth: '440px' }} onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#f1f5f9', marginBottom: '8px' }}>Anthropic API Key</h2>
-            <p style={{ fontSize: '13px', color: '#64748b', marginBottom: '16px' }}>Stored in your browser only. Never sent to our servers.</p>
-            <input
-              type="password"
-              defaultValue={apiKey}
-              id="ai-key-input"
-              placeholder="sk-ant-api03-…"
-              style={{ width: '100%', padding: '10px 12px', background: '#0A0E1A', border: '1px solid #1e293b', borderRadius: '7px', color: '#f1f5f9', fontSize: '13px', boxSizing: 'border-box', marginBottom: '16px', fontFamily: 'monospace' }}
-            />
-            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-              <button onClick={() => setShowKeyInput(false)} style={{ padding: '8px 16px', background: '#1e293b', border: 'none', borderRadius: '7px', color: '#94a3b8', cursor: 'pointer', fontSize: '13px' }}>Cancel</button>
-              <button onClick={() => { const el = document.getElementById('ai-key-input') as HTMLInputElement; saveApiKey(el?.value ?? ''); }} style={{ padding: '8px 16px', background: '#4A8EFF', border: 'none', borderRadius: '7px', color: '#fff', fontWeight: 600, cursor: 'pointer', fontSize: '13px' }}>Save</button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Action tabs */}
       <div style={{ display: 'flex', gap: '6px', marginBottom: '20px', flexWrap: 'wrap' }}>

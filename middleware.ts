@@ -1,38 +1,45 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse, type NextRequest } from 'next/server';
 
-// Derive Supabase project ref from URL to avoid hardcoding
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
-const projectRef = supabaseUrl.match(/https:\/\/([^.]+)\.supabase\.co/)?.[1] ?? '';
-const SUPABASE_COOKIE = projectRef ? `sb-${projectRef}-auth-token` : '';
+export async function middleware(request: NextRequest) {
+  let supabaseResponse = NextResponse.next({ request });
 
-function hasAuthCookie(request: NextRequest): boolean {
-  return !!(
-    request.cookies.get('cuedeck-cms-auth') ||
-    (SUPABASE_COOKIE && request.cookies.get(SUPABASE_COOKIE))
+  // Build a server client that reads/refreshes session cookies.
+  // getUser() verifies the JWT with Supabase — cannot be spoofed by a crafted cookie.
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() { return request.cookies.getAll(); },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+          supabaseResponse = NextResponse.next({ request });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options),
+          );
+        },
+      },
+    },
   );
-}
 
-export function middleware(request: NextRequest) {
+  const { data: { user } } = await supabase.auth.getUser();
+
   const { pathname } = request.nextUrl;
 
-  // Protect all /admin routes
   if (pathname.startsWith('/admin')) {
-    if (!hasAuthCookie(request)) {
+    if (!user) {
       const loginUrl = new URL('/login', request.url);
       loginUrl.searchParams.set('next', pathname);
       return NextResponse.redirect(loginUrl);
     }
   }
 
-  // Redirect /login to /admin if already authenticated
-  if (pathname === '/login') {
-    if (hasAuthCookie(request)) {
-      return NextResponse.redirect(new URL('/admin', request.url));
-    }
+  if (pathname === '/login' && user) {
+    return NextResponse.redirect(new URL('/admin', request.url));
   }
 
-  return NextResponse.next();
+  return supabaseResponse;
 }
 
 export const config = {
