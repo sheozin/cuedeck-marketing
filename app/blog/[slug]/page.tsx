@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 import Nav from '../../../components/Nav'
 import Footer from '../../../components/Footer'
+import ReadingProgress from '../../../components/ReadingProgress'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -51,6 +52,7 @@ function renderMarkdown(md: string, slug: string): string {
       '<figure><img src="$2" alt="$1" /><figcaption>$1</figcaption></figure>'
     )
     .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" class="prose-link">$1</a>')
+    .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
     .replace(/^- (.+)$/gm, '<li>$1</li>')
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/^(.+)$/gm, (line) => {
@@ -58,6 +60,7 @@ function renderMarkdown(md: string, slug: string): string {
         line.startsWith('<h') ||
         line.startsWith('<ul') ||
         line.startsWith('<li') ||
+        line.startsWith('<blockquote') ||
         line.startsWith('<figure') ||
         line.startsWith('<code') ||
         line.trim() === ''
@@ -105,6 +108,9 @@ function renderTiptap(nodes: TiptapNode[]): string {
       return t
     }
     if (node.type === 'hardBreak') return '<br/>'
+    if (node.type === 'blockquote') {
+      return `<blockquote>${node.content ? renderTiptap(node.content) : ''}</blockquote>`
+    }
     return node.content ? renderTiptap(node.content) : ''
   }).join('')
 }
@@ -163,9 +169,11 @@ export default async function BlogPostPage({ params }: Props) {
         .post-prose figure img { width: 100%; height: auto; border-radius: 10px; box-shadow: 0 2px 16px rgba(0,0,0,0.08); display: block; }
         .post-prose figcaption { font-size: 13px; color: #9ca3af; text-align: center; margin-top: 10px; }
         .related-card:hover .related-title { color: #3b82f6 !important; }
+        .post-prose blockquote { border-left: 4px solid #3b82f6; background: #f0f7ff; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 2em 0; font-style: italic; font-weight: 600; color: #1e40af; font-size: 18px; line-height: 1.5; }
       ` }} />
 
       <main style={{ paddingTop: 64, background: '#fff', minHeight: '100vh' }}>
+        <ReadingProgress />
 
         {/* Article header */}
         <div style={{ maxWidth: 760, margin: '0 auto', padding: '56px 40px 0' }}>
@@ -179,8 +187,25 @@ export default async function BlogPostPage({ params }: Props) {
             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 320 }}>{post.title}</span>
           </div>
 
+          {/* Category badge */}
+          {post.tags && (post.tags as string[]).length > 0 && (
+            <span style={{
+              display: 'inline-block',
+              background: '#eff6ff',
+              color: '#3b82f6',
+              fontSize: '11px',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              padding: '3px 12px',
+              borderRadius: '20px',
+              marginBottom: '16px',
+            }}>
+              {(post.tags as string[])[0]}
+            </span>
+          )}
           {/* Title */}
-          <h1 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 800, color: '#0f172a', letterSpacing: '-1.5px', lineHeight: 1.12, marginBottom: 20 }}>
+          <h1 style={{ fontSize: 'clamp(32px, 4vw, 52px)', fontWeight: 800, color: '#0f172a', letterSpacing: '-2px', lineHeight: 1.12, marginBottom: 20 }}>
             {post.title}
           </h1>
 
