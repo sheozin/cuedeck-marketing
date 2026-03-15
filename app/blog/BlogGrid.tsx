@@ -7,7 +7,7 @@ interface Post {
   id: string;
   slug: string;
   title: string;
-  excerpt: string;
+  excerpt: string | null;
   cover_image: string | null;
   tags: string[] | null;
   published_at: string;
@@ -29,6 +29,7 @@ function formatDate(iso: string): string {
 
 export default function BlogGrid({ posts, tags }: Props) {
   const [activeTag, setActiveTag] = useState('all');
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const filtered =
     activeTag === 'all'
@@ -44,8 +45,6 @@ export default function BlogGrid({ posts, tags }: Props) {
         @media (max-width: 480px) {
           .blog-grid { grid-template-columns: 1fr !important; }
         }
-        .post-card:hover .post-card-title { color: #3b82f6 !important; }
-        .post-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important; }
       `}</style>
 
       {/* Tag filter bar */}
@@ -90,7 +89,8 @@ export default function BlogGrid({ posts, tags }: Props) {
             <Link
               key={post.id}
               href={`/blog/${post.slug}`}
-              className="post-card"
+              onMouseEnter={() => setHoveredId(post.id)}
+              onMouseLeave={() => setHoveredId(null)}
               style={{
                 textDecoration: 'none',
                 display: 'flex',
@@ -100,6 +100,7 @@ export default function BlogGrid({ posts, tags }: Props) {
                 borderRadius: '12px',
                 overflow: 'hidden',
                 transition: 'box-shadow 0.15s',
+                boxShadow: hoveredId === post.id ? '0 4px 20px rgba(0,0,0,0.08)' : 'none',
               }}
             >
               {/* Cover image or gradient placeholder */}
@@ -148,17 +149,17 @@ export default function BlogGrid({ posts, tags }: Props) {
 
                 {/* Title */}
                 <div
-                  className="post-card-title"
                   style={{
                     fontSize: '15px',
                     fontWeight: 700,
-                    color: '#111827',
+                    color: hoveredId === post.id ? '#3b82f6' : '#111827',
                     lineHeight: 1.4,
                     marginBottom: '8px',
                     display: '-webkit-box',
                     WebkitLineClamp: 2,
                     WebkitBoxOrient: 'vertical',
                     overflow: 'hidden',
+                    transition: 'color 0.15s',
                   }}
                 >
                   {post.title}
@@ -178,7 +179,7 @@ export default function BlogGrid({ posts, tags }: Props) {
                     flex: 1,
                   }}
                 >
-                  {post.excerpt}
+                  {post.excerpt ?? ''}
                 </div>
 
                 {/* Meta */}
