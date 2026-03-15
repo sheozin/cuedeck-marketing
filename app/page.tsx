@@ -901,10 +901,10 @@ function RoleShowcase() {
                 Connect screens in seconds, not minutes
               </h3>
               <p style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75, marginBottom: 20 }}>
-                Every new display shows a 6-character pairing code. Type it into the console and the screen connects instantly — no network configuration, no IP addresses, no USB sticks. Works on any device with a browser.
+                Open <strong style={{ color: "#111827", fontFamily: "monospace" }}>app.cuedeck.io/d</strong> on any screen — TV, tablet, or monitor. A 6-character pairing code appears. Type it into the console and the screen connects instantly. Install as an app for auto-reconnect on reboot.
               </p>
               <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {["6-character code with 5-minute auto-expiry for security", "Works across networks — pair from anywhere", "Manual UUID fallback for pre-provisioned displays"].map(f => (
+                {["Short URL — just 11 characters to type on a TV remote", "Installs as a fullscreen app — no browser chrome, survives reboots", "Auto-reconnect — paired displays remember their connection", "6-character code with 5-minute auto-expiry for security"].map(f => (
                   <li key={f} style={{ display: "flex", gap: 8, fontSize: 14, color: "#4b5563" }}>
                     <span style={{ color: "#22c55e", flexShrink: 0, fontWeight: 700 }}>✓</span>{f}
                   </li>
@@ -933,7 +933,7 @@ const homeFaqs = [
   { q: "What is CueDeck?", a: "CueDeck is a real-time production console for live events. It gives every operator — directors, stage managers, AV techs, interpreters, registration, and signage — a role-based dashboard that updates in under 100 milliseconds." },
   { q: "How does real-time sync work?", a: "CueDeck uses live database subscriptions via Supabase Realtime. When a director changes a session status, every connected operator sees the update instantly — no polling, no refreshing." },
   { q: "What roles does CueDeck support?", a: "Six roles: Director (full control), Stage (session transitions), AV (hold capability), Interpreter (read-only language view), Registration (read-only desk view), and Signage (display management)." },
-  { q: "Do I need to install any software?", a: "No. CueDeck runs entirely in the browser. Open it on any device — laptop, tablet, or phone. Signage displays work the same way: just open the display URL in a browser on your screen." },
+  { q: "Do I need to install any software?", a: "No. CueDeck runs entirely in the browser. Open it on any device — laptop, tablet, or phone. Signage displays work the same way: open app.cuedeck.io/d on any screen and pair with a 6-character code. You can also install the display page as a fullscreen app for auto-reconnect on reboot — no app store required." },
   { q: "Can I use CueDeck for multi-room events?", a: "Yes. Sessions are assigned to rooms, and operators can filter by room. Signage displays can be configured to show content for specific rooms. The director sees everything across all rooms." },
   { q: "How does digital signage work?", a: "Register displays from the console, choose a content mode (schedule, wayfinding, sponsors, break screen, and more), and launch the display URL on any browser. Displays update in real time and support global overrides." },
   { q: "What do the AI agents actually do?", a: "CueDeck includes three AI agents powered by Anthropic's Claude. The Incident Advisor fires automatically when technical warnings are detected and gives your team a diagnosis and step-by-step fix checklist. The Cue Engine sends pre-cue alerts 8 minutes before each session with an AI-generated preparation checklist. The Report Generator produces a full post-event analysis — session variance, incidents log, and improvement recommendations — in one click." },
