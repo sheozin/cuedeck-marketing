@@ -155,8 +155,9 @@ function MockUIOverview() {
           borderRadius: 6, padding: '8px 6px', border: '1px solid rgba(255,255,255,0.06)',
           display: 'flex', flexDirection: 'column', gap: 4,
         }}>
-          <div style={{ fontSize: 8, fontWeight: 700, color: '#60a5fa', marginBottom: 4 }}>
-            <span style={{ color: '#fff' }}>Cue</span>Deck
+          <div style={{ fontSize: 8, fontWeight: 700, color: '#60a5fa', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 3 }}>
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style={{ width: 10, height: 10, flexShrink: 0 }}><defs><linearGradient id="doc-bg" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#1d4ed8"/><stop offset="100%" stopColor="#3b82f6"/></linearGradient></defs><rect width="40" height="40" rx="12" fill="url(#doc-bg)"/><path d="M 25 10 A 10.5 10.5 0 1 0 25 30" stroke="white" strokeWidth="5" strokeLinecap="round" fill="none"/></svg>
+            <span><span style={{ color: '#fff' }}>Cue</span><span style={{ color: '#60a5fa' }}>Deck</span></span>
           </div>
           {['Sessions', 'Timeline', 'Signage', 'Operators', 'AI Agents', 'Event Log', 'Billing'].map((item, i) => (
             <div key={item} style={{

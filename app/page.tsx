@@ -100,8 +100,9 @@ function DashboardMockup() {
       {/* Toolbar */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", background: "#0f1623", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontWeight: 800, letterSpacing: "-0.3px", fontSize: 13 }}>
-            <span style={{ color: "#fff" }}>Cue</span><span style={{ color: "#3b82f6" }}>Deck</span>
+          <span style={{ fontWeight: 800, letterSpacing: "-0.3px", fontSize: 13, display: "flex", alignItems: "center", gap: 5 }}>
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style={{ width: 16, height: 16, flexShrink: 0 }}><defs><linearGradient id="mock-bg" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#1d4ed8"/><stop offset="100%" stopColor="#3b82f6"/></linearGradient></defs><rect width="40" height="40" rx="12" fill="url(#mock-bg)"/><path d="M 25 10 A 10.5 10.5 0 1 0 25 30" stroke="white" strokeWidth="5" strokeLinecap="round" fill="none"/></svg>
+            <span><span style={{ color: "#fff" }}>Cue</span><span style={{ color: "#3b82f6" }}>Deck</span></span>
           </span>
           <span style={{ fontSize: 11, color: "#64748b" }}>AVE Annual Summit</span>
         </div>
