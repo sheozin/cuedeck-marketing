@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { getCmsClient } from '@/lib/supabase/cms-client';
 import { formatDate } from '@/lib/utils';
 import type { BlogPost } from '@/types/cms';
+import type { Post } from '@/lib/posts';
 
 const STATUS_COLORS: Record<string, string> = {
   published: '#10B981',
@@ -19,6 +20,8 @@ export default function BlogListPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('all');
   const [search, setSearch] = useState('');
+  const [mdxPosts, setMdxPosts] = useState<Post[]>([]);
+  const [mdxLoading, setMdxLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -35,6 +38,16 @@ export default function BlogListPage() {
       setLoading(false);
     }, () => setLoading(false));
   }, [filter]);
+
+  useEffect(() => {
+    fetch('/api/admin/mdx-posts')
+      .then((r) => r.json())
+      .then(({ posts }: { posts: Post[] }) => {
+        setMdxPosts(posts ?? []);
+        setMdxLoading(false);
+      })
+      .catch(() => setMdxLoading(false));
+  }, []);
 
   async function handleDelete(id: string) {
     if (!confirm('Delete this post? This cannot be undone.')) return;
@@ -258,6 +271,108 @@ export default function BlogListPage() {
             </tbody>
           </table>
         )}
+      </div>
+
+      {/* File-based posts section */}
+      <div style={{ marginTop: '40px' }}>
+        <div style={{ marginBottom: '16px' }}>
+          <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#f1f5f9', marginBottom: '4px' }}>
+            File-based posts (read-only)
+            {!mdxLoading && (
+              <span style={{
+                marginLeft: '10px',
+                fontSize: '13px',
+                fontWeight: 500,
+                color: '#64748b',
+              }}>
+                {mdxPosts.length} posts
+              </span>
+            )}
+          </h2>
+          <p style={{ color: '#64748b', fontSize: '13px' }}>
+            These posts are stored as MDX files in <code style={{ background: '#1e293b', padding: '1px 6px', borderRadius: '4px', fontSize: '12px', color: '#94a3b8' }}>content/posts/</code> and managed in code via Keystatic. They cannot be edited here.
+          </p>
+        </div>
+
+        <div style={{
+          background: '#111827',
+          border: '1px solid #1e293b',
+          borderRadius: '12px',
+          overflow: 'hidden',
+        }}>
+          {mdxLoading ? (
+            <div style={{ padding: '40px', textAlign: 'center', color: '#475569' }}>Loading file-based posts…</div>
+          ) : mdxPosts.length === 0 ? (
+            <div style={{ padding: '40px', textAlign: 'center', color: '#475569' }}>No MDX posts found in content/posts/.</div>
+          ) : (
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ borderBottom: '1px solid #1e293b' }}>
+                  {['Title', 'Date', 'Author', 'Slug', ''].map((h) => (
+                    <th key={h} style={{
+                      padding: '12px 16px',
+                      textAlign: 'left',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      color: '#64748b',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                    }}>
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {mdxPosts.map((post) => (
+                  <tr key={post.slug} style={{ borderBottom: '1px solid #1e293b' }}>
+                    <td style={{ padding: '14px 16px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        {post.featuredImage && (
+                          <img
+                            src={post.featuredImage}
+                            alt=""
+                            style={{ width: '48px', height: '32px', objectFit: 'cover', borderRadius: '4px', flexShrink: 0 }}
+                          />
+                        )}
+                        <div style={{ fontSize: '14px', fontWeight: 600, color: '#f1f5f9' }}>{post.title}</div>
+                      </div>
+                    </td>
+                    <td style={{ padding: '14px 16px', fontSize: '13px', color: '#64748b', whiteSpace: 'nowrap' }}>
+                      {post.date}
+                    </td>
+                    <td style={{ padding: '14px 16px', fontSize: '13px', color: '#64748b' }}>
+                      {post.author}
+                    </td>
+                    <td style={{ padding: '14px 16px' }}>
+                      <span style={{ fontSize: '12px', color: '#94a3b8', fontFamily: 'monospace', background: '#1e293b', padding: '2px 8px', borderRadius: '4px' }}>
+                        /{post.slug}
+                      </span>
+                    </td>
+                    <td style={{ padding: '14px 16px' }}>
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          padding: '5px 12px',
+                          background: '#1e293b',
+                          borderRadius: '6px',
+                          color: '#94a3b8',
+                          fontSize: '12px',
+                          textDecoration: 'none',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        View →
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
     </div>
   );

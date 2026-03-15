@@ -16,30 +16,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: `${post.title} — CueDeck Blog`, description: post.excerpt }
 }
 
-// Markdown-to-HTML renderer with image + list support
+// Content comes from developer-controlled MDX files (trusted server-side source)
 function renderMarkdown(md: string, slug: string): string {
-  // First resolve relative image paths to the API route
   let processed = md.replace(
     /!\[([^\]]*)\]\(\.\/([^)]+)\)/g,
     `![$1](/api/content-image/${slug}/$2)`
   )
 
   return processed
-    .replace(/^## (.+)$/gm, '<h2 style="font-size:22px;font-weight:700;color:#111827;margin:32px 0 12px;letter-spacing:-0.3px">$1</h2>')
-    .replace(/^### (.+)$/gm, '<h3 style="font-size:18px;font-weight:600;color:#111827;margin:24px 0 10px">$1</h3>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong style="font-weight:600;color:#111827">$1</strong>')
-    // Inline images → figure with caption
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(
       /^!\[([^\]]*)\]\(([^)]+)\)$/gm,
-      '<figure style="margin:24px 0"><img src="$2" alt="$1" style="width:100%;height:auto;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.06)" /><figcaption style="font-size:13px;color:#9ca3af;margin-top:8px;text-align:center">$1</figcaption></figure>'
+      '<figure><img src="$2" alt="$1" /><figcaption>$1</figcaption></figure>'
     )
-    // Links (after images so image alt text isn't matched)
-    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" style="color:#3b82f6;text-decoration:none">$1</a>')
-    // Unordered list items
-    .replace(/^- (.+)$/gm, '<li style="font-size:16px;line-height:1.75;color:#374151;margin-bottom:4px;margin-left:20px">$1</li>')
-    // Inline code
-    .replace(/`([^`]+)`/g, '<code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;font-size:14px;color:#1f2937">$1</code>')
-    // Paragraphs (skip elements already wrapped in HTML tags)
+    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" class="prose-link">$1</a>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/^(.+)$/gm, (line) => {
       if (
         line.startsWith('<h') ||
@@ -49,7 +43,7 @@ function renderMarkdown(md: string, slug: string): string {
         line.startsWith('<code') ||
         line.trim() === ''
       ) return line
-      return `<p style="font-size:16px;line-height:1.75;color:#374151;margin-bottom:16px">${line}</p>`
+      return `<p>${line}</p>`
     })
 }
 
@@ -59,59 +53,175 @@ export default async function BlogPostPage({ params }: Props) {
   if (!post) notFound()
   const related = getRelatedPosts(slug)
 
+  const wordCount = post.content.split(/\s+/).length
+  const readMin = Math.max(1, Math.round(wordCount / 200))
+
   return (
     <>
       <Nav />
-      <main style={{ paddingTop: 64, background: '#fff', minHeight: '80vh' }}>
-        {/* Hero */}
-        <div style={{ background: 'linear-gradient(135deg, #f0f7ff 0%, #fafafa 100%)', padding: '80px 40px 60px', textAlign: 'center' }}>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginBottom: 20, alignItems: 'center' }}>
-            <span style={{ fontSize: 12, color: '#9ca3af' }}>{formatDate(post.date)}</span>
-            <span style={{ fontSize: 12, color: '#d1d5db' }}>·</span>
-            <span style={{ fontSize: 12, color: '#9ca3af' }}>{post.author}</span>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        .post-prose { color: #374151; font-size: 17px; line-height: 1.8; }
+        .post-prose p { margin: 0 0 1.4em; }
+        .post-prose h2 { font-size: 24px; font-weight: 700; color: #111827; letter-spacing: -0.4px; margin: 2.2em 0 0.6em; line-height: 1.25; }
+        .post-prose h3 { font-size: 19px; font-weight: 600; color: #111827; margin: 1.8em 0 0.5em; }
+        .post-prose strong { font-weight: 600; color: #111827; }
+        .post-prose a.prose-link { color: #3b82f6; text-decoration: underline; text-decoration-color: rgba(59,130,246,0.4); text-underline-offset: 3px; }
+        .post-prose a.prose-link:hover { text-decoration-color: #3b82f6; }
+        .post-prose li { margin: 0 0 0.4em 1.4em; list-style: disc; }
+        .post-prose code { background: #f3f4f6; padding: 2px 7px; border-radius: 5px; font-size: 14px; color: #1f2937; font-family: ui-monospace, monospace; }
+        .post-prose figure { margin: 2em 0; }
+        .post-prose figure img { width: 100%; height: auto; border-radius: 10px; box-shadow: 0 2px 16px rgba(0,0,0,0.08); display: block; }
+        .post-prose figcaption { font-size: 13px; color: #9ca3af; text-align: center; margin-top: 10px; }
+        .related-card:hover .related-title { color: #3b82f6 !important; }
+      ` }} />
+
+      <main style={{ paddingTop: 64, background: '#fff', minHeight: '100vh' }}>
+
+        {/* Article header */}
+        <div style={{ maxWidth: 760, margin: '0 auto', padding: '56px 40px 0' }}>
+
+          {/* Breadcrumb */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 28, fontSize: 13, color: '#9ca3af' }}>
+            <Link href="/blog" style={{ color: '#6b7280', textDecoration: 'none', fontWeight: 500 }}>Blog</Link>
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
+              <path d="M6 4l4 4-4 4" stroke="#d1d5db" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 320 }}>{post.title}</span>
           </div>
-          <h1 style={{ fontSize: 'clamp(24px,4vw,44px)', fontWeight: 800, color: '#111827', letterSpacing: '-1px', maxWidth: 700, margin: '0 auto 16px', lineHeight: 1.15 }}>
+
+          {/* Title */}
+          <h1 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 800, color: '#0f172a', letterSpacing: '-1.5px', lineHeight: 1.12, marginBottom: 20 }}>
             {post.title}
           </h1>
-          <p style={{ fontSize: 17, color: '#6b7280', maxWidth: 560, margin: '0 auto' }}>{post.excerpt}</p>
+
+          {/* Excerpt */}
+          <p style={{ fontSize: 19, color: '#6b7280', lineHeight: 1.6, marginBottom: 28, maxWidth: 620 }}>
+            {post.excerpt}
+          </p>
+
+          {/* Meta row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, paddingBottom: 32, borderBottom: '1px solid #f3f4f6' }}>
+            <div style={{
+              width: 36, height: 36, borderRadius: '50%',
+              background: 'linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0,
+            }}>
+              <span style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>C</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 14, color: '#6b7280' }}>
+              <span style={{ fontWeight: 600, color: '#374151' }}>{post.author}</span>
+              <span style={{ color: '#d1d5db' }}>·</span>
+              <time>{formatDate(post.date)}</time>
+              <span style={{ color: '#d1d5db' }}>·</span>
+              <span>{readMin} min read</span>
+            </div>
+          </div>
         </div>
 
         {/* Featured image */}
         {post.featuredImage && (
-          <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 40px' }}>
+          <div style={{ maxWidth: 860, margin: '0 auto', padding: '36px 40px 0' }}>
             <img
               src={post.featuredImage}
               alt={post.title}
               style={{
-                width: '100%',
-                height: 'auto',
-                borderRadius: 12,
-                marginTop: -30,
-                boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
-                display: 'block',
+                width: '100%', height: 'auto',
+                borderRadius: 14, display: 'block',
+                boxShadow: '0 8px 40px rgba(0,0,0,0.10)',
               }}
             />
           </div>
         )}
 
-        {/* Content */}
+        {/* Post content */}
         <div
-          style={{ maxWidth: 720, margin: '0 auto', padding: '64px 40px' }}
+          className="post-prose"
+          style={{ maxWidth: 720, margin: '0 auto', padding: '48px 40px 16px' }}
           dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content, slug) }}
         />
 
-        {/* Keep Reading */}
+        {/* CTA strip */}
+        <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 40px 56px' }}>
+          <div style={{
+            background: 'linear-gradient(135deg, #f0f7ff 0%, #eff6ff 100%)',
+            border: '1px solid #dbeafe',
+            borderRadius: 14,
+            padding: '28px 32px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 20,
+          }}>
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: '#1e40af', marginBottom: 4 }}>
+                Ready to run tighter events?
+              </div>
+              <div style={{ fontSize: 14, color: '#6b7280' }}>
+                CueDeck gives your whole team a live view of the run-of-show.
+              </div>
+            </div>
+            <a
+              href="https://app.cuedeck.io/#signup"
+              style={{
+                padding: '10px 22px',
+                background: '#3b82f6',
+                color: '#fff',
+                borderRadius: 8,
+                fontSize: 14,
+                fontWeight: 600,
+                textDecoration: 'none',
+                whiteSpace: 'nowrap',
+                boxShadow: '0 1px 4px rgba(59,130,246,0.35)',
+                flexShrink: 0,
+              }}
+            >
+              Start free →
+            </a>
+          </div>
+        </div>
+
+        {/* Keep reading */}
         {related.length > 0 && (
-          <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 40px 48px' }}>
-            <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: 40 }}>
-              <h3 style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 20, letterSpacing: '-0.2px' }}>Keep reading</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div style={{ background: '#f9fafb', borderTop: '1px solid #f3f4f6', padding: '56px 40px' }}>
+            <div style={{ maxWidth: 860, margin: '0 auto' }}>
+              <h2 style={{ fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 28, letterSpacing: '-0.3px' }}>
+                Keep reading
+              </h2>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
                 {related.map(r => (
-                  <Link key={r.slug} href={`/blog/${r.slug}`} style={{ textDecoration: 'none', display: 'flex', gap: 12, alignItems: 'baseline' }}>
-                    <time style={{ fontSize: 12, color: '#9ca3af', flexShrink: 0, minWidth: 80 }}>{formatDate(r.date)}</time>
-                    <div>
-                      <span style={{ fontSize: 15, fontWeight: 600, color: '#111827' }}>{r.title}</span>
-                      <p style={{ fontSize: 13, color: '#6b7280', marginTop: 4, lineHeight: 1.5 }}>{r.excerpt}</p>
+                  <Link
+                    key={r.slug}
+                    href={`/blog/${r.slug}`}
+                    className="related-card"
+                    style={{ textDecoration: 'none', display: 'block' }}
+                  >
+                    <div style={{
+                      background: '#fff',
+                      borderRadius: 12,
+                      border: '1px solid #e5e7eb',
+                      overflow: 'hidden',
+                      height: '100%',
+                    }}>
+                      {r.featuredImage && (
+                        <img
+                          src={r.featuredImage}
+                          alt={r.title}
+                          style={{ width: '100%', height: 120, objectFit: 'cover', display: 'block' }}
+                        />
+                      )}
+                      <div style={{ padding: '16px' }}>
+                        <time style={{ fontSize: 12, color: '#9ca3af', display: 'block', marginBottom: 6 }}>
+                          {formatDate(r.date)}
+                        </time>
+                        <div
+                          className="related-title"
+                          style={{ fontSize: 14, fontWeight: 600, color: '#111827', lineHeight: 1.4 }}
+                        >
+                          {r.title}
+                        </div>
+                      </div>
                     </div>
                   </Link>
                 ))}
@@ -120,10 +230,16 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         )}
 
-        {/* Back */}
-        <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 40px 80px' }}>
-          <a href="/blog" style={{ fontSize: 14, fontWeight: 600, color: '#3b82f6', textDecoration: 'none' }}>← Back to Blog</a>
+        {/* Back link */}
+        <div style={{ maxWidth: 860, margin: '0 auto', padding: '32px 40px 64px' }}>
+          <Link href="/blog" style={{ fontSize: 14, fontWeight: 600, color: '#6b7280', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            All posts
+          </Link>
         </div>
+
       </main>
       <Footer />
     </>
