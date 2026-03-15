@@ -170,6 +170,7 @@ export default async function BlogPostPage({ params }: Props) {
         .post-prose figcaption { font-size: 13px; color: #9ca3af; text-align: center; margin-top: 10px; }
         .related-card:hover .related-title { color: #3b82f6 !important; }
         .post-prose blockquote { border-left: 4px solid #3b82f6; background: #f0f7ff; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 2em 0; font-style: italic; font-weight: 600; color: #1e40af; font-size: 18px; line-height: 1.5; }
+        .post-prose blockquote p { margin: 0; }
       ` }} />
 
       <main style={{ paddingTop: 64, background: '#fff', minHeight: '100vh' }}>
@@ -188,7 +189,7 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
 
           {/* Category badge */}
-          {post.tags && (post.tags as string[]).length > 0 && (
+          {Array.isArray(post.tags) && post.tags.length > 0 && (
             <span style={{
               display: 'inline-block',
               background: '#eff6ff',
@@ -201,7 +202,7 @@ export default async function BlogPostPage({ params }: Props) {
               borderRadius: '20px',
               marginBottom: '16px',
             }}>
-              {(post.tags as string[])[0]}
+              {post.tags[0]}
             </span>
           )}
           {/* Title */}
