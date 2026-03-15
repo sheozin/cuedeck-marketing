@@ -1,17 +1,12 @@
 import { Metadata } from 'next'
-import Link from 'next/link'
 import { createClient } from '@supabase/supabase-js'
 import Nav from '../../components/Nav'
 import Footer from '../../components/Footer'
+import BlogGrid from './BlogGrid'
 
 export const metadata: Metadata = {
   title: 'Blog — CueDeck',
   description: 'Insights, tips, and updates from the CueDeck team on live event production.',
-}
-
-function formatDate(iso: string): string {
-  const d = new Date(iso)
-  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
 export default async function BlogPage() {
@@ -26,6 +21,9 @@ export default async function BlogPage() {
     .select('id, slug, title, excerpt, cover_image, tags, published_at, read_time_minutes')
     .eq('status', 'published')
     .order('published_at', { ascending: false })
+
+  const allPosts = posts ?? []
+  const tags = [...new Set(allPosts.flatMap((p) => p.tags ?? []))].sort()
 
   return (
     <>
@@ -42,46 +40,12 @@ export default async function BlogPage() {
           </p>
         </div>
 
-        {/* Posts */}
-        <div style={{ maxWidth: 800, margin: '0 auto', padding: '64px 40px' }}>
-          {!posts || posts.length === 0 ? (
+        {/* Grid */}
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '64px 40px' }}>
+          {allPosts.length === 0 ? (
             <p style={{ color: '#9ca3af', textAlign: 'center', fontSize: 16 }}>No posts yet — check back soon.</p>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
-              {posts.map(post => (
-                <article key={post.id} style={{ borderBottom: '1px solid #f3f4f6', paddingBottom: 40 }}>
-                  {post.cover_image && (
-                    <Link href={`/blog/${post.slug}`} style={{ textDecoration: 'none', display: 'block', marginBottom: 16 }}>
-                      <img
-                        src={post.cover_image}
-                        alt={post.title}
-                        style={{ width: '100%', height: 200, objectFit: 'cover', borderRadius: 8, display: 'block' }}
-                      />
-                    </Link>
-                  )}
-                  <div style={{ display: 'flex', gap: 12, marginBottom: 12, alignItems: 'center' }}>
-                    <span style={{ fontSize: 12, color: '#9ca3af' }}>{formatDate(post.published_at)}</span>
-                    <span style={{ fontSize: 12, color: '#d1d5db' }}>·</span>
-                    <span style={{ fontSize: 12, color: '#9ca3af' }}>CueDeck Team</span>
-                    {post.read_time_minutes && (
-                      <>
-                        <span style={{ fontSize: 12, color: '#d1d5db' }}>·</span>
-                        <span style={{ fontSize: 12, color: '#9ca3af' }}>{post.read_time_minutes} min read</span>
-                      </>
-                    )}
-                  </div>
-                  <Link href={`/blog/${post.slug}`} style={{ textDecoration: 'none' }}>
-                    <h2 style={{ fontSize: 22, fontWeight: 700, color: '#111827', marginBottom: 10, letterSpacing: '-0.3px', lineHeight: 1.3 }}>
-                      {post.title}
-                    </h2>
-                  </Link>
-                  <p style={{ fontSize: 15, color: '#6b7280', lineHeight: 1.65, marginBottom: 16 }}>{post.excerpt}</p>
-                  <Link href={`/blog/${post.slug}`} style={{ fontSize: 14, fontWeight: 600, color: '#3b82f6', textDecoration: 'none' }}>
-                    Read more →
-                  </Link>
-                </article>
-              ))}
-            </div>
+            <BlogGrid posts={allPosts} tags={tags} />
           )}
         </div>
       </main>
