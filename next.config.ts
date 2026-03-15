@@ -18,6 +18,20 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/d",
+        destination: "https://app.cuedeck.io/d",
+        permanent: true,
+      },
+      {
+        source: "/display",
+        destination: "https://app.cuedeck.io/display",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
