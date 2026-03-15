@@ -741,13 +741,14 @@ const SECTIONS: DocSection[] = [
       <>
         <P>CueDeck includes a built-in digital signage system. Drive lobby screens, wayfinding displays, and sponsor carousels directly from the console — no extra software needed.</P>
 
-        <H3>Registering a Display</H3>
+        <H3>Connecting a Display</H3>
         <OL items={[
-          'Go to the Signage panel in the sidebar',
-          'Click "+ Register Display"',
-          'Give it a name (e.g. "Lobby Left"), a slug, and choose orientation (landscape/portrait)',
-          'Open the display URL on your signage device — it connects automatically via realtime',
+          'On the TV or screen, open app.cuedeck.io/d in any browser',
+          'A 6-character pairing code appears on screen (e.g. A7K-3M2)',
+          'In the console, go to the Signage panel and type the pairing code',
+          'Click Pair — the display connects instantly via realtime',
         ]} />
+        <Callout type="tip">Tap &ldquo;Install&rdquo; or &ldquo;Add to Home Screen&rdquo; in the browser to install the display as a fullscreen app. It survives reboots and auto-reconnects — no reconfiguration needed.</Callout>
 
         <H3>Display Modes</H3>
         <Table
@@ -755,6 +756,9 @@ const SECTIONS: DocSection[] = [
           rows={[
             ['Agenda', 'Shows the current and upcoming sessions in a scrolling list'],
             ['Now & Next', 'Large format showing the current live session and what is coming next'],
+            ['Timeline', 'Chronological session list with time markers — ideal for lobby overviews'],
+            ['Programme', 'Time × room grid showing the full event programme at a glance'],
+            ['Stage Timer', 'Speaker-facing fullscreen countdown with colour-coded urgency (green → amber → red → overrun)'],
             ['Sponsors', 'Auto-rotating carousel of sponsor logos and media'],
             ['Schedule Grid', 'Full programme grid with room columns and time rows'],
             ['WiFi Info', 'Network name and password in large format'],
@@ -770,7 +774,7 @@ const SECTIONS: DocSection[] = [
         <H3>Global Overrides</H3>
         <P>Directors can push a global override to ALL displays at once. Common overrides include Break Screen, 5-Min Recall, and Emergency Message. Overrides take priority until manually cleared.</P>
 
-        <Callout type="note">Displays auto-reconnect if the network drops. Status indicators in the signage panel show which displays are online.</Callout>
+        <Callout type="note">Displays auto-reconnect if the network drops or the device reboots. The short URL <B>app.cuedeck.io/d</B> works on any device with a browser. Status indicators in the signage panel show which displays are online.</Callout>
       </>
     ),
   },
@@ -807,7 +811,44 @@ const SECTIONS: DocSection[] = [
     ),
   },
 
-  // ── 12. AI Agents ───────────────────────────────────────────────────────────
+  // ── 12. Stage Timer ───────────────────────────────────────────────────────────
+  {
+    id: 'stage-timer',
+    title: 'Stage Timer',
+    icon: '⏱️',
+    content: (
+      <>
+        <P>The Stage Timer is a dedicated fullscreen countdown designed for speakers. Place it on any screen facing the stage and speakers always know exactly how much time they have left — no hand signals required.</P>
+
+        <H3>How It Works</H3>
+        <OL items={[
+          'Register a display and set its mode to "Stage Timer"',
+          'Open the display on a screen or monitor facing the stage',
+          'The timer automatically syncs with the current LIVE session and counts down',
+        ]} />
+
+        <H3>Colour-coded Urgency</H3>
+        <P>The countdown shifts colour as time runs low, giving speakers an unmistakable visual cue:</P>
+        <UL items={[
+          'Green — plenty of time remaining',
+          'Amber — approaching the end of the session',
+          'Red — final minutes, time to wrap up',
+          'Flashing red + overage counter — the session has overrun (e.g. +2:15)',
+        ]} />
+
+        <H3>Special States</H3>
+        <UL items={[
+          'HOLD — the countdown freezes and shows HOLD in purple, used during breaks or pauses',
+          'Standby — when no session is live, the timer shows a standby screen with the next scheduled session',
+          'Progress bar — a visual bar at the bottom shows how far through the session the speaker is',
+        ]} />
+
+        <Callout type="tip">The Stage Timer uses high-contrast colours and massive typography. It is readable from the back of a large stage — even in bright lighting conditions.</Callout>
+      </>
+    ),
+  },
+
+  // ── 13. AI Agents ───────────────────────────────────────────────────────────
   {
     id: 'ai-agents',
     title: 'AI Agents',

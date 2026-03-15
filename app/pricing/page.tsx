@@ -108,7 +108,7 @@ const faqs = [
 const includedFeatures = [
   { icon: "⚡", title: "Real-time sync",      desc: "Sub-second updates across all operator devices, no refresh needed." },
   { icon: "🛡️", title: "Role-based access",   desc: "Each operator sees exactly what they need — nothing more." },
-  { icon: "📡", title: "Digital signage",     desc: "Drive lobby screens, sponsor carousels, and break slides from the console." },
+  { icon: "📡", title: "Digital signage",     desc: "11 display modes including stage timer, lobby screens, sponsor carousels, and more. Pair via short URL." },
   { icon: "🤖", title: "AI agents",           desc: "Incident advisor, pre-cue engine, and post-event report generator." },
   { icon: "🔒", title: "Bank-grade security", desc: "TLS + AES-256 encryption, row-level security on all data." },
   { icon: "🔁", title: "Auto-reconnect",      desc: "If a device drops, it reconnects and catches up automatically." },
