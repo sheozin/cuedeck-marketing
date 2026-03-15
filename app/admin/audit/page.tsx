@@ -20,7 +20,7 @@ export default function AuditLogPage() {
       .then(({ data }: { data: any }) => {
         setEntries((data ?? []) as AuditLogEntry[]);
         setLoading(false);
-      });
+      }, () => setLoading(false));
   }, []);
 
   const filtered = entries.filter((e) =>

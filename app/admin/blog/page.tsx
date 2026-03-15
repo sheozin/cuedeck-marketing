@@ -33,7 +33,7 @@ export default function BlogListPage() {
     query.then(({ data }: { data: any }) => {
       setPosts((data ?? []) as BlogPost[]);
       setLoading(false);
-    });
+    }, () => setLoading(false));
   }, [filter]);
 
   async function handleDelete(id: string) {
@@ -46,7 +46,7 @@ export default function BlogListPage() {
   async function handleDuplicate(post: BlogPost) {
     const supabase = getCmsClient();
     const { data } = await (supabase.from('blog_posts') as any).insert({
-      title: `${post.title} (copy as any)`,
+      title: `${post.title} (copy)`,
       slug: `${post.slug}-copy-${Date.now()}`,
       excerpt: post.excerpt,
       content_json: post.content_json,

@@ -36,7 +36,7 @@ export default function SettingsPage() {
       }
       setSettings(map);
       setLoading(false);
-    });
+    }).catch(() => setLoading(false));
   }, []);
 
   async function handleSave() {

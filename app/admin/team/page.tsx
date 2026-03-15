@@ -14,7 +14,7 @@ export default function TeamPage() {
     (getCmsClient().from('team_members') as any).select('*').order('order_index').then(({ data }: { data: any }) => {
       setMembers((data ?? []) as TeamMember[]);
       setLoading(false);
-    });
+    }).catch(() => setLoading(false));
   }, []);
 
   async function handleSave() {

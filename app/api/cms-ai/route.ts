@@ -3,6 +3,13 @@ import { NextRequest } from 'next/server';
 export const runtime = 'edge';
 
 export async function POST(req: NextRequest) {
+  // Restrict to same-origin requests only
+  const origin = req.headers.get('origin');
+  const host = req.headers.get('host');
+  if (origin && host && !origin.includes(host)) {
+    return Response.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
   const { prompt, apiKey } = await req.json() as { prompt: string; apiKey: string };
 
   if (!prompt || !apiKey) {

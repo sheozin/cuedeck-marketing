@@ -21,7 +21,7 @@ export default function PagesPage() {
     (supabase.from('pages') as any).select('*').order('updated_at', { ascending: false }).then(({ data }: { data: any }) => {
       setPages((data ?? []) as Page[]);
       setLoading(false);
-    });
+    }).catch(() => setLoading(false));
   }, []);
 
   return (

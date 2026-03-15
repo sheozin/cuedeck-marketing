@@ -206,19 +206,21 @@ async function main() {
   console.log('\nSocial banners:');
 
   // Twitter/X Banner — 1500×500
+  // Note: X profile pic overlaps bottom-left (~0-200px x, ~320-500px y)
+  // Content shifted right and up to stay visible
   await createBanner(1500, 500, join(SOCIAL_DIR, 'twitter-banner.png'), {
     logoSize: 72,
-    logoX: 80,
-    logoY: 140,
+    logoX: 340,
+    logoY: 100,
     wordmarkSize: 56,
-    wordmarkX: 168,
-    wordmarkY: 195,
+    wordmarkX: 428,
+    wordmarkY: 155,
     taglineSize: 22,
-    taglineX: 80,
-    taglineY: 280,
+    taglineX: 340,
+    taglineY: 230,
     showRoles: true,
-    rolesX: 80,
-    rolesY: 380,
+    rolesX: 340,
+    rolesY: 310,
     showDomain: true,
     domainX: 1380,
     domainY: 460,

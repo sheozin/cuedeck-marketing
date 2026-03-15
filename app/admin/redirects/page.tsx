@@ -14,7 +14,7 @@ export default function RedirectsPage() {
     (getCmsClient().from('redirects') as any).select('*').order('from_path').then(({ data }: { data: any }) => {
       setRedirects((data ?? []) as Redirect[]);
       setLoading(false);
-    });
+    }).catch(() => setLoading(false));
   }, []);
 
   async function handleSave() {

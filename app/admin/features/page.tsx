@@ -14,7 +14,7 @@ export default function FeaturesPage() {
     (getCmsClient().from('feature_cards') as any).select('*').order('order_index').then(({ data }: { data: any }) => {
       setFeatures((data ?? []) as FeatureCard[]);
       setLoading(false);
-    });
+    }).catch(() => setLoading(false));
   }, []);
 
   async function handleSave() {

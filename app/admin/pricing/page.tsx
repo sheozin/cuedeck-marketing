@@ -15,7 +15,7 @@ export default function PricingPage() {
     (getCmsClient().from('pricing_plans') as any).select('*').order('order_index').then(({ data }: { data: any }) => {
       setPlans((data ?? []) as PricingPlan[]);
       setLoading(false);
-    });
+    }).catch(() => setLoading(false));
   }, []);
 
   async function handleSave() {

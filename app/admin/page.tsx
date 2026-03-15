@@ -55,7 +55,7 @@ export default function DashboardPage() {
       setLoading(false);
     }
 
-    loadStats();
+    loadStats().catch(() => setLoading(false));
   }, []);
 
   const statCards = [

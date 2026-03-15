@@ -22,7 +22,7 @@ export default function ChangelogPage() {
     (getCmsClient().from('changelog_items') as any).select('*').order('published_at', { ascending: false }).then(({ data }: { data: any }) => {
       setItems((data ?? []) as ChangelogItem[]);
       setLoading(false);
-    });
+    }).catch(() => setLoading(false));
   }, []);
 
   async function handleSave() {

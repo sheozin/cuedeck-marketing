@@ -31,11 +31,18 @@ export default function MediaLibraryPage() {
     setLoading(false);
   }
 
+  const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'video/mp4', 'video/webm'];
+
   async function uploadFile(file: File) {
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      alert(`File type "${file.type}" is not allowed. Only images and videos are accepted.`);
+      return;
+    }
+
     const supabase = getCmsClient();
     setUploading(true);
 
-    const ext = file.name.split('.').pop() ?? 'bin';
+    const ext = file.name.split('.').pop()?.toLowerCase() ?? 'bin';
     const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 
     const { data: uploadData, error: uploadError } = await supabase.storage
@@ -55,7 +62,7 @@ export default function MediaLibraryPage() {
     const { data } = await (supabase.from('media_assets') as any).insert({
       filename: file.name,
       url: publicUrl,
-      file_type: file.type.startsWith('image/' as any) ? 'image' : file.type.split('/')[0],
+      file_type: file.type.startsWith('image/') ? 'image' : file.type.split('/')[0],
       file_size_kb: Math.round(file.size / 1024),
     }).select().single();
 
@@ -73,8 +80,10 @@ export default function MediaLibraryPage() {
   async function handleDelete(asset: MediaAsset) {
     if (!confirm(`Delete "${asset.filename}"?`)) return;
     const supabase = getCmsClient();
-    // Delete from storage
-    const path = asset.url.split('/cuedeck-media/')[1];
+    // Delete from storage — extract path after bucket name
+    const bucketMarker = '/object/public/cuedeck-media/';
+    const markerIdx = asset.url.indexOf(bucketMarker);
+    const path = markerIdx >= 0 ? asset.url.slice(markerIdx + bucketMarker.length) : null;
     if (path) await supabase.storage.from('cuedeck-media').remove([path]);
     // Delete from DB
     await (supabase.from('media_assets') as any).delete().eq('id', asset.id);

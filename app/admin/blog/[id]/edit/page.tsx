@@ -42,7 +42,7 @@ export default function BlogEditPage() {
       .then(({ data }: { data: any }) => {
         if (data) setPost(data as BlogPost);
         setLoading(false);
-      });
+      }, () => setLoading(false));
   }, [id, isNew]);
 
   // Auto-generate slug from title
@@ -305,7 +305,7 @@ export default function BlogEditPage() {
                   background: '#0A0E1A',
                   border: '1px solid #1e293b',
                   borderRadius: '6px',
-                  color: '#0ECECE',
+                  color: '#4A8EFF',
                   fontSize: '12px',
                   fontFamily: 'monospace',
                   boxSizing: 'border-box',

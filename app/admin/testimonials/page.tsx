@@ -16,7 +16,7 @@ export default function TestimonialsPage() {
     (getCmsClient().from('testimonials') as any).select('*').order('order_index').then(({ data }: { data: any }) => {
       setItems((data ?? []) as Testimonial[]);
       setLoading(false);
-    });
+    }).catch(() => setLoading(false));
   }, []);
 
   async function handleSave() {

@@ -18,7 +18,7 @@ export default function FaqPage() {
     (getCmsClient().from('faqs') as any).select('*').order('order_index').then(({ data }: { data: any }) => {
       setFaqs((data ?? []) as Faq[]);
       setLoading(false);
-    });
+    }).catch(() => setLoading(false));
   }, []);
 
   async function handleSave() {
