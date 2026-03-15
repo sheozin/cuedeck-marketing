@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import { createClient } from '@supabase/supabase-js'
+import type { Post } from './BlogGrid'
 import Nav from '../../components/Nav'
 import Footer from '../../components/Footer'
 import BlogGrid from './BlogGrid'
@@ -16,13 +17,14 @@ export default async function BlogPage() {
     { auth: { persistSession: false } },
   )
 
-  const { data: posts } = await sb
+  const { data: posts, error } = await sb
     .from('blog_posts')
     .select('id, slug, title, excerpt, cover_image, tags, published_at, read_time_minutes')
     .eq('status', 'published')
     .order('published_at', { ascending: false })
 
-  const allPosts = posts ?? []
+  if (error) throw new Error(`Failed to load blog posts: ${error.message}`)
+  const allPosts = (posts ?? []) as Post[]
   const tags = [...new Set(allPosts.flatMap((p) => p.tags ?? []))].sort()
 
   return (

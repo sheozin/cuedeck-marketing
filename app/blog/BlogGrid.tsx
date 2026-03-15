@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-interface Post {
+export interface Post {
   id: string;
   slug: string;
   title: string;
