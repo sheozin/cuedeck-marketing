@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { Metadata } from 'next'
 import { createClient } from '@supabase/supabase-js'
 import type { Post } from './BlogGrid'
@@ -5,9 +7,12 @@ import Nav from '../../components/Nav'
 import Footer from '../../components/Footer'
 import BlogGrid from './BlogGrid'
 
+const BASE_URL = 'https://cuedeck.io'
+
 export const metadata: Metadata = {
   title: 'Blog — CueDeck',
   description: 'Insights, tips, and updates from the CueDeck team on live event production.',
+  alternates: { canonical: `${BASE_URL}/blog` },
 }
 
 export default async function BlogPage() {
@@ -27,8 +32,36 @@ export default async function BlogPage() {
   const allPosts = (posts ?? []) as Post[]
   const tags = [...new Set(allPosts.flatMap((p) => p.tags ?? []))].sort()
 
+  const collectionJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'CueDeck Blog',
+    description: 'Insights, tips, and updates from the CueDeck team on live event production.',
+    url: `${BASE_URL}/blog`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: allPosts.map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `${BASE_URL}/blog/${p.slug}`,
+        name: p.title,
+      })),
+    },
+  })
+
+  const breadcrumbJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${BASE_URL}/blog` },
+    ],
+  })
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: collectionJsonLd }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumbJsonLd }} />
       <Nav />
       <main style={{ paddingTop: 64, minHeight: '80vh', background: '#fff' }}>
         {/* Hero */}
