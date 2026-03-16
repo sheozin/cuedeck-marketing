@@ -16,9 +16,13 @@ import { createClient } from '@supabase/supabase-js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-const SUPABASE_URL = 'https://sawekpguemzvuvvulfbc.supabase.co';
-const SERVICE_ROLE_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhd2VrcGd1ZW16dnV2dnVsZmJjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjMzOTkxMSwiZXhwIjoyMDg3OTE1OTExfQ.mY7oDf3pFCOyXuSHrmSASVmdxOiGOk3vi079aMvW90E';
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://sawekpguemzvuvvulfbc.supabase.co';
+const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!SERVICE_ROLE_KEY) {
+  console.error('Error: SUPABASE_SERVICE_ROLE_KEY env var is required.\nSet it before running: export SUPABASE_SERVICE_ROLE_KEY=your-key-here');
+  process.exit(1);
+}
 
 const sb = createClient(SUPABASE_URL, SERVICE_ROLE_KEY);
 
