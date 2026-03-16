@@ -53,6 +53,11 @@ content/posts/      — MDX blog posts (Keystatic manages these)
 keystatic.config.ts — CMS config (local storage mode)
 ```
 
+## Content Writing Rules
+- **Avoid dashes in titles, headings, and copy** — only use `—` or `-` when genuinely necessary (e.g. a range like "10–20 min", or a strong pause that no other punctuation can replace)
+- Prefer clean, direct phrasing over dash-connected clauses
+- This applies to blog post titles, subtitles, cover image text, meta descriptions, and all marketing copy
+
 ## Branding Rules
 - Logo: **Cue** (dark/white) + **Deck** (blue `#3b82f6`), fontWeight 800, letterSpacing -0.3px
 - This applies everywhere: Nav, DashboardMockup toolbar, loading screen
