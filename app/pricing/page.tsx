@@ -114,6 +114,31 @@ const includedFeatures = [
   { icon: "🔁", title: "Auto-reconnect",      desc: "If a device drops, it reconnects and catches up automatically." },
 ];
 
+const BASE_URL = "https://cuedeck.io";
+
+const productJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "CueDeck",
+  description: "Real-time live event management platform for production teams.",
+  url: BASE_URL,
+  brand: { "@type": "Brand", name: "CueDeck" },
+  offers: [
+    { "@type": "Offer", name: "Pay-per-event", price: "39",  priceCurrency: "EUR", priceValidUntil: "2027-12-31", availability: "https://schema.org/InStock", url: `${BASE_URL}/pricing` },
+    { "@type": "Offer", name: "Starter",        price: "59",  priceCurrency: "EUR", priceValidUntil: "2027-12-31", availability: "https://schema.org/InStock", url: `${BASE_URL}/pricing` },
+    { "@type": "Offer", name: "Pro",             price: "99",  priceCurrency: "EUR", priceValidUntil: "2027-12-31", availability: "https://schema.org/InStock", url: `${BASE_URL}/pricing` },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
+    { "@type": "ListItem", position: 2, name: "Pricing", item: `${BASE_URL}/pricing` },
+  ],
+};
+
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -128,10 +153,9 @@ export default function PricingPage() {
   return (
     <>
       <Nav />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <main style={{ paddingTop: 64, background: "#fff" }}>
 
         {/* ── Hero ──────────────────────────────────────────────────────── */}
@@ -199,6 +223,8 @@ export default function PricingPage() {
               <a href={CONTACT_URL} style={{ color: "#3b82f6", textDecoration: "none", fontWeight: 500 }}>
                 Need per-event pricing?
               </a>
+              <br />
+              <span style={{ fontSize: 12, marginTop: 4, display: "inline-block" }}>All payments are processed and handled by AVE Events.</span>
             </p>
           </div>
         </section>

@@ -1,0 +1,179 @@
+<h2>Blog List Page — Layout Options</h2>
+<p class="subtitle">Which style fits CueDeck best? Click an option to select it.</p>
+
+<div class="cards">
+
+  <!-- Option A: Magazine Grid -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:20px; background:#f8fafc;">
+      <!-- Hero row -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
+        <div style="background:linear-gradient(135deg,#1e3a8a,#3b82f6); border-radius:6px; height:80px; display:flex; align-items:flex-end; padding:8px;">
+          <div>
+            <div style="font-size:7px; color:rgba(255,255,255,0.6); margin-bottom:2px;">FEATURED</div>
+            <div style="font-size:9px; font-weight:700; color:#fff; line-height:1.2;">Stage Manager's Guide to CueDeck</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <div style="background:#e2e8f0; border-radius:4px; height:36px; padding:6px; display:flex; flex-direction:column; justify-content:flex-end;">
+            <div style="font-size:7px; font-weight:700; color:#1e293b;">Director's Workflow</div>
+          </div>
+          <div style="background:#dbeafe; border-radius:4px; height:36px; padding:6px; display:flex; flex-direction:column; justify-content:flex-end;">
+            <div style="font-size:7px; font-weight:700; color:#1e293b;">Signage Setup</div>
+          </div>
+        </div>
+      </div>
+      <!-- 3-col grid below -->
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;">
+        <div style="background:#f1f5f9; border-radius:4px; height:44px; padding:5px;">
+          <div style="background:#e2e8f0; height:16px; border-radius:2px; margin-bottom:3px;"></div>
+          <div style="font-size:6px; color:#64748b;">AV Operator Guide</div>
+        </div>
+        <div style="background:#f1f5f9; border-radius:4px; height:44px; padding:5px;">
+          <div style="background:#e2e8f0; height:16px; border-radius:2px; margin-bottom:3px;"></div>
+          <div style="font-size:6px; color:#64748b;">Delay Cascade</div>
+        </div>
+        <div style="background:#f1f5f9; border-radius:4px; height:44px; padding:5px;">
+          <div style="background:#e2e8f0; height:16px; border-radius:2px; margin-bottom:3px;"></div>
+          <div style="font-size:6px; color:#64748b;">Broadcast Bar</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Magazine Grid</h3>
+      <p>First post gets a large hero card (left half), next two share a column (right half), remaining posts fill a 3-column grid. Editorial, high-impact.</p>
+      <div class="pros-cons" style="margin-top:8px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Visually striking</li><li>Featured post gets attention</li><li>Shows more posts above fold</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Unequal post hierarchy</li><li>Most complex layout</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option B: Card Grid -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:20px; background:#f8fafc;">
+      <!-- Filter pills -->
+      <div style="display:flex; gap:4px; margin-bottom:10px; flex-wrap:wrap;">
+        <div style="background:#3b82f6; color:#fff; border-radius:12px; padding:2px 8px; font-size:7px; font-weight:600;">All</div>
+        <div style="background:#f1f5f9; color:#64748b; border-radius:12px; padding:2px 8px; font-size:7px;">Operations</div>
+        <div style="background:#f1f5f9; color:#64748b; border-radius:12px; padding:2px 8px; font-size:7px;">Signage</div>
+        <div style="background:#f1f5f9; color:#64748b; border-radius:12px; padding:2px 8px; font-size:7px;">Tutorials</div>
+      </div>
+      <!-- Equal 3-col card grid -->
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;">
+        <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+          <div style="background:linear-gradient(135deg,#1e3a8a,#3b82f6); height:36px;"></div>
+          <div style="padding:6px;">
+            <div style="font-size:6px; color:#3b82f6; font-weight:600; margin-bottom:2px;">OPERATIONS</div>
+            <div style="font-size:7px; font-weight:700; color:#1e293b; margin-bottom:2px;">Stage Manager's Guide</div>
+            <div style="font-size:6px; color:#94a3b8;">5 min read</div>
+          </div>
+        </div>
+        <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+          <div style="background:#e2e8f0; height:36px;"></div>
+          <div style="padding:6px;">
+            <div style="font-size:6px; color:#3b82f6; font-weight:600; margin-bottom:2px;">WORKFLOW</div>
+            <div style="font-size:7px; font-weight:700; color:#1e293b; margin-bottom:2px;">Director's Workflow</div>
+            <div style="font-size:6px; color:#94a3b8;">4 min read</div>
+          </div>
+        </div>
+        <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+          <div style="background:#dbeafe; height:36px;"></div>
+          <div style="padding:6px;">
+            <div style="font-size:6px; color:#3b82f6; font-weight:600; margin-bottom:2px;">SIGNAGE</div>
+            <div style="font-size:7px; font-weight:700; color:#1e293b; margin-bottom:2px;">Signage Setup</div>
+            <div style="font-size:6px; color:#94a3b8;">3 min read</div>
+          </div>
+        </div>
+        <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+          <div style="background:#f0fdf4; height:36px;"></div>
+          <div style="padding:6px;">
+            <div style="font-size:6px; color:#3b82f6; font-weight:600; margin-bottom:2px;">TUTORIAL</div>
+            <div style="font-size:7px; font-weight:700; color:#1e293b; margin-bottom:2px;">AV Operator Guide</div>
+            <div style="font-size:6px; color:#94a3b8;">6 min read</div>
+          </div>
+        </div>
+        <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+          <div style="background:#fef9c3; height:36px;"></div>
+          <div style="padding:6px;">
+            <div style="font-size:6px; color:#3b82f6; font-weight:600; margin-bottom:2px;">FEATURES</div>
+            <div style="font-size:7px; font-weight:700; color:#1e293b; margin-bottom:2px;">Delay Cascade</div>
+            <div style="font-size:6px; color:#94a3b8;">4 min read</div>
+          </div>
+        </div>
+        <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+          <div style="background:#fce7f3; height:36px;"></div>
+          <div style="padding:6px;">
+            <div style="font-size:6px; color:#3b82f6; font-weight:600; margin-bottom:2px;">FEATURES</div>
+            <div style="font-size:7px; font-weight:700; color:#1e293b; margin-bottom:2px;">Broadcast Bar</div>
+            <div style="font-size:6px; color:#94a3b8;">3 min read</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Card Grid + Tag Filters ⭐ Recommended</h3>
+      <p>Equal 3-column card grid with category filter pills at the top. Every post gets the same visual weight. Clean, modern, easy to scan.</p>
+      <div class="pros-cons" style="margin-top:8px;">
+        <div class="pros"><h4>Pros</h4><ul><li>All posts equally visible</li><li>Tag filtering adds discoverability</li><li>Scales well as posts grow</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>No featured post emphasis</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option C: Curated List -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:20px; background:#f8fafc;">
+      <!-- Wide single-column rows -->
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; display:flex; gap:8px; align-items:center; padding:8px;">
+          <div style="width:56px; height:40px; background:linear-gradient(135deg,#1e3a8a,#3b82f6); border-radius:4px; flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="font-size:7px; color:#3b82f6; font-weight:600; margin-bottom:2px;">OPERATIONS · 5 min</div>
+            <div style="font-size:8px; font-weight:700; color:#1e293b; margin-bottom:2px;">Stage Manager's Guide to CueDeck</div>
+            <div style="font-size:6px; color:#94a3b8; line-height:1.4;">How stage managers use CueDeck's real-time cue system...</div>
+          </div>
+          <div style="font-size:6px; color:#3b82f6; font-weight:600; white-space:nowrap;">Read →</div>
+        </div>
+        <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; display:flex; gap:8px; align-items:center; padding:8px;">
+          <div style="width:56px; height:40px; background:#e2e8f0; border-radius:4px; flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="font-size:7px; color:#3b82f6; font-weight:600; margin-bottom:2px;">WORKFLOW · 4 min</div>
+            <div style="font-size:8px; font-weight:700; color:#1e293b; margin-bottom:2px;">The Director's Workflow</div>
+            <div style="font-size:6px; color:#94a3b8; line-height:1.4;">Running a live event with CueDeck from first check...</div>
+          </div>
+          <div style="font-size:6px; color:#3b82f6; font-weight:600; white-space:nowrap;">Read →</div>
+        </div>
+        <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; display:flex; gap:8px; align-items:center; padding:8px;">
+          <div style="width:56px; height:40px; background:#dbeafe; border-radius:4px; flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="font-size:7px; color:#3b82f6; font-weight:600; margin-bottom:2px;">SIGNAGE · 3 min</div>
+            <div style="font-size:8px; font-weight:700; color:#1e293b; margin-bottom:2px;">Setting Up Signage</div>
+            <div style="font-size:6px; color:#94a3b8; line-height:1.4;">Get your displays synced and showing the right content...</div>
+          </div>
+          <div style="font-size:6px; color:#3b82f6; font-weight:600; white-space:nowrap;">Read →</div>
+        </div>
+        <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; display:flex; gap:8px; align-items:center; padding:8px;">
+          <div style="width:56px; height:40px; background:#f0fdf4; border-radius:4px; flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="font-size:7px; color:#3b82f6; font-weight:600; margin-bottom:2px;">TUTORIAL · 6 min</div>
+            <div style="font-size:8px; font-weight:700; color:#1e293b; margin-bottom:2px;">AV Operator Crash Course</div>
+            <div style="font-size:6px; color:#94a3b8; line-height:1.4;">Everything AV operators need to know on day one...</div>
+          </div>
+          <div style="font-size:6px; color:#3b82f6; font-weight:600; white-space:nowrap;">Read →</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Horizontal List Rows</h3>
+      <p>Full-width horizontal rows — thumbnail left, category + title + excerpt middle, "Read →" right. Dense, scannable, information-forward.</p>
+      <div class="pros-cons" style="margin-top:8px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Most content visible</li><li>Very easy to scan</li><li>Excerpt gives context fast</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Less visual impact</li><li>Images are small</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px;">Click an option to select it, then tell me what you think in the terminal.</p>

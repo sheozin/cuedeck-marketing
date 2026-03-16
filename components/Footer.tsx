@@ -84,7 +84,7 @@ export default function Footer() {
             </a>
           ))}
         </div>
-        <p style={{ fontSize: 13, color: "#9ca3af" }}>© 2026 CueDeck. All rights reserved.</p>
+        <p style={{ fontSize: 13, color: "#9ca3af" }}>© 2026 CueDeck. All rights reserved. · Powered by AVE Events</p>
       </div>
     </footer>
   );

@@ -1,0 +1,121 @@
+<h2>Single Post Page — Layout Options</h2>
+<p class="subtitle">How should the reading experience look? Click to select.</p>
+
+<div class="cards">
+
+  <!-- Option A: Full-bleed hero -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:0; background:#fff; overflow:hidden; border-radius:8px 8px 0 0;">
+      <!-- Full-bleed image with title overlay -->
+      <div style="background:linear-gradient(160deg,#0f172a 0%,#1e3a8a 60%,#3b82f6 100%); height:80px; display:flex; align-items:flex-end; padding:10px 14px; position:relative;">
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 60%);"></div>
+        <div style="position:relative; z-index:1;">
+          <div style="font-size:6px; color:rgba(255,255,255,0.6); margin-bottom:3px;">Blog → Stage Management</div>
+          <div style="font-size:10px; font-weight:800; color:#fff; line-height:1.2; margin-bottom:3px;">Stage Manager's Guide to CueDeck</div>
+          <div style="font-size:6px; color:rgba(255,255,255,0.7);">CueDeck Team · 11 Mar 2026 · 5 min read</div>
+        </div>
+      </div>
+      <!-- Content below -->
+      <div style="padding:10px 14px; background:#fff;">
+        <div style="font-size:6px; color:#374151; line-height:1.7; margin-bottom:6px;">Stage managers are the frontline of live event production. They're the ones counting down in the wings, cueing the speaker walk-on, and calling the AV booth when something goes wrong.</div>
+        <div style="font-size:8px; font-weight:700; color:#111827; margin-bottom:4px;">Your View: The Stage Panel</div>
+        <div style="font-size:6px; color:#374151; line-height:1.7; margin-bottom:6px;">When you log in as a stage operator, CueDeck shows you a streamlined session list filtered to your assigned room.</div>
+        <!-- CTA strip -->
+        <div style="background:#eff6ff; border:1px solid #dbeafe; border-radius:6px; padding:6px 8px; display:flex; align-items:center; justify-content:space-between;">
+          <div style="font-size:6px; color:#1e40af; font-weight:600;">Ready to run tighter events?</div>
+          <div style="background:#3b82f6; color:#fff; font-size:6px; padding:3px 8px; border-radius:4px; font-weight:600;">Start free →</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Full-Bleed Hero Image</h3>
+      <p>Cover image spans the full width with the title and meta overlaid on a dark gradient. Content below in a centered column. Very modern, magazine-quality.</p>
+      <div class="pros-cons" style="margin-top:8px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Striking first impression</li><li>Premium editorial feel</li><li>Image gets maximum impact</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Needs high-quality cover images</li><li>Title readability depends on image</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option B: Two-column with sticky TOC -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:10px 14px; background:#fff; overflow:hidden; border-radius:8px 8px 0 0;">
+      <!-- Header -->
+      <div style="margin-bottom:8px;">
+        <div style="font-size:6px; color:#9ca3af; margin-bottom:2px;">Blog → Stage Management</div>
+        <div style="font-size:11px; font-weight:800; color:#0f172a; line-height:1.2; margin-bottom:3px;">Stage Manager's Guide to CueDeck</div>
+        <div style="font-size:6px; color:#6b7280; margin-bottom:6px;">CueDeck Team · 11 Mar 2026 · 5 min read</div>
+        <div style="background:linear-gradient(135deg,#1e3a8a,#3b82f6); height:40px; border-radius:4px; margin-bottom:8px;"></div>
+      </div>
+      <!-- Two-column layout -->
+      <div style="display:grid; grid-template-columns:1fr 2.5fr; gap:10px; align-items:start;">
+        <!-- TOC sidebar -->
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px;">
+          <div style="font-size:6px; font-weight:700; color:#374151; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">Contents</div>
+          <div style="font-size:6px; color:#3b82f6; margin-bottom:4px; padding-left:4px; border-left:2px solid #3b82f6;">Your View</div>
+          <div style="font-size:6px; color:#64748b; margin-bottom:4px; padding-left:4px;">Core Workflow</div>
+          <div style="font-size:6px; color:#64748b; margin-bottom:4px; padding-left:4px;">Handling Issues</div>
+          <div style="font-size:6px; color:#64748b; margin-bottom:4px; padding-left:4px;">Real-Time Awareness</div>
+          <div style="font-size:6px; color:#64748b; margin-bottom:4px; padding-left:4px;">Confidence Monitor</div>
+          <div style="font-size:6px; color:#64748b; padding-left:4px;">Why It Works</div>
+        </div>
+        <!-- Content -->
+        <div>
+          <div style="font-size:6px; color:#374151; line-height:1.7; margin-bottom:4px;">Stage managers are the frontline of live event production. They're the ones counting down in the wings, cueing the speaker walk-on.</div>
+          <div style="font-size:7px; font-weight:700; color:#111827; margin-bottom:3px;">Your View: The Stage Panel</div>
+          <div style="font-size:6px; color:#374151; line-height:1.7; margin-bottom:4px;">When you log in as a stage operator, CueDeck shows you a streamlined session list filtered to your assigned room. No distractions.</div>
+          <div style="font-size:7px; font-weight:700; color:#111827; margin-bottom:3px;">Core Workflow: ARM, CALL, GO LIVE</div>
+          <div style="font-size:6px; color:#374151; line-height:1.7;">Stage management in CueDeck follows three key actions...</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Two-Column with Sticky TOC</h3>
+      <p>Sticky table of contents in a left sidebar, content in the main column. Great for longer articles — readers can jump to sections and always know where they are.</p>
+      <div class="pros-cons" style="margin-top:8px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Easy navigation for long posts</li><li>Professional, documentation feel</li><li>Shows post depth at a glance</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Narrower reading column</li><li>Overkill for short posts</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option C: Centered + progress bar + enhanced typography -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:0; background:#fff; overflow:hidden; border-radius:8px 8px 0 0; position:relative;">
+      <!-- Reading progress bar at top -->
+      <div style="height:3px; background:#e2e8f0;">
+        <div style="width:35%; height:100%; background:linear-gradient(to right,#3b82f6,#60a5fa);"></div>
+      </div>
+      <div style="padding:10px 14px;">
+        <!-- Breadcrumb -->
+        <div style="font-size:6px; color:#9ca3af; margin-bottom:6px;">← All posts</div>
+        <!-- Category tag -->
+        <div style="display:inline-block; background:#eff6ff; color:#3b82f6; font-size:6px; font-weight:700; padding:2px 6px; border-radius:10px; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">Operations</div>
+        <!-- Title -->
+        <div style="font-size:13px; font-weight:800; color:#0f172a; line-height:1.15; letter-spacing:-0.5px; margin-bottom:4px;">Stage Manager's Guide to CueDeck</div>
+        <!-- Meta -->
+        <div style="font-size:6px; color:#6b7280; margin-bottom:8px;">CueDeck Team · 11 Mar 2026 · 5 min read</div>
+        <!-- Cover image -->
+        <div style="background:linear-gradient(135deg,#1e3a8a,#3b82f6); height:45px; border-radius:6px; margin-bottom:8px;"></div>
+        <!-- Body text -->
+        <div style="font-size:6.5px; color:#374151; line-height:1.8; margin-bottom:5px;">Stage managers are the frontline of live event production. They're the ones counting down in the wings, cueing the speaker walk-on.</div>
+        <!-- Pull quote -->
+        <div style="border-left:3px solid #3b82f6; padding:4px 8px; margin:6px 0; background:#f0f7ff; border-radius:0 4px 4px 0;">
+          <div style="font-size:7px; font-weight:600; color:#1e40af; line-height:1.4; font-style:italic;">"One button click. Everyone sees it. Zero ambiguity."</div>
+        </div>
+        <div style="font-size:6.5px; color:#374151; line-height:1.8;">When you log in as a stage operator, CueDeck shows a streamlined session list filtered to your assigned room.</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Enhanced Centered ⭐ Recommended</h3>
+      <p>Same centered single-column layout as now, but polished: sticky reading progress bar, category tag badge, larger/bolder title, pull quotes, better spacing. Evolutionary upgrade.</p>
+      <div class="pros-cons" style="margin-top:8px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Best reading experience</li><li>Focused, distraction-free</li><li>Works for all post lengths</li><li>Least risky change</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Less dramatic change</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px;">Click to select, then confirm in the terminal.</p>
