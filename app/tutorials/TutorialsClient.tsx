@@ -114,7 +114,6 @@ function VideoModal({ videoId, title, onClose }: {
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 9998 }}>
-      {/* Backdrop */}
       <div
         onClick={onClose}
         style={{
@@ -123,7 +122,6 @@ function VideoModal({ videoId, title, onClose }: {
           backdropFilter: 'blur(4px)',
         }}
       />
-      {/* Modal */}
       <div style={{
         position: 'absolute', top: '50%', left: '50%',
         transform: 'translate(-50%, -50%)',
@@ -132,7 +130,6 @@ function VideoModal({ videoId, title, onClose }: {
         background: '#000',
         boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
       }}>
-        {/* Close button */}
         <button
           onClick={onClose}
           style={{
@@ -146,7 +143,6 @@ function VideoModal({ videoId, title, onClose }: {
         >
           ✕
         </button>
-        {/* Title bar */}
         <div style={{
           padding: '14px 52px 14px 20px',
           background: 'rgba(255,255,255,0.05)',
@@ -154,7 +150,6 @@ function VideoModal({ videoId, title, onClose }: {
         }}>
           <span style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>{title}</span>
         </div>
-        {/* iframe */}
         <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 9' }}>
           <iframe
             src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
