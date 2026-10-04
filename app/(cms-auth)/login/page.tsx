@@ -1,8 +1,54 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useEffect, useRef, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getCmsClient } from '@/lib/supabase/cms-client';
+
+// Cloudflare Turnstile. This login shares the app.cuedeck.io Supabase
+// project, which checks a CAPTCHA token on every sign-in once CAPTCHA is on.
+// The same public site key as cuedeck-auth.js in the console repo. Empty
+// means no widget and no token, which Supabase accepts while CAPTCHA is off.
+const TURNSTILE_SITE_KEY = '';
+
+type Turnstile = {
+  render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+  reset: (id: string) => void;
+};
+
+function useTurnstile() {
+  const slot = useRef<HTMLDivElement>(null);
+  const widget = useRef<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  useEffect(() => {
+    if (!TURNSTILE_SITE_KEY || !slot.current) return;
+    const el = slot.current;
+    const render = () => {
+      const t = (window as unknown as { turnstile?: Turnstile }).turnstile;
+      if (!t || widget.current) return;
+      widget.current = t.render(el, {
+        sitekey: TURNSTILE_SITE_KEY,
+        appearance: 'interaction-only',
+        callback: (tok: string) => setToken(tok),
+        'expired-callback': () => setToken(null),
+        'error-callback': () => setToken(null),
+      });
+    };
+    const existing = document.querySelector<HTMLScriptElement>('script[data-turnstile]');
+    if (existing) { render(); existing.addEventListener('load', render); return; }
+    const s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    s.async = true;
+    s.dataset.turnstile = '1';
+    s.addEventListener('load', render);
+    document.head.appendChild(s);
+  }, []);
+  const reset = () => {
+    setToken(null);
+    const t = (window as unknown as { turnstile?: Turnstile }).turnstile;
+    if (t && widget.current) t.reset(widget.current);
+  };
+  return { slot, token, reset, required: Boolean(TURNSTILE_SITE_KEY) };
+}
 
 function LoginForm() {
   const router = useRouter();
@@ -19,12 +65,19 @@ function LoginForm() {
   const [magicSent, setMagicSent] = useState(false);
 
   const supabase = getCmsClient();
+  const captcha = useTurnstile();
+  const captchaMissing = () => {
+    if (captcha.required && !captcha.token) { setError('The security check has not finished yet. Wait a moment and try again.'); return true; }
+    return false;
+  };
 
   async function handlePasswordLogin(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
     setError('');
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (captchaMissing()) return;
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({ email, password, options: { captchaToken: captcha.token ?? undefined } });
+    captcha.reset();
     setLoading(false);
     if (error) { setError(error.message); return; }
     router.push(next);
@@ -32,12 +85,17 @@ function LoginForm() {
 
   async function handleMagicLink(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
     setError('');
+    if (captchaMissing()) return;
+    setLoading(true);
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}` },
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
+        captchaToken: captcha.token ?? undefined,
+      },
     });
+    captcha.reset();
     setLoading(false);
     if (error) { setError(error.message); return; }
     setMagicSent(true);
@@ -218,6 +276,7 @@ function LoginForm() {
                 >
                   {loading ? 'Signing in…' : mode === 'password' ? 'Sign in' : 'Send magic link'}
                 </button>
+                <div ref={captcha.slot} style={{ display: 'flex', justifyContent: 'center', marginTop: '12px' }} />
               </form>
             </>
           )}
