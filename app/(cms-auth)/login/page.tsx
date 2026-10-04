@@ -8,7 +8,7 @@ import { getCmsClient } from '@/lib/supabase/cms-client';
 // project, which checks a CAPTCHA token on every sign-in once CAPTCHA is on.
 // The same public site key as cuedeck-auth.js in the console repo. Empty
 // means no widget and no token, which Supabase accepts while CAPTCHA is off.
-const TURNSTILE_SITE_KEY = '';
+const TURNSTILE_SITE_KEY = '0x4AAAAAAFNjmmDszwstOkPo';
 
 type Turnstile = {
   render: (el: HTMLElement, opts: Record<string, unknown>) => string;
