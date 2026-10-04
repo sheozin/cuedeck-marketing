@@ -19,6 +19,7 @@ function useTurnstile() {
   const slot = useRef<HTMLDivElement>(null);
   const widget = useRef<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [failed, setFailed] = useState(false);
   useEffect(() => {
     if (!TURNSTILE_SITE_KEY || !slot.current) return;
     const el = slot.current;
@@ -30,7 +31,7 @@ function useTurnstile() {
         appearance: 'interaction-only',
         callback: (tok: string) => setToken(tok),
         'expired-callback': () => setToken(null),
-        'error-callback': () => setToken(null),
+        'error-callback': () => { setToken(null); setFailed(true); },
       });
     };
     const existing = document.querySelector<HTMLScriptElement>('script[data-turnstile]');
@@ -40,6 +41,7 @@ function useTurnstile() {
     s.async = true;
     s.dataset.turnstile = '1';
     s.addEventListener('load', render);
+    s.addEventListener('error', () => setFailed(true));
     document.head.appendChild(s);
   }, []);
   const reset = () => {
@@ -47,7 +49,13 @@ function useTurnstile() {
     const t = (window as unknown as { turnstile?: Turnstile }).turnstile;
     if (t && widget.current) t.reset(widget.current);
   };
-  return { slot, token, reset, required: Boolean(TURNSTILE_SITE_KEY) };
+  return { slot, token, reset, failed, required: Boolean(TURNSTILE_SITE_KEY) };
+}
+
+function authMessage(error: { code?: string; message: string }) {
+  if (error.code === 'captcha_failed') return 'The security check failed. Reload the page and try again.';
+  if (error.code === 'invalid_credentials') return 'That email and password do not match.';
+  return error.message;
 }
 
 function LoginForm() {
@@ -67,7 +75,12 @@ function LoginForm() {
   const supabase = getCmsClient();
   const captcha = useTurnstile();
   const captchaMissing = () => {
-    if (captcha.required && !captcha.token) { setError('The security check has not finished yet. Wait a moment and try again.'); return true; }
+    if (captcha.required && !captcha.token) {
+      setError(captcha.failed
+        ? 'The security check could not load. Check your connection, disable any blocker for this page, and reload.'
+        : 'The security check has not finished yet. Wait a moment and try again.');
+      return true;
+    }
     return false;
   };
 
@@ -79,7 +92,7 @@ function LoginForm() {
     const { error } = await supabase.auth.signInWithPassword({ email, password, options: { captchaToken: captcha.token ?? undefined } });
     captcha.reset();
     setLoading(false);
-    if (error) { setError(error.message); return; }
+    if (error) { setError(authMessage(error)); return; }
     router.push(next);
   }
 
@@ -97,7 +110,7 @@ function LoginForm() {
     });
     captcha.reset();
     setLoading(false);
-    if (error) { setError(error.message); return; }
+    if (error) { setError(authMessage(error)); return; }
     setMagicSent(true);
   }
 
