@@ -13,12 +13,13 @@ export const revalidate = 3600;
 export const metadata: Metadata = pageMeta("/solutions/check-in", "Event Check-in with QR Codes and Badges", "Import your guest list, email QR codes, check whole teams in with one scan and print badges. Works offline. One price per event, no subscription.", "/solutions/check-in/opengraph-image");
 
 const steps = [
-  { title: "Import your guests", desc: "Upload a CSV. You see who will be added, updated or skipped before anything is saved." },
+  { title: "Build your guest list", desc: "Share a registration link so guests sign themselves up, or upload a CSV and see who will be added, updated or skipped before anything is saved." },
   { title: "Send QR codes", desc: "Every guest gets an email with a personal QR code. Try the desk with a free test run first." },
   { title: "Check people in", desc: "Scan or search at the desk, or point a phone at the door. Badges print as people arrive." },
 ];
 
 const capabilities = [
+  { title: "Online registration page", desc: "Share a link and guests register themselves, with up to five questions of your own. Set a capacity and a closing time, and replace the link if it leaks." },
   { title: "Whole teams at once", desc: "One scan brings up everyone from the same company. Tick who is standing there and check them in together." },
   { title: "Badges on demand", desc: "Print from the desk to any printer Chrome can reach. No print server and no extra software." },
   { title: "Self-registration kiosk", desc: "Walk-ins sign themselves in on a tablet. Pair it with a code and revoke it any time." },
@@ -40,6 +41,7 @@ export default async function CheckinPage() {
         ? `Setup and a test run are free: up to 25 test check-ins, cleared when you go live. Going live is a one-off ${priceText} payment for that event, which turns on real check-ins and QR emails.`
         : "Setup and a test run are free: up to 25 test check-ins, cleared when you go live. Going live is a one-off payment for that event, which turns on real check-ins and QR emails. You see the price before you pay.",
     },
+    { q: "Can guests register themselves before the event?", a: "Yes. Turn on the registration page in setup and share its link. Guests enter their name, email, company and your questions. Each guest confirms their email address before they join the list, then gets their QR code by email. It is included in the per-event price." },
     { q: "Do I need special hardware?", a: "No. Any laptop or tablet with Chrome runs the desk. A USB QR scanner is faster but optional, phones work as door scanners, and badges print to any printer Chrome can use." },
     { q: "Is there a limit on attendees?", a: "There is no per-attendee fee and no ticket commission. Each CSV import takes up to 5,000 rows, and you can import more than once." },
     { q: "When can guests be checked in?", a: "From a week before the event until two days after it. The post-event report is emailed to you once that window closes." },
@@ -125,7 +127,7 @@ export default async function CheckinPage() {
               )}
               <p style={{ fontSize: 14, color: "#6b7280", marginBottom: 20 }}>Set up and test free. Pay when you go live.</p>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 8, fontSize: 14, color: "#374151" }}>
-                {["Unlimited desks and door scanner phones", "QR code email to every guest", "Badge printing and self-registration kiosk", "Live dashboard, arrival alerts and post-event report", "Offline desk and attendance export"].map(x => <li key={x}>{x}</li>)}
+                {["Unlimited desks and door scanner phones", "Registration page with your own questions", "QR code email to every guest", "Badge printing and self-registration kiosk", "Live dashboard, arrival alerts and post-event report", "Offline desk and attendance export"].map(x => <li key={x}>{x}</li>)}
               </ul>
               <a href={TRIAL_URL} style={{ display: "block", textAlign: "center", padding: 13, borderRadius: 10, background: "#3b82f6", color: "#fff", fontWeight: 700, textDecoration: "none" }}>Set up your event free</a>
             </div>

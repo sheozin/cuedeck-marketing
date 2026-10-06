@@ -780,7 +780,7 @@ const GlobalStyle = () => (
 // ─── Role Showcase ────────────────────────────────────────────────────────────
 // ─── Event Check-in ───────────────────────────────────────────────────────────
 const CHECKIN_POINTS = [
-  "Import a CSV and email every guest a personal QR code",
+  "Guests register from your link, or import a CSV; every guest gets a personal QR code",
   "One scan brings up a whole company, checked in together",
   "Phones become door scanners; walk-ins use a self-registration kiosk",
   "Keeps working offline, with a live dashboard and a report after the event",

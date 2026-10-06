@@ -1105,10 +1105,10 @@ const SECTIONS: DocSection[] = [
     icon: <CheckinIcon />,
     content: (
       <>
-        <P>Event Check-in runs the registration desk for one event: your guest list, QR code emails, the check-in desk, a self-registration kiosk, door scanner phones, a live dashboard and a post-event report. It is priced per event and works with or without a CueDeck plan. Open it from <a href={`${APP_URL}/checkin`} style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>app.cuedeck.io/checkin</a>.</P>
+        <P>Event Check-in runs the registration desk for one event: your guest list, an online registration page, QR code emails, the check-in desk, a self-registration kiosk, door scanner phones, a live dashboard and a post-event report. It is priced per event and works with or without a CueDeck plan. Open it from <a href={`${APP_URL}/checkin`} style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>app.cuedeck.io/checkin</a>.</P>
 
         <H3>Setup</H3>
-        <P>Setup walks through six steps: <B>Event details</B>, <B>Attendees</B>, <B>Desk staff</B>, <B>Kiosk &amp; scanners</B>, <B>QR emails</B> and <B>Go live</B>. Event details holds the name, date, venue and timezone, which are shown on the desk, the kiosk and in QR emails.</P>
+        <P>Setup walks through seven steps: <B>Event details</B>, <B>Attendees</B>, <B>Registration page</B>, <B>Desk staff</B>, <B>Kiosk &amp; scanners</B>, <B>QR emails</B> and <B>Go live</B>. Event details holds the name, date, venue and timezone, which are shown on the desk, the kiosk and in QR emails.</P>
 
         <H3>Importing guests</H3>
         <P>Drop a CSV on the Attendees step. Before anything is saved, CueDeck shows who will be added, updated or skipped. Each file can hold up to 5,000 rows, and you can import more than once. You can also add people one at a time with <B>Add person</B>.</P>
@@ -1123,6 +1123,17 @@ const SECTIONS: DocSection[] = [
           ]}
         />
         <P><B>Export CSV</B> on the same step downloads the guest list with arrival status at any time.</P>
+
+        <H3>Registration page</H3>
+        <P>Guests can add themselves to your guest list from a link. On the <B>Registration page</B> step, turn it on to get your link (app.cuedeck.io/r/ followed by a code) and share it in your invitation, on your website or on a poster.</P>
+        <UL items={[
+          <><B>What guests enter.</B> First name, last name, email, an optional company, and up to five questions of your own: a text answer or a choice from a list, required or optional. They tick a consent box before they can send it.</>,
+          <><B>Confirming the email.</B> For a live event, the guest gets an email asking them to confirm their registration. They join your guest list only when they confirm, and their QR code then arrives by email. Nothing is registered for an address whose owner never confirms, and unconfirmed requests are deleted after 48 hours.</>,
+          <><B>Capacity and closing time.</B> Set the most guests you can take and when registration closes. Capacity counts everyone on the guest list, however they were added. Registration also closes when check-in closes.</>,
+          <><B>A leaked link.</B> Replace the link at any time; the old one stops working at once. Turning the page off keeps the same link for when you turn it back on.</>,
+          <><B>Where registrations appear.</B> Guests who registered online are on the Attendees list like everyone else, shown as Registration page on the dashboard. <B>Export CSV</B> includes how each guest was added and their answers to your questions.</>,
+        ]} />
+        <P>In test mode the page works so you can try it: registrations are recorded straight away without any email, up to 25, and are cleared when you go live. The page is protected by a CAPTCHA, and it is included in the per-event price.</P>
 
         <H3>Test mode and going live</H3>
         <P>Every event starts in test mode. Everything works, but check-ins are capped at 25 and are cleared when you go live, so you can rehearse the desk with your team. An event can only be deleted while it is in test mode.</P>
@@ -1189,6 +1200,7 @@ const SECTIONS: DocSection[] = [
           <><B>Create the event.</B> In <a href={`${APP_URL}/checkin`} style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>Check-in</a>, create an event and fill in the name, date, venue and timezone.</>,
           <><B>Prepare your CSV.</B> One row per guest with the columns first name, last name, email, company and ticket type. Use the same spelling for each company so its people are grouped together.</>,
           <><B>Import it.</B> Drop the file on the Attendees step, check the added, updated and skipped counts, then confirm.</>,
+          <><B>Or let guests register.</B> Turn on the Registration page step and share the link in your invitation. Each guest confirms their email before joining the list.</>,
           <><B>Choose arrival alerts.</B> Pick the ticket types you want to hear about, such as VIP.</>,
           <><B>Invite your team.</B> Add a desk lead and crew on the Desk staff step.</>,
           <><B>Check the QR email.</B> Use Send a test to myself and open it on your phone.</>,
