@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
+import { pageMeta } from "../../lib/pageMeta";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
 import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../../keystatic.config'
 
-export const metadata: Metadata = {
-  title: "Terms of Service",
-  alternates: { canonical: "https://cuedeck.io/terms" },
-  description: "The terms and conditions governing use of the CueDeck platform.",
-};
+export const metadata: Metadata = pageMeta("/terms", "Terms of Service", "The terms and conditions governing use of the CueDeck platform.");
 
 const prose: React.CSSProperties = { fontSize: 15, color: "#4b5563", lineHeight: 1.8, marginBottom: 16 };
 const h2s: React.CSSProperties  = { fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 12, marginTop: 48, letterSpacing: "-0.3px" };

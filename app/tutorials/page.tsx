@@ -1,13 +1,10 @@
 import { Metadata } from 'next'
+import { pageMeta } from "../../lib/pageMeta";
 import Nav from '../../components/Nav'
 import Footer from '../../components/Footer'
 import TutorialsClient from './TutorialsClient'
 
-export const metadata: Metadata = {
-  title: 'Tutorials',
-  alternates: { canonical: "https://cuedeck.io/tutorials" },
-  description: 'Learn CueDeck with our complete 21-episode tutorial series — from setting up your first event to running AI-assisted live productions.',
-}
+export const metadata: Metadata = pageMeta("/tutorials", "Tutorials", "Learn CueDeck with our complete 21-episode tutorial series — from setting up your first event to running AI-assisted live productions.");
 
 const EPISODES = [
   { num: '01', shortTitle: 'Welcome & Overview', duration: '4–5 min', category: 'start', youtubeUrl: 'https://www.youtube.com/watch?v=YzZuZiprSao', accentColor: '#3b82f6',

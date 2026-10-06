@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
+import { pageMeta } from "../../lib/pageMeta";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
 import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../../keystatic.config'
 
-export const metadata: Metadata = {
-  title: "About",
-  alternates: { canonical: "https://cuedeck.io/about" },
-  description: "Built by event professionals, for event professionals. Learn about the mission behind CueDeck.",
-};
+export const metadata: Metadata = pageMeta("/about", "About", "Built by event professionals, for event professionals. Learn about the mission behind CueDeck.");
 
 export default async function AboutPage() {
   const reader = createReader(process.cwd(), keystaticConfig)

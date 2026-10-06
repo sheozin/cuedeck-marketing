@@ -7,14 +7,11 @@ import Nav from '../../components/Nav'
 import Footer from '../../components/Footer'
 import BlogGrid from './BlogGrid'
 import { jsonLd as safeJsonLd } from '../../lib/jsonLd'
+import { pageMeta } from '../../lib/pageMeta'
 
 const BASE_URL = 'https://cuedeck.io'
 
-export const metadata: Metadata = {
-  title: 'Blog',
-  description: 'Insights, tips, and updates from the CueDeck team on live event production.',
-  alternates: { canonical: `${BASE_URL}/blog` },
-}
+export const metadata: Metadata = pageMeta("/blog", "Blog", "Insights, tips, and updates from the CueDeck team on live event production.");
 
 export default async function BlogPage() {
   const sb = createClient(

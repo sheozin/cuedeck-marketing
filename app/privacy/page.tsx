@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
+import { pageMeta } from "../../lib/pageMeta";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
 import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../../keystatic.config'
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  alternates: { canonical: "https://cuedeck.io/privacy" },
-  description: "How CueDeck collects, uses, and protects your personal information.",
-};
+export const metadata: Metadata = pageMeta("/privacy", "Privacy Policy", "How CueDeck collects, uses, and protects your personal information.");
 
 const prose: React.CSSProperties = { fontSize: 15, color: "#4b5563", lineHeight: 1.8, marginBottom: 16 };
 const h2s: React.CSSProperties  = { fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 12, marginTop: 48, letterSpacing: "-0.3px" };

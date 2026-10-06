@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMeta } from "../../lib/pageMeta";
 import Nav from '../../components/Nav';
 import Footer from '../../components/Footer';
 import DocsClient, { type DocSection } from '../../components/DocsClient';
@@ -7,17 +8,7 @@ const APP_URL = 'https://app.cuedeck.io';
 const TRIAL_URL = `${APP_URL}/#signup`;
 
 // ─── SEO ────────────────────────────────────────────────────────────────────────
-export const metadata: Metadata = {
-  title: 'Docs and User Guide',
-  alternates: { canonical: "https://cuedeck.io/docs" },
-  description:
-    'Complete guide to CueDeck: session management, roles, digital signage, AI agents, delay cascade, and more. Everything you need to run live events like a pro.',
-  openGraph: {
-    title: 'CueDeck Docs — User Guide',
-    description: 'Complete documentation for the CueDeck live-event production console.',
-    url: 'https://cuedeck.io/docs',
-  },
-};
+export const metadata: Metadata = pageMeta("/docs", "Docs and User Guide", "Complete guide to CueDeck: session management, roles, digital signage, AI agents, delay cascade, and more. Everything you need to run live events like a pro.");
 
 // ─── Reusable inline‑styled atoms ───────────────────────────────────────────────
 

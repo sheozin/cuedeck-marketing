@@ -1,25 +1,16 @@
 import type { Metadata } from "next";
+import { pageMeta } from "../../../lib/pageMeta";
 import Nav from "../../../components/Nav";
 import Footer from "../../../components/Footer";
 import { jsonLd } from "../../../lib/jsonLd";
 import { getCheckinPrice } from "../../../lib/checkinPrice";
 import {
-  Hero, Section, Steps, FeatureGrid, Showcase, Faq, CtaStrip, breadcrumbs, faqJsonLd, TRIAL_URL, BASE_URL,
+  Hero, Section, Steps, FeatureGrid, Showcase, Faq, CtaStrip, breadcrumbs, faqJsonLd, TRIAL_URL,
 } from "../../../components/Solutions";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
-  title: "Event Check-in with QR Codes and Badges",
-  description: "Import your guest list, email QR codes, check whole teams in with one scan and print badges. Works offline. One price per event, no subscription.",
-  alternates: { canonical: `${BASE_URL}/solutions/check-in` },
-  openGraph: {
-    title: "Event Check-in with QR Codes and Badges | CueDeck",
-    description: "Guest list, QR emails, a fast desk, door scanner phones and a live dashboard. One price per event.",
-    url: `${BASE_URL}/solutions/check-in`,
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMeta("/solutions/check-in", "Event Check-in with QR Codes and Badges", "Import your guest list, email QR codes, check whole teams in with one scan and print badges. Works offline. One price per event, no subscription.", "/solutions/check-in/opengraph-image");
 
 const steps = [
   { title: "Import your guests", desc: "Upload a CSV. You see who will be added, updated or skipped before anything is saved." },

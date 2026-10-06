@@ -1,20 +1,11 @@
 import type { Metadata } from "next";
+import { pageMeta } from "../../../lib/pageMeta";
 import Nav from "../../../components/Nav";
 import Footer from "../../../components/Footer";
 import { jsonLd } from "../../../lib/jsonLd";
-import { Hero, Section, Steps, FeatureGrid, Showcase, CtaStrip, breadcrumbs, TRIAL_URL, BASE_URL } from "../../../components/Solutions";
+import { Hero, Section, Steps, FeatureGrid, Showcase, CtaStrip, breadcrumbs, TRIAL_URL } from "../../../components/Solutions";
 
-export const metadata: Metadata = {
-  title: "Live Event Command Center for Show Callers",
-  description: "Run of show, live cues and operator roles in one real-time console. Delay cascade, broadcasts, AI incident advisor and post-event reports.",
-  alternates: { canonical: `${BASE_URL}/solutions/command-center` },
-  openGraph: {
-    title: "Live Event Command Center | CueDeck",
-    description: "Run of show, live cues and operator roles in one real-time console.",
-    url: `${BASE_URL}/solutions/command-center`,
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMeta("/solutions/command-center", "Live Event Command Center for Show Callers", "Run of show, live cues and operator roles in one real-time console. Delay cascade, broadcasts, AI incident advisor and post-event reports.", "/solutions/command-center/opengraph-image");
 
 const steps = [
   { title: "Build the run of show", desc: "Add sessions, rooms and team members, or import them from a spreadsheet. Assign each person a role." },

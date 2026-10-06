@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "../../lib/pageMeta";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
 import PricingClient from "../../components/PricingClient";
@@ -7,11 +8,7 @@ import { getCheckinPrice } from "../../lib/checkinPrice";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
-  title: "Pricing",
-  alternates: { canonical: "https://cuedeck.io/pricing" },
-  description: "Simple, transparent pricing for professional event teams. Start free, scale as you grow.",
-};
+export const metadata: Metadata = pageMeta("/pricing", "Pricing", "Simple, transparent pricing for professional event teams. Start free, scale as you grow.");
 
 const TRIAL_URL = "https://app.cuedeck.io/#signup";
 const CONTACT_URL = "/contact";

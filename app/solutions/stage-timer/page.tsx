@@ -1,20 +1,11 @@
 import type { Metadata } from "next";
+import { pageMeta } from "../../../lib/pageMeta";
 import Nav from "../../../components/Nav";
 import Footer from "../../../components/Footer";
 import { jsonLd } from "../../../lib/jsonLd";
-import { Hero, Section, FeatureGrid, Showcase, CtaStrip, breadcrumbs, TRIAL_URL, BASE_URL } from "../../../components/Solutions";
+import { Hero, Section, FeatureGrid, Showcase, CtaStrip, breadcrumbs, TRIAL_URL } from "../../../components/Solutions";
 
-export const metadata: Metadata = {
-  title: "Stage Timer and Event Signage Displays",
-  description: "A full-screen speaker countdown and 11 signage display modes, driven from your run of show. Pair any screen with a code. Included in every CueDeck plan.",
-  alternates: { canonical: `${BASE_URL}/solutions/stage-timer` },
-  openGraph: {
-    title: "Stage Timer and Displays | CueDeck",
-    description: "Speaker countdown and signage screens, driven from your run of show.",
-    url: `${BASE_URL}/solutions/stage-timer`,
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMeta("/solutions/stage-timer", "Stage Timer and Event Signage Displays", "A full-screen speaker countdown and 11 signage display modes, driven from your run of show. Pair any screen with a code. Included in every CueDeck plan.", "/solutions/stage-timer/opengraph-image");
 
 const features = [
   { title: "Colour-coded countdown", desc: "Green, then amber, then red as time runs down, readable from the back of the stage." },

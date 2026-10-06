@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { pageMeta } from "../../../lib/pageMeta";
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq('status', 'published')
     .single()
   if (!data) return {}
-  return { title: data.title, description: data.excerpt, alternates: { canonical: `https://cuedeck.io/blog/${slug}` } }
+  return pageMeta(`/blog/${slug}`, data.title, data.excerpt, `/blog/${slug}/opengraph-image`)
 }
 
 // Content comes from developer-controlled MDX files or admin-authored DB content (trusted server-side source)

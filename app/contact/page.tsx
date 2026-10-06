@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
+import { pageMeta } from "../../lib/pageMeta";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
 import ContactForm from "../../components/ContactForm";
 import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../../keystatic.config'
 
-export const metadata: Metadata = {
-  title: "Contact",
-  alternates: { canonical: "https://cuedeck.io/contact" },
-  description: "Get in touch with the CueDeck team for general enquiries, support, or enterprise pricing.",
-};
+export const metadata: Metadata = pageMeta("/contact", "Contact", "Get in touch with the CueDeck team for general enquiries, support, or enterprise pricing.");
 
 const IconMail = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
