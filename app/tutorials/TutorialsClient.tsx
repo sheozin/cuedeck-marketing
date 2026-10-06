@@ -282,7 +282,7 @@ export default function TutorialsClient({ episodes }: { episodes: Episode[] }) {
             background: '#34d399', boxShadow: '0 0 8px #34d399',
           }} />
           <span style={{ fontSize: 13, color: '#e2e8f0', fontWeight: 500 }}>
-            9 of 21 episodes live — more coming soon
+            {episodes.filter(ep => ep.youtubeUrl).length} of {episodes.length} episodes live. More coming soon.
           </span>
         </div>
       </div>
