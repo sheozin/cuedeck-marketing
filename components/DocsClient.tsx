@@ -6,7 +6,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 export interface DocSection {
   id: string;
   title: string;
-  icon: string;
+  icon: React.ReactNode;
   content: React.ReactNode;
 }
 

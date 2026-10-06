@@ -778,6 +778,53 @@ const GlobalStyle = () => (
 );
 
 // ─── Role Showcase ────────────────────────────────────────────────────────────
+// ─── Event Check-in ───────────────────────────────────────────────────────────
+const CHECKIN_POINTS = [
+  "Import a CSV and email every guest a personal QR code",
+  "One scan brings up a whole company, checked in together",
+  "Phones become door scanners; walk-ins use a self-registration kiosk",
+  "Keeps working offline, with a live dashboard and a report after the event",
+];
+
+function CheckinSection() {
+  return (
+    <section id="check-in" style={{ padding: "96px 40px", background: "#f9fafb", borderTop: "1px solid #f3f4f6" }}>
+      <div style={{
+        maxWidth: 1200, margin: "0 auto", display: "grid", alignItems: "center", gap: 56,
+        gridTemplateColumns: "repeat(auto-fit, minmax(min(420px, 100%), 1fr))",
+      }}>
+        <div>
+          <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", color: "#3b82f6", textTransform: "uppercase", marginBottom: 12 }}>
+            NEW: EVENT CHECK-IN
+          </p>
+          <h2 style={{ fontSize: "clamp(28px, 3vw, 42px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.8px", marginBottom: 16, lineHeight: 1.15 }}>
+            Every guest through the door in seconds
+          </h2>
+          <p style={{ fontSize: 17, color: "#6b7280", lineHeight: 1.65, marginBottom: 24 }}>
+            Run the registration desk from any laptop or tablet. Priced per event, with or without a CueDeck plan.
+          </p>
+          <ul style={{ listStyle: "none", padding: 0, margin: "0 0 32px", display: "flex", flexDirection: "column", gap: 12 }}>
+            {CHECKIN_POINTS.map(p => (
+              <li key={p} style={{ display: "flex", gap: 10, fontSize: 15, color: "#374151", lineHeight: 1.5 }}>
+                <span style={{ color: "#3b82f6", flexShrink: 0, marginTop: 2 }}><IconCheck /></span>{p}
+              </li>
+            ))}
+          </ul>
+          <a href="/solutions/check-in" style={{
+            display: "inline-block", padding: "13px 26px", borderRadius: 10, background: "#3b82f6", color: "#fff",
+            fontWeight: 700, fontSize: 15, textDecoration: "none", boxShadow: "0 2px 8px rgba(59,130,246,0.4)",
+          }}>Explore Event Check-in</a>
+        </div>
+        <img
+          src="/screenshots/checkin-desk-group-arrival.jpg" width={1440} height={900} loading="lazy" decoding="async"
+          alt="CueDeck check-in desk: one search brings up three guests from the same company, ready to check in together"
+          style={{ display: "block", width: "100%", height: "auto", borderRadius: 14, border: "1px solid #e5e7eb", boxShadow: "0 12px 40px rgba(15,23,42,0.12)" }}
+        />
+      </div>
+    </section>
+  );
+}
+
 function RoleShowcase() {
   return (
     <section style={{ padding: "96px 40px", background: "#f9fafb", borderTop: "1px solid #f3f4f6" }}>
@@ -1037,6 +1084,7 @@ export default async function HomePage() {
         <SocialProof />
         <RoleShowcase />
         <Features />
+        <CheckinSection />
         <HowItWorks />
         <Pricing />
         <LatestPosts posts={latestPosts} />

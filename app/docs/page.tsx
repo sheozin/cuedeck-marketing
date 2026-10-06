@@ -429,6 +429,22 @@ function MockKeyboard() {
   );
 }
 
+/** Line icons for sections without an emoji (marketing copy uses SVG icons) */
+function CheckinIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ verticalAlign: 'middle' }}>
+      <rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><path d="M14 14h3v3M21 14v7h-7" />
+    </svg>
+  );
+}
+function GuideIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ verticalAlign: 'middle' }}>
+      <path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+    </svg>
+  );
+}
+
 // ─── Section content definitions ────────────────────────────────────────────────
 
 const SECTIONS: DocSection[] = [
@@ -1078,6 +1094,125 @@ const SECTIONS: DocSection[] = [
         ]} />
 
         <Callout type="important">CSV import creates new sessions — it does not update existing ones. If you need to modify sessions after import, edit them individually in the console.</Callout>
+      </>
+    ),
+  },
+
+  // ── 19. Event Check-in ──────────────────────────────────────────────────────
+  {
+    id: 'event-check-in',
+    title: 'Event Check-in',
+    icon: <CheckinIcon />,
+    content: (
+      <>
+        <P>Event Check-in runs the registration desk for one event: your guest list, QR code emails, the check-in desk, a self-registration kiosk, door scanner phones, a live dashboard and a post-event report. It is priced per event and works with or without a CueDeck plan. Open it from <a href={`${APP_URL}/checkin`} style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>app.cuedeck.io/checkin</a>.</P>
+
+        <H3>Setup</H3>
+        <P>Setup walks through six steps: <B>Event details</B>, <B>Attendees</B>, <B>Desk staff</B>, <B>Kiosk &amp; scanners</B>, <B>QR emails</B> and <B>Go live</B>. Event details holds the name, date, venue and timezone, which are shown on the desk, the kiosk and in QR emails.</P>
+
+        <H3>Importing guests</H3>
+        <P>Drop a CSV on the Attendees step. Before anything is saved, CueDeck shows who will be added, updated or skipped. Each file can hold up to 5,000 rows, and you can import more than once. You can also add people one at a time with <B>Add person</B>.</P>
+        <Table
+          headers={['Column', 'Notes']}
+          rows={[
+            ['first name', 'Guest first name'],
+            ['last name', 'Guest last name'],
+            ['email', 'Where the QR code is sent'],
+            ['company', 'Guests with the same company check in together'],
+            ['ticket type', 'For example Delegate, Speaker, VIP; used for arrival alerts and reports'],
+          ]}
+        />
+        <P><B>Export CSV</B> on the same step downloads the guest list with arrival status at any time.</P>
+
+        <H3>Test mode and going live</H3>
+        <P>Every event starts in test mode. Everything works, but check-ins are capped at 25 and are cleared when you go live, so you can rehearse the desk with your team. An event can only be deleted while it is in test mode.</P>
+        <P>Going live is a one-off payment for that event, at the per-event price shown in setup (excl. VAT; tax is calculated at checkout from your billing address, and you can add a VAT ID). The invoice arrives by email. Live events accept check-ins from a week before the event date until the end of the second day after it.</P>
+
+        <H3>QR code emails</H3>
+        <P>Each guest gets an email with a personal QR code. Emails to guests are sent only once the event is live; in test mode, <B>Send a test to myself</B> shows you exactly what guests will receive. With <B>Email QR codes on import</B> turned on, guests imported after go-live get their code straight away.</P>
+
+        <H3>Desk staff and roles</H3>
+        <P>Invite people by email on the Desk staff step. They only ever see this event.</P>
+        <Table
+          headers={['Role', 'What they can do']}
+          rows={[
+            ['Organizer', 'Edits the event, imports guests, sends QR emails and invites people'],
+            ['Desk lead', 'Runs the desk on the day: kiosks, walk-ins, undoing any check-in, and inviting desk staff'],
+            ['Crew', 'Searches, checks people in, prints badges and undoes their own check-ins'],
+            ['Viewer', 'Sees the live numbers on the dashboard, never names'],
+          ]}
+        />
+
+        <H3>The check-in desk</H3>
+        <UL items={[
+          <><B>Scan or search.</B> Point a USB scanner at the QR code, or type two or more letters of a name, company or email.</>,
+          <><B>Whole companies at once.</B> When a guest arrives, everyone from the same company is listed. Tick who is standing at the desk and check them in together.</>,
+          <><B>Badges.</B> Badges are laid out for 100 × 70 mm badge stock and print through Chrome to any printer the computer can use.</>,
+          <><B>Walk-ins.</B> Add a walk-in at the desk, or let them register themselves at the kiosk.</>,
+          <><B>Undo.</B> A check-in made by mistake can be undone. The correction is kept in the log; nothing is erased.</>,
+          <><B>Offline.</B> If the Wi-Fi drops, the desk keeps checking people in and syncs when the connection is back. The header shows when everything is synced.</>,
+        ]} />
+        <Callout type="tip">For one-click badge printing without a dialog, start Chrome with kiosk printing enabled and set the printer and badge size once in the system print settings. Test a few badges on your real printer before the doors open.</Callout>
+
+        <H3>Self-registration kiosk</H3>
+        <P>Turn on <B>Self-registration kiosk</B> in setup, then pair a tablet: on the desk, open <B>Kiosk or scanner</B> and create a pairing code, then open app.cuedeck.io/kiosk on the tablet and type the code. You only do this once per tablet. Walk-ins type their details and are checked in; with <B>Kiosk prints badges</B> on, their badge prints straight away. A desk lead can revoke a kiosk from the same window at any time.</P>
+
+        <H3>Door scanner phones</H3>
+        <P>Any phone can check people in at a door, without a desk. Add your doors under <B>Door scanning</B> in setup, then on the desk open <B>Kiosk or scanner</B>, choose the door the phone will scan at and create a pairing code. Open app.cuedeck.io/checkin/scan on the phone and type the code. The phone confirms each scan with a sound and a clear result:</P>
+        <UL items={[
+          <><B>Checked in:</B> two rising notes and a green tick.</>,
+          <><B>Already checked in:</B> one note. Let them through if it is the same person.</>,
+          <><B>Refused</B> (for example a code from another event): two low buzzes.</>,
+        ]} />
+        <P>A code is read once and not again until it has been out of view for a moment, so a guest holding their phone still is not scanned twice. The phone keeps only the list of codes, never names, so a lost phone gives nothing away.</P>
+
+        <H3>Live dashboard</H3>
+        <P>The dashboard shows registered, checked in and still expected guests, arrivals per 15 minutes, turnout by ticket type, each desk with its sync status, and a company board that shows which companies are here, partly here or not here yet. <B>Client view</B> is a numbers-only version you can share on a screen.</P>
+        <P><B>Arrival alerts:</B> choose ticket types in setup, such as VIP or Speaker. When one of those guests checks in, the alert appears on the dashboard and on desk leads&apos; screens.</P>
+
+        <H3>Post-event report</H3>
+        <P>About two hours after check-in closes, the event owner receives the report by email: turnout by ticket type, the busiest fifteen minutes, check-ins per desk, check-ins that were made offline and synced later, and companies with people missing.</P>
+      </>
+    ),
+  },
+
+  // ── 20. Guide: check-in for your first event ────────────────────────────────
+  {
+    id: 'check-in-first-event',
+    title: 'Guide: Run Check-in for Your First Event',
+    icon: <GuideIcon />,
+    content: (
+      <>
+        <P>A step-by-step walkthrough from an empty event to an open door. Allow about thirty minutes, plus time to rehearse with your team.</P>
+        <H3>A week or more before</H3>
+        <OL items={[
+          <><B>Create the event.</B> In <a href={`${APP_URL}/checkin`} style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>Check-in</a>, create an event and fill in the name, date, venue and timezone.</>,
+          <><B>Prepare your CSV.</B> One row per guest with the columns first name, last name, email, company and ticket type. Use the same spelling for each company so its people are grouped together.</>,
+          <><B>Import it.</B> Drop the file on the Attendees step, check the added, updated and skipped counts, then confirm.</>,
+          <><B>Choose arrival alerts.</B> Pick the ticket types you want to hear about, such as VIP.</>,
+          <><B>Invite your team.</B> Add a desk lead and crew on the Desk staff step.</>,
+          <><B>Check the QR email.</B> Use Send a test to myself and open it on your phone.</>,
+        ]} />
+        <H3>Rehearse in test mode</H3>
+        <OL items={[
+          'Open the desk on the laptop you will use on the day and check in a few colleagues by search and by QR code.',
+          'Print a badge on the real printer and check it fits your 100 × 70 mm badge stock.',
+          'Pair a phone as a door scanner and a tablet as a kiosk, and try both.',
+          'Undo a check-in, and switch the Wi-Fi off for a minute to see the desk carry on and sync.',
+        ]} />
+        <Callout type="note">Test check-ins are capped at 25 and are cleared when you go live, so rehearsal never shows up in your real numbers.</Callout>
+        <H3>Go live</H3>
+        <OL items={[
+          'On the Go live step, pay for the event. The price is shown there before you pay.',
+          'Send the QR emails to every guest from the QR emails step.',
+          'Turn on Email QR codes on import if more guests will be added later.',
+        ]} />
+        <H3>On the day</H3>
+        <OL items={[
+          'Open the desk on each laptop, pair the kiosk and the door phones again if they were reset.',
+          'Keep the dashboard open on a separate screen to watch arrivals, desks and missing companies.',
+          'Afterwards, the report arrives by email once check-in closes, and Export CSV gives you the full list.',
+        ]} />
       </>
     ),
   },

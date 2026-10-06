@@ -27,6 +27,9 @@ export default function Footer() {
         <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
           {[
             { label: "Features", href: "/#features" },
+            { label: "Command Center", href: "/solutions/command-center" },
+            { label: "Stage Timer", href: "/solutions/stage-timer" },
+            { label: "Event Check-in", href: "/solutions/check-in" },
             { label: "Pricing",  href: "/#pricing" },
             { label: "Docs",     href: "/docs" },
             { label: "Blog",     href: "/blog" },

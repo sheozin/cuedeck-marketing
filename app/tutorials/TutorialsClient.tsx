@@ -289,6 +289,25 @@ export default function TutorialsClient({ episodes }: { episodes: Episode[] }) {
 
       {/* ── Episode categories ── */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '72px 40px 80px' }}>
+        {/* Written guides: features that have no video yet */}
+        <a href="/docs#check-in-first-event" style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap',
+          padding: '20px 24px', marginBottom: 56, borderRadius: 14, textDecoration: 'none',
+          background: '#eff6ff', border: '1px solid #bfdbfe',
+        }}>
+          <span>
+            <span style={{ display: 'block', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', color: '#2563eb', textTransform: 'uppercase', marginBottom: 4 }}>
+              Written guide
+            </span>
+            <span style={{ display: 'block', fontSize: 17, fontWeight: 700, color: '#111827' }}>
+              Run Event Check-in for your first event
+            </span>
+            <span style={{ display: 'block', fontSize: 14, color: '#4b5563', marginTop: 2 }}>
+              Guest list, QR emails, a rehearsal in test mode, and the desk on the day. Video coming later.
+            </span>
+          </span>
+          <span style={{ fontSize: 14, fontWeight: 700, color: '#2563eb' }}>Read the guide</span>
+        </a>
         {episodesByCategory.map(cat => (
           <section key={cat.id} style={{ marginBottom: 68 }}>
             <div style={{
