@@ -4,6 +4,12 @@ import { useState } from "react";
 const APP_URL = "https://app.cuedeck.io";
 const TRIAL_URL = `${APP_URL}/#signup`;
 
+const solutions = [
+  { label: "Command Center",         href: "/solutions/command-center", desc: "Run of show, live cues and operator roles" },
+  { label: "Stage Timer & Displays", href: "/solutions/stage-timer",    desc: "Speaker countdown and venue screens" },
+  { label: "Event Check-in",         href: "/solutions/check-in",       desc: "Guest list, QR codes, desk and badges" },
+];
+
 const links = [
   { label: "Features",     href: "/#features" },
   { label: "How it works", href: "/#how" },
@@ -15,6 +21,7 @@ const links = [
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const [solOpen, setSolOpen] = useState(false);
 
   return (
     <nav style={{
@@ -46,6 +53,37 @@ export default function Nav() {
 
         {/* Desktop nav links */}
         <div className="hidden lg:flex" style={{ alignItems: "center", gap: "28px" }}>
+          <div style={{ position: "relative" }} onMouseEnter={() => setSolOpen(true)} onMouseLeave={() => setSolOpen(false)}>
+            <button
+              type="button"
+              aria-expanded={solOpen}
+              aria-haspopup="true"
+              onClick={() => setSolOpen(o => !o)}
+              onKeyDown={e => { if (e.key === "Escape") setSolOpen(false); }}
+              style={{ display: "flex", alignItems: "center", gap: 4, background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: 14, color: "#4b5563", fontWeight: 500, fontFamily: "inherit" }}
+            >
+              Solutions
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true" style={{ transform: solOpen ? "rotate(180deg)" : "none", transition: "transform .15s" }}>
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
+            {solOpen && (
+              <div style={{ position: "absolute", top: "100%", left: -16, paddingTop: 12 }}>
+                <div style={{
+                  width: 320, background: "#fff", borderRadius: 12, border: "1px solid #e5e7eb",
+                  boxShadow: "0 12px 32px rgba(15,23,42,0.12)", padding: 8,
+                }}>
+                  {solutions.map(s => (
+                    <a key={s.href} href={s.href} onBlur={e => { if (!e.currentTarget.parentElement?.contains(e.relatedTarget as Node)) setSolOpen(false); }}
+                      style={{ display: "block", padding: "10px 12px", borderRadius: 8, textDecoration: "none" }}>
+                      <span style={{ display: "block", fontSize: 14, fontWeight: 600, color: "#111827" }}>{s.label}</span>
+                      <span style={{ display: "block", fontSize: 13, color: "#6b7280", marginTop: 2 }}>{s.desc}</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
           {links.map(l => (
             <a key={l.href} href={l.href} style={{ fontSize: 14, color: "#4b5563", textDecoration: "none", fontWeight: 500 }}>
               {l.label}
@@ -92,6 +130,15 @@ export default function Nav() {
           background: "#fff", borderTop: "1px solid #f3f4f6",
           padding: "12px 24px 20px",
         }}>
+          <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#9ca3af", padding: "8px 0 4px" }}>Solutions</p>
+          {solutions.map(s => (
+            <a key={s.href} href={s.href} onClick={() => setOpen(false)} style={{
+              display: "block", padding: "10px 0", textDecoration: "none", borderBottom: "1px solid #f9fafb",
+            }}>
+              <span style={{ display: "block", fontSize: 15, fontWeight: 600, color: "#111827" }}>{s.label}</span>
+              <span style={{ display: "block", fontSize: 13, color: "#6b7280", marginTop: 2 }}>{s.desc}</span>
+            </a>
+          ))}
           {links.map(l => (
             <a key={l.href} href={l.href} onClick={() => setOpen(false)} style={{
               display: "block", padding: "12px 0", fontSize: 15, fontWeight: 500,

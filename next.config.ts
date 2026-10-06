@@ -26,6 +26,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/check-in",
+        destination: "/solutions/check-in",
+        permanent: true,
+      },
+      {
         source: "/display",
         destination: "https://app.cuedeck.io/display",
         permanent: true,

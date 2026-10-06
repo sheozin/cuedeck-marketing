@@ -3,6 +3,9 @@ import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
 import PricingClient from "../../components/PricingClient";
 import { jsonLd as safeJsonLd } from "../../lib/jsonLd";
+import { getCheckinPrice } from "../../lib/checkinPrice";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Pricing — CueDeck",
@@ -150,10 +153,26 @@ const faqJsonLd = {
   })),
 };
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const checkin = await getCheckinPrice();
+  // Only from the live Stripe price; no Offer at all if the fetch failed.
+  const checkinJsonLd = checkin && {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "CueDeck Event Check-in",
+    description: "Guest list, QR code emails, check-in desk, door scanners, badges and a live dashboard for one event.",
+    url: `${BASE_URL}/solutions/check-in`,
+    brand: { "@type": "Brand", name: "CueDeck" },
+    offers: {
+      "@type": "Offer", name: "Event Check-in, per event", price: String(checkin.amount), priceCurrency: checkin.currency,
+      availability: "https://schema.org/InStock", url: `${BASE_URL}/solutions/check-in`,
+      priceSpecification: { "@type": "UnitPriceSpecification", price: String(checkin.amount), priceCurrency: checkin.currency, valueAddedTaxIncluded: !checkin.taxExclusive },
+    },
+  };
   return (
     <>
       <Nav />
+      {checkinJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(checkinJsonLd) }} />}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(faqJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(productJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbJsonLd) }} />
@@ -277,6 +296,43 @@ export default function PricingPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Event Check-in ────────────────────────────────────────────── */}
+        <section id="check-in" style={{ padding: "80px 40px 0" }}>
+          <div style={{
+            maxWidth: 900, margin: "0 auto", padding: 36, borderRadius: 16, border: "1px solid #e5e7eb",
+            background: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+            display: "grid", gap: 32, alignItems: "center", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))",
+          }}>
+            <div>
+              <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", color: "#3b82f6", textTransform: "uppercase", marginBottom: 10 }}>
+                Event Check-in
+              </p>
+              <h2 style={{ fontSize: "clamp(22px, 2.4vw, 30px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.5px", marginBottom: 12 }}>
+                Check-in is priced per event, on its own
+              </h2>
+              <p style={{ fontSize: 15, color: "#6b7280", lineHeight: 1.7 }}>
+                Guest list import, QR code emails, the check-in desk, door scanner phones, badges, a live dashboard and the post-event report.
+                No subscription and no per-attendee fees. It works with or without a CueDeck plan.
+              </p>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              {checkin ? (
+                <p style={{ marginBottom: 4 }}>
+                  <span style={{ fontSize: 44, fontWeight: 800, color: "#111827", letterSpacing: "-1px" }}>{checkin.label}</span>
+                  <span style={{ fontSize: 15, color: "#6b7280", marginLeft: 8 }}>per event{checkin.taxExclusive ? ", excl. VAT" : ""}</span>
+                </p>
+              ) : (
+                <p style={{ fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 4 }}>See pricing when you sign up</p>
+              )}
+              <p style={{ fontSize: 14, color: "#6b7280", marginBottom: 20 }}>Set up and test free. Pay when you go live.</p>
+              <a href="/solutions/check-in" style={{
+                display: "inline-block", padding: "12px 24px", borderRadius: 10, background: "#3b82f6", color: "#fff",
+                fontWeight: 700, fontSize: 15, textDecoration: "none",
+              }}>About Event Check-in</a>
             </div>
           </div>
         </section>
