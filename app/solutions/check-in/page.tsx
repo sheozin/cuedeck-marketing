@@ -10,7 +10,7 @@ import {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Event Check-in with QR Codes and Badges | CueDeck",
+  title: "Event Check-in with QR Codes and Badges",
   description: "Import your guest list, email QR codes, check whole teams in with one scan and print badges. Works offline. One price per event, no subscription.",
   alternates: { canonical: `${BASE_URL}/solutions/check-in` },
   openGraph: {

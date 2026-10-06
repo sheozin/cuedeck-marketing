@@ -5,7 +5,8 @@ import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../../keystatic.config'
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — CueDeck",
+  title: "Privacy Policy",
+  alternates: { canonical: "https://cuedeck.io/privacy" },
   description: "How CueDeck collects, uses, and protects your personal information.",
 };
 

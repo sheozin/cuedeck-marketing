@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { alternates: { canonical: "https://cuedeck.io" } };
 import EmailCapture from "../components/EmailCapture";
 import { jsonLd as safeJsonLd } from "../lib/jsonLd";
 import { createReader } from '@keystatic/core/reader'

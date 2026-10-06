@@ -11,7 +11,7 @@ import { jsonLd as safeJsonLd } from '../../lib/jsonLd'
 const BASE_URL = 'https://cuedeck.io'
 
 export const metadata: Metadata = {
-  title: 'Blog — CueDeck',
+  title: 'Blog',
   description: 'Insights, tips, and updates from the CueDeck team on live event production.',
   alternates: { canonical: `${BASE_URL}/blog` },
 }

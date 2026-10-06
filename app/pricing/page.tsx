@@ -8,7 +8,8 @@ import { getCheckinPrice } from "../../lib/checkinPrice";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Pricing — CueDeck",
+  title: "Pricing",
+  alternates: { canonical: "https://cuedeck.io/pricing" },
   description: "Simple, transparent pricing for professional event teams. Start free, scale as you grow.",
 };
 

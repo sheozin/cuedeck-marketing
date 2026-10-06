@@ -5,7 +5,8 @@ import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../../keystatic.config'
 
 export const metadata: Metadata = {
-  title: "Terms of Service — CueDeck",
+  title: "Terms of Service",
+  alternates: { canonical: "https://cuedeck.io/terms" },
   description: "The terms and conditions governing use of the CueDeck platform.",
 };
 

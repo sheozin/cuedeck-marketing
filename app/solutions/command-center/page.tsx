@@ -5,7 +5,7 @@ import { jsonLd } from "../../../lib/jsonLd";
 import { Hero, Section, Steps, FeatureGrid, Showcase, CtaStrip, breadcrumbs, TRIAL_URL, BASE_URL } from "../../../components/Solutions";
 
 export const metadata: Metadata = {
-  title: "Live Event Command Center for Show Callers | CueDeck",
+  title: "Live Event Command Center for Show Callers",
   description: "Run of show, live cues and operator roles in one real-time console. Delay cascade, broadcasts, AI incident advisor and post-event reports.",
   alternates: { canonical: `${BASE_URL}/solutions/command-center` },
   openGraph: {

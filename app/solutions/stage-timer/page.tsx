@@ -5,7 +5,7 @@ import { jsonLd } from "../../../lib/jsonLd";
 import { Hero, Section, FeatureGrid, Showcase, CtaStrip, breadcrumbs, TRIAL_URL, BASE_URL } from "../../../components/Solutions";
 
 export const metadata: Metadata = {
-  title: "Stage Timer and Event Signage Displays | CueDeck",
+  title: "Stage Timer and Event Signage Displays",
   description: "A full-screen speaker countdown and 11 signage display modes, driven from your run of show. Pair any screen with a code. Included in every CueDeck plan.",
   alternates: { canonical: `${BASE_URL}/solutions/stage-timer` },
   openGraph: {

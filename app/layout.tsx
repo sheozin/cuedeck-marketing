@@ -38,9 +38,6 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
   },
-  alternates: {
-    canonical: BASE_URL,
-  },
   other: {
     "theme-color": "#0f172a",
   },

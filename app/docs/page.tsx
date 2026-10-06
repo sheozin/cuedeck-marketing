@@ -8,7 +8,8 @@ const TRIAL_URL = `${APP_URL}/#signup`;
 
 // ─── SEO ────────────────────────────────────────────────────────────────────────
 export const metadata: Metadata = {
-  title: 'Docs — CueDeck User Guide',
+  title: 'Docs and User Guide',
+  alternates: { canonical: "https://cuedeck.io/docs" },
   description:
     'Complete guide to CueDeck: session management, roles, digital signage, AI agents, delay cascade, and more. Everything you need to run live events like a pro.',
   openGraph: {

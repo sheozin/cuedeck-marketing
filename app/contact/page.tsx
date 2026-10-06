@@ -6,7 +6,8 @@ import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../../keystatic.config'
 
 export const metadata: Metadata = {
-  title: "Contact — CueDeck",
+  title: "Contact",
+  alternates: { canonical: "https://cuedeck.io/contact" },
   description: "Get in touch with the CueDeck team for general enquiries, support, or enterprise pricing.",
 };
 

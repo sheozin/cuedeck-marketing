@@ -4,7 +4,8 @@ import Footer from '../../components/Footer'
 import TutorialsClient from './TutorialsClient'
 
 export const metadata: Metadata = {
-  title: 'Tutorials — CueDeck',
+  title: 'Tutorials',
+  alternates: { canonical: "https://cuedeck.io/tutorials" },
   description: 'Learn CueDeck with our complete 21-episode tutorial series — from setting up your first event to running AI-assisted live productions.',
 }
 

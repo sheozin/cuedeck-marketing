@@ -3,7 +3,7 @@ import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
-  title: "Page Not Found — CueDeck",
+  title: "Page Not Found",
   description: "This page doesn't exist.",
 };
 

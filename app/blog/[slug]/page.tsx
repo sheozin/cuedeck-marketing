@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq('status', 'published')
     .single()
   if (!data) return {}
-  return { title: `${data.title} — CueDeck Blog`, description: data.excerpt }
+  return { title: data.title, description: data.excerpt, alternates: { canonical: `https://cuedeck.io/blog/${slug}` } }
 }
 
 // Content comes from developer-controlled MDX files or admin-authored DB content (trusted server-side source)
