@@ -6,6 +6,7 @@ import type { Post } from './BlogGrid'
 import Nav from '../../components/Nav'
 import Footer from '../../components/Footer'
 import BlogGrid from './BlogGrid'
+import { jsonLd as safeJsonLd } from '../../lib/jsonLd'
 
 const BASE_URL = 'https://cuedeck.io'
 
@@ -32,7 +33,7 @@ export default async function BlogPage() {
   const allPosts = (posts ?? []) as Post[]
   const tags = [...new Set(allPosts.flatMap((p) => p.tags ?? []))].sort()
 
-  const collectionJsonLd = JSON.stringify({
+  const collectionJsonLd = safeJsonLd({
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'CueDeck Blog',
@@ -49,7 +50,7 @@ export default async function BlogPage() {
     },
   })
 
-  const breadcrumbJsonLd = JSON.stringify({
+  const breadcrumbJsonLd = safeJsonLd({
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [

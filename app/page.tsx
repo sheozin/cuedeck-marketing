@@ -2,6 +2,7 @@ import Link from "next/link";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import EmailCapture from "../components/EmailCapture";
+import { jsonLd as safeJsonLd } from "../lib/jsonLd";
 import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../keystatic.config'
 import { getAllPosts, formatDate } from '../lib/posts'
@@ -1026,7 +1027,7 @@ export default async function HomePage() {
       <Nav />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeFaqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(homeFaqJsonLd) }}
       />
       <main>
         <Hero heroHeadline={heroHeadline} heroSubheadline={heroSubheadline} />
