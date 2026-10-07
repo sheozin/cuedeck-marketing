@@ -437,6 +437,20 @@ function CheckinIcon() {
     </svg>
   );
 }
+function TicketIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ verticalAlign: 'middle' }}>
+      <path d="M2 9a3 3 0 0 0 0 6v3a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-3a3 3 0 0 0 0-6V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2zM13 5v2M13 17v2M13 11v2" />
+    </svg>
+  );
+}
+function MailIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ verticalAlign: 'middle' }}>
+      <path d="M3 5h18v14H3zM3 7l9 6 9-6" />
+    </svg>
+  );
+}
 function GuideIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ verticalAlign: 'middle' }}>
@@ -1108,7 +1122,7 @@ const SECTIONS: DocSection[] = [
         <P>Event Check-in runs the registration desk for one event: your guest list, an online registration page, QR code emails, the check-in desk, a self-registration kiosk, door scanner phones, a live dashboard and a post-event report. It is priced per event and works with or without a CueDeck plan. Open it from <a href={`${APP_URL}/checkin`} style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>app.cuedeck.io/checkin</a>.</P>
 
         <H3>Setup</H3>
-        <P>Setup walks through seven steps: <B>Event details</B>, <B>Attendees</B>, <B>Registration page</B>, <B>Desk staff</B>, <B>Kiosk &amp; scanners</B>, <B>QR emails</B> and <B>Go live</B>. Event details holds the name, date, venue and timezone, which are shown on the desk, the kiosk and in QR emails.</P>
+        <P>Each event has a sidebar: <B>Overview</B>, <B>Guests</B>, <B>Registration</B>, <B>Tickets</B>, <B>Branding</B>, <B>Badges</B>, <B>Emails</B>, <B>Team</B>, <B>Devices</B>, <B>Reports</B>, <B>Settings</B> and <B>Go live</B>. Overview lists what is still to do. Settings holds the name, date, start and end times, venue and timezone, which are shown on the desk, the kiosk and in guest emails.</P>
 
         <H3>Importing guests</H3>
         <P>Drop a CSV on the Attendees step. Before anything is saved, CueDeck shows who will be added, updated or skipped. Each file can hold up to 5,000 rows, and you can import more than once. You can also add people one at a time with <B>Add person</B>.</P>
@@ -1158,7 +1172,7 @@ const SECTIONS: DocSection[] = [
         <UL items={[
           <><B>Scan or search.</B> Point a USB scanner at the QR code, or type two or more letters of a name, company or email.</>,
           <><B>Whole companies at once.</B> When a guest arrives, everyone from the same company is listed. Tick who is standing at the desk and check them in together.</>,
-          <><B>Badges.</B> Badges are laid out for 100 × 70 mm badge stock and print through Chrome to any printer the computer can use.</>,
+          <><B>Badges.</B> Badges print through Chrome to any printer the computer can use, on the badge stock you choose under <B>Badges</B> (see below).</>,
           <><B>Walk-ins.</B> Add a walk-in at the desk, or let them register themselves at the kiosk.</>,
           <><B>Undo.</B> A check-in made by mistake can be undone. The correction is kept in the log; nothing is erased.</>,
           <><B>Offline.</B> If the Wi-Fi drops, the desk keeps checking people in and syncs when the connection is back. The header shows when everything is synced.</>,
@@ -1187,7 +1201,118 @@ const SECTIONS: DocSection[] = [
     ),
   },
 
-  // ── 20. Guide: check-in for your first event ────────────────────────────────
+  // ── 20. Check-in: registration, invitations and tickets ────────────────────
+  {
+    id: 'check-in-registration',
+    title: 'Check-in: Registration, Invitations and Tickets',
+    icon: <TicketIcon />,
+    content: (
+      <>
+        <P>Everything under <B>Registration</B> and <B>Tickets</B> decides who can get onto your guest list and how.</P>
+
+        <H3>Page language</H3>
+        <P>The registration page, its emails and the guest&apos;s ticket are available in English, Polski, Deutsch and Arabic. <B>Automatic</B> shows each guest the page in their browser&apos;s language when it is one of these, or you can fix one language. What you write yourself (event name, description, questions, ticket names) is shown as you wrote it. Guests who register get their later emails in the language they used on the page.</P>
+
+        <H3>Who can register</H3>
+        <UL items={[
+          <><B>Anyone with the link.</B> The default.</>,
+          <><B>Invited guests only.</B> The public link takes no registrations. You invite guests from your guest list and each one gets a personal link to say whether they are coming. With approval on as well, the public link takes requests for an invitation instead.</>,
+        ]} />
+
+        <H3>Invitations</H3>
+        <P>With <B>Invited guests only</B> on and the event live, the Guests page shows an <B>Invitations</B> bar: how many were invited, coming, not coming and not answered yet. <B>Send invitations</B> emails every imported guest with an email address who has not been invited yet, and <B>Send me a test</B> shows you the email first.</P>
+        <UL items={[
+          <><B>Answering.</B> The guest opens their link and says whether they are coming. They can come back to the same link and change their answer, and their plus-ones if you allow them.</>,
+          <><B>Invite again.</B> Sends a fresh link to one guest. Each address can get one invitation every 10 minutes and at most five a day for an event.</>,
+          <><B>Cancel link.</B> If an invitation was forwarded, this stops every link that guest was sent from working. Use Invite again to send a new one.</>,
+        ]} />
+
+        <H3>Waitlist and approval</H3>
+        <UL items={[
+          <><B>Waitlist when full.</B> Once you reach capacity, guests can join a waitlist instead. Offer places from the list and their ticket is emailed.</>,
+          <><B>Move people up automatically.</B> When a place opens up (someone removed, a ticket refunded, capacity raised), the next people on the waitlist get it in order and their ticket is emailed. This is checked every 5 minutes. A group moves up only when all of it fits, and nobody jumps the queue.</>,
+          <><B>Approve each registration.</B> Registrations wait for you, and guests get their ticket only once you approve them.</>,
+        ]} />
+
+        <H3>Plus-ones</H3>
+        <P>Allow each guest to bring up to five people. Every plus-one gets their own QR ticket, sent to the guest who brought them, and takes a place within your capacity. Paid tickets have no plus-ones: everyone buys their own.</P>
+
+        <H3>Tickets</H3>
+        <P>Ticket types let guests choose what they register for. Without any, registration is free and nobody chooses. Each type has a name, an optional description, a price and currency, and optionally how many are available. A price of 0.00 makes a free ticket.</P>
+        <UL items={[
+          <><B>Getting paid.</B> To sell paid tickets, click <B>Connect Stripe</B> under Tickets and connect your own Stripe account. Payments go straight to that account. Free tickets work without Stripe.</>,
+          <><B>What the guest sees.</B> The guest pays on Stripe&apos;s checkout page and gets their QR ticket by email once the payment has gone through.</>,
+          <><B>Orders.</B> Tickets lists every order as Paid, Paying now or Refunded, with your revenue.</>,
+          <><B>Refunds.</B> Click <B>Refund</B> on an order, then click again to confirm. The money goes back through Stripe. A guest who has not checked in yet is taken off the guest list and their QR code stops working; a guest who already checked in stays on it.</>,
+        ]} />
+        <Callout type="note">Stripe&apos;s card fees are charged on your Stripe account, and disputes are handled there too.</Callout>
+
+        <H3>Put the form on your own website</H3>
+        <P>Under Registration, open <B>Put the form on your own website</B> and copy the code into your page. The form fits itself to your page. Confirming an email and paying still open on CueDeck&apos;s own page.</P>
+
+        <H3>Speakers from your run of show</H3>
+        <P>If the event also runs in the CueDeck console, turn on <B>Tell the production console when a speaker arrives</B> on the Guests page. When a guest whose name matches a speaker checks in, their session shows the speaker as arrived. Only guests you listed or the desk added in person count, never names typed on the registration page or a kiosk. A panel counts once everyone on it is in.</P>
+      </>
+    ),
+  },
+
+  // ── 21. Check-in: branding, badges, emails, reports and integrations ───────
+  {
+    id: 'check-in-emails-integrations',
+    title: 'Check-in: Branding, Emails and Integrations',
+    icon: <MailIcon />,
+    content: (
+      <>
+        <H3>Branding</H3>
+        <P>One brand per event: <B>Hosted by</B>, a brand colour, the venue address (used for a Maps link), a description of the event, a wide cover image (at least 1600 px across) and a logo (square works best). Anything you leave empty is simply not shown. The brand appears on the registration page and in guest emails, and the colour on console displays. With <B>Show the programme</B> on, guests also see your sessions and times from the run of show, including any delays, for events you run in CueDeck.</P>
+
+        <H3>Badges</H3>
+        <P>The preview under <B>Badges</B> is the real badge at its printed size.</P>
+        <Table
+          headers={['Setting', 'Choices']}
+          rows={[
+            ['Badge stock', '100 × 70 mm (default), 4 × 3 in, 90 × 55 mm, A6, 4 × 6 in portrait, or your own size from 50 to 200 mm wide and 40 to 200 mm high'],
+            ['Name', 'Full name, or first name large'],
+            ['Layout', 'Centred or left'],
+            ['Shown on the badge', 'Colour band, logo, company, ticket type, QR code (each on or off)'],
+            ['Colours by ticket type', 'A band colour per ticket type, so staff spot VIPs and speakers across the room'],
+          ]}
+        />
+        <P><B>Print a test badge</B> prints one on the printer attached to that computer.</P>
+
+        <H3>Automatic emails</H3>
+        <P>Turn these on under <B>Emails</B>. They go out once the event is live; test mode never emails guests. <B>Send me the reminder</B> and <B>Send me the thank-you</B> send you a copy first.</P>
+        <UL items={[
+          <><B>Reminder the day before.</B> Goes out from 24 hours before doors open, with each guest&apos;s QR code, the time and the venue. Guests who already checked in are skipped. Add an optional note, such as parking or which entrance to use.</>,
+          <><B>Thank-you after the event.</B> Goes out 2 hours after the event ends, only to guests who checked in. Add an optional note and a link, such as a survey or the slides.</>,
+        ]} />
+
+        <H3>Registration reports</H3>
+        <P>Under <B>Reports</B>, the registration page shows visitors, registrations and what share of visitors registered, guests checked in and QR emails sent, with a chart of the last 30 days. Visitors are counted once a day each, without cookies. Cards for invitations, ticket sales, the waitlist, plus-ones and automatic emails appear when they apply to the event.</P>
+        <P>To see where guests come from, add <B>?ref=</B> and a word of your choice to your registration link, for example <B>?ref=newsletter</B> in your newsletter and <B>?ref=linkedin</B> in a post. The Sources table shows visitors and registrations for each one, and the guest export includes each guest&apos;s source.</P>
+
+        <H3>Integrations (webhooks)</H3>
+        <P>Under <B>Settings</B>, <B>Integrations</B> sends guests, check-ins and ticket sales to your own tools as they happen: Zapier, Make, your CRM or your own server. Add an https address and choose what it receives:</P>
+        <Table
+          headers={['Choice', 'Sent when']}
+          rows={[
+            ['New guest', 'A guest is added to the list'],
+            ['Check-in', 'A guest checks in'],
+            ['Ticket paid', 'A paid ticket order goes through'],
+            ['Invitation answered', 'An invited guest says whether they are coming'],
+          ]}
+        />
+        <UL items={[
+          <><B>Only live events send.</B> Nothing is sent while the event is in test mode.</>,
+          <><B>Signing secret.</B> Shown once when you add the webhook, so copy it then. Each call carries an <B>X-CueDeck-Signature</B> header, t=time,v1=signature, where the signature is HMAC-SHA256 of the time, a dot and the body, using your secret, in hex. Check it, and refuse calls older than five minutes.</>,
+          <><B>Retries.</B> An answer other than 2xx within 10 seconds counts as failed, and the call is retried after 1, 5, 30, 120 and 360 minutes. Last delivery in the list shows how the latest call went.</>,
+          <><B>Who it belongs to.</B> A webhook keeps sending only while the person who added it can still edit the event. The address must use the standard https port and may not point at a private network.</>,
+        ]} />
+      </>
+    ),
+  },
+
+  // ── 22. Guide: check-in for your first event ────────────────────────────────
   {
     id: 'check-in-first-event',
     title: 'Guide: Run Check-in for Your First Event',
@@ -1199,10 +1324,10 @@ const SECTIONS: DocSection[] = [
         <OL items={[
           <><B>Create the event.</B> In <a href={`${APP_URL}/checkin`} style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>Check-in</a>, create an event and fill in the name, date, venue and timezone.</>,
           <><B>Prepare your CSV.</B> One row per guest with the columns first name, last name, email, company and ticket type. Use the same spelling for each company so its people are grouped together.</>,
-          <><B>Import it.</B> Drop the file on the Attendees step, check the added, updated and skipped counts, then confirm.</>,
-          <><B>Or let guests register.</B> Turn on the Registration page step and share the link in your invitation. Each guest confirms their email before joining the list.</>,
+          <><B>Import it.</B> Drop the file on the Guests page, check the added, updated and skipped counts, then confirm.</>,
+          <><B>Or let guests register.</B> Turn on the registration page under Registration and share the link in your invitation. Each guest confirms their email before joining the list.</>,
           <><B>Choose arrival alerts.</B> Pick the ticket types you want to hear about, such as VIP.</>,
-          <><B>Invite your team.</B> Add a desk lead and crew on the Desk staff step.</>,
+          <><B>Invite your team.</B> Add a desk lead and crew under Team.</>,
           <><B>Check the QR email.</B> Use Send a test to myself and open it on your phone.</>,
         ]} />
         <H3>Rehearse in test mode</H3>
