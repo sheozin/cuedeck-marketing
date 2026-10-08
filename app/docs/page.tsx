@@ -1265,6 +1265,7 @@ const SECTIONS: DocSection[] = [
       <>
         <H3>Branding</H3>
         <P>One brand per event: <B>Hosted by</B>, a brand colour, the venue address (used for a Maps link), a description of the event, a wide cover image (at least 1600 px across) and a logo (square works best). Anything you leave empty is simply not shown. The brand appears on the registration page and in guest emails, and the colour on console displays. With <B>Show the programme</B> on, guests also see your sessions and times from the run of show, including any delays, for events you run in CueDeck.</P>
+        <P><B>White label</B> removes CueDeck from what guests see: the registration page no longer says Registration by CueDeck, and guest emails have no CueDeck footer. The privacy link and the consent text stay, because they tell guests who handles their data.</P>
 
         <H3>Badges</H3>
         <P>The preview under <B>Badges</B> is the real badge at its printed size.</P>
