@@ -3,6 +3,7 @@ import { pageMeta } from "../../lib/pageMeta";
 import Nav from '../../components/Nav';
 import Footer from '../../components/Footer';
 import DocsClient, { type DocSection } from '../../components/DocsClient';
+import DocShot from '../../components/DocShot';
 
 const APP_URL = 'https://app.cuedeck.io';
 const TRIAL_URL = `${APP_URL}/#signup`;
@@ -113,322 +114,6 @@ function H3({ children }: { children: React.ReactNode }) {
   return <h3 style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 10, marginTop: 24 }}>{children}</h3>;
 }
 
-// ─── Console mockup wrapper (dark frame) ────────────────────────────────────────
-function MockFrame({ title, children }: { title?: string; children: React.ReactNode }) {
-  return (
-    <div style={{
-      borderRadius: 12, overflow: 'hidden', marginBottom: 20, marginTop: 8,
-      boxShadow: '0 8px 30px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08)',
-      border: '1px solid rgba(255,255,255,0.06)', maxWidth: 600, width: '100%',
-    }}>
-      {/* Titlebar */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: '#0d1220', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ef4444', opacity: 0.65, display: 'inline-block' }} />
-        <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#eab308', opacity: 0.65, display: 'inline-block' }} />
-        <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#22c55e', opacity: 0.65, display: 'inline-block' }} />
-        {title && <span style={{ marginLeft: 8, fontSize: 10, color: '#475569' }}>{title}</span>}
-      </div>
-      {/* Content */}
-      <div style={{ background: '#111827', padding: '12px 14px' }}>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-// ─── Mockup: UI Overview (annotated layout) ─────────────────────────────────────
-function MockUIOverview() {
-  return (
-    <MockFrame title="app.cuedeck.io — Director View">
-      <div style={{ display: 'flex', gap: 8 }}>
-        {/* Sidebar */}
-        <div style={{
-          width: 100, minWidth: 70, flexShrink: 1, background: 'rgba(255,255,255,0.03)',
-          borderRadius: 6, padding: '8px 6px', border: '1px solid rgba(255,255,255,0.06)',
-          display: 'flex', flexDirection: 'column', gap: 4,
-        }}>
-          <div style={{ fontSize: 8, fontWeight: 700, color: '#60a5fa', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 3 }}>
-            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style={{ width: 10, height: 10, flexShrink: 0 }}><defs><linearGradient id="doc-bg" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#1d4ed8"/><stop offset="100%" stopColor="#3b82f6"/></linearGradient></defs><rect width="40" height="40" rx="12" fill="url(#doc-bg)"/><path d="M 25 10 A 10.5 10.5 0 1 0 25 30" stroke="white" strokeWidth="5" strokeLinecap="round" fill="none"/></svg>
-            <span><span style={{ color: '#fff' }}>Cue</span><span style={{ color: '#60a5fa' }}>Deck</span></span>
-          </div>
-          {['Sessions', 'Timeline', 'Signage', 'Operators', 'AI Agents', 'Event Log', 'Billing'].map((item, i) => (
-            <div key={item} style={{
-              fontSize: 8, padding: '3px 6px', borderRadius: 3, color: i === 0 ? '#60a5fa' : '#64748b',
-              background: i === 0 ? 'rgba(59,130,246,0.12)' : 'transparent',
-            }}>{item}</div>
-          ))}
-          <div style={{ fontSize: 7, color: '#334155', marginTop: 'auto', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 4 }}>
-            ← Sidebar
-          </div>
-        </div>
-        {/* Main area */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {/* Top bar */}
-          <div style={{
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            padding: '4px 8px', background: 'rgba(255,255,255,0.03)', borderRadius: 4,
-            border: '1px solid rgba(255,255,255,0.06)',
-          }}>
-            <div style={{ display: 'flex', gap: 4 }}>
-              {['DIR', 'STG', 'AV', 'SIG'].map((r, i) => (
-                <span key={r} style={{
-                  fontSize: 7, padding: '1px 4px', borderRadius: 2,
-                  background: i === 0 ? '#1e3a5f' : 'transparent',
-                  color: i === 0 ? '#60a5fa' : '#475569',
-                }}>{r}</span>
-              ))}
-            </div>
-            <span style={{ fontSize: 9, fontFamily: 'monospace', color: '#fff', fontWeight: 700 }}>14:32:07</span>
-          </div>
-          {/* Broadcast bar */}
-          <div style={{
-            padding: '4px 8px', background: 'rgba(59,130,246,0.08)', borderRadius: 4,
-            border: '1px dashed rgba(59,130,246,0.3)', fontSize: 7, color: '#60a5fa',
-          }}>
-            📢 Broadcast: &quot;Doors open in 5 minutes&quot;
-          </div>
-          {/* Session cards */}
-          {[
-            { n: 1, title: 'Opening Ceremony', status: 'ENDED', color: '#6b7280' },
-            { n: 2, title: 'Keynote: Future of AI', status: 'LIVE', color: '#ff3b30' },
-            { n: 3, title: 'Coffee Break', status: 'READY', color: '#22c55e' },
-            { n: 4, title: 'Workshop: Data Design', status: 'PLANNED', color: '#3b82f6' },
-          ].map(s => (
-            <div key={s.n} style={{
-              display: 'flex', alignItems: 'center', gap: 6, padding: '5px 8px', borderRadius: 5,
-              background: s.status === 'LIVE' ? 'rgba(255,59,48,0.06)' : 'rgba(255,255,255,0.02)',
-              border: `1px solid ${s.status === 'LIVE' ? 'rgba(255,59,48,0.2)' : 'rgba(255,255,255,0.05)'}`,
-            }}>
-              <span style={{ fontSize: 8, color: '#475569', width: 10 }}>{s.n}</span>
-              <span style={{ fontSize: 9, color: s.status === 'ENDED' ? '#64748b' : '#e2e8f0', flex: 1, fontWeight: 500 }}>{s.title}</span>
-              <span style={{
-                fontSize: 7, padding: '1px 6px', borderRadius: 99, fontWeight: 700,
-                background: `${s.color}22`, color: s.color, border: `1px solid ${s.color}44`,
-              }}>{s.status}</span>
-            </div>
-          ))}
-          <div style={{ fontSize: 7, color: '#334155', textAlign: 'right' }}>↑ Session List Area</div>
-        </div>
-      </div>
-    </MockFrame>
-  );
-}
-
-// ─── Mockup: Session Card anatomy ───────────────────────────────────────────────
-function MockSessionCard() {
-  return (
-    <MockFrame title="Session Card — LIVE state">
-      <div style={{
-        padding: '10px 12px', borderRadius: 8,
-        background: 'rgba(255,59,48,0.06)',
-        border: '1px solid rgba(255,59,48,0.2)',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-          <span style={{ fontSize: 11, color: '#64748b', fontWeight: 600 }}>3</span>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: '#f1f5f9' }}>Keynote: The Next Wave</div>
-            <div style={{ fontSize: 10, color: '#64748b' }}>Dr. Sarah Chen · Main Stage · 10:30–11:15</div>
-          </div>
-          <span style={{
-            fontSize: 9, padding: '2px 8px', borderRadius: 99, fontWeight: 700,
-            background: 'rgba(255,59,48,0.15)', color: '#ff3b30', border: '1px solid rgba(255,59,48,0.3)',
-          }}>LIVE</span>
-        </div>
-        {/* Progress bar */}
-        <div style={{ height: 4, background: 'rgba(255,255,255,0.06)', borderRadius: 99, marginBottom: 8, overflow: 'hidden' }}>
-          <div style={{ width: '68%', height: '100%', background: '#ff3b30', borderRadius: 99 }} />
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ fontSize: 10, color: '#94a3b8' }}>
-            <span style={{ color: '#f1f5f9', fontWeight: 600, fontFamily: 'monospace' }}>30:42</span> elapsed · <span style={{ color: '#f1f5f9', fontWeight: 600, fontFamily: 'monospace' }}>14:18</span> remaining
-          </div>
-          <div style={{ display: 'flex', gap: 4 }}>
-            <span style={{ fontSize: 8, padding: '3px 8px', borderRadius: 4, background: 'rgba(249,115,22,0.12)', color: '#fdba74', border: '1px solid rgba(249,115,22,0.3)' }}>HOLD</span>
-            <span style={{ fontSize: 8, padding: '3px 8px', borderRadius: 4, background: 'rgba(107,114,128,0.12)', color: '#9ca3af', border: '1px solid rgba(107,114,128,0.3)' }}>END</span>
-          </div>
-        </div>
-      </div>
-    </MockFrame>
-  );
-}
-
-// ─── Mockup: Broadcast Bar ──────────────────────────────────────────────────────
-function MockBroadcast() {
-  return (
-    <MockFrame title="Broadcast System">
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {/* Input bar */}
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 8,
-          padding: '8px 10px', background: 'rgba(255,255,255,0.04)', borderRadius: 6,
-          border: '1px solid rgba(59,130,246,0.25)',
-        }}>
-          <span style={{ fontSize: 12 }}>📢</span>
-          <span style={{ flex: 1, fontSize: 11, color: '#94a3b8' }}>Type broadcast message...</span>
-          <span style={{ fontSize: 9, color: '#475569' }}>0/280</span>
-          <span style={{ fontSize: 9, padding: '3px 10px', borderRadius: 4, background: '#3b82f6', color: '#fff', fontWeight: 600 }}>Send</span>
-        </div>
-        {/* Presets */}
-        <div>
-          <div style={{ fontSize: 8, color: '#475569', marginBottom: 4, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Quick Presets</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-            {['🚪 Doors open 5min', '⏸ Hold — tech issue', '✅ All clear', '☕ Break 15min', '👔 VIP standby'].map(p => (
-              <span key={p} style={{
-                fontSize: 8, padding: '3px 8px', borderRadius: 4,
-                background: 'rgba(59,130,246,0.08)', color: '#60a5fa',
-                border: '1px solid rgba(59,130,246,0.2)', cursor: 'pointer',
-              }}>{p}</span>
-            ))}
-          </div>
-        </div>
-        {/* Active broadcast */}
-        <div style={{
-          padding: '8px 10px', borderRadius: 6,
-          background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        }}>
-          <div>
-            <div style={{ fontSize: 8, color: '#3b82f6', fontWeight: 600, marginBottom: 2 }}>ACTIVE BROADCAST</div>
-            <div style={{ fontSize: 11, color: '#e2e8f0' }}>☕ Break time — back in 15 minutes</div>
-          </div>
-          <span style={{ fontSize: 10, color: '#475569', cursor: 'pointer' }}>✕</span>
-        </div>
-      </div>
-    </MockFrame>
-  );
-}
-
-// ─── Mockup: Delay Cascade ──────────────────────────────────────────────────────
-function MockDelayCascade() {
-  return (
-    <MockFrame title="Delay Cascade — +10 min applied">
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        {[
-          { n: 3, title: 'Keynote: The Next Wave', time: '10:30', newTime: null, status: 'LIVE', delayed: false },
-          { n: 4, title: 'Coffee Break', time: '11:15', newTime: '11:25', status: 'READY', delayed: true },
-          { n: 5, title: 'Panel: Data Ethics', time: '11:45', newTime: '11:55', status: 'PLANNED', delayed: true },
-          { n: 6, title: 'Workshop: Intro to AI', time: '12:30', newTime: '12:40', status: 'PLANNED', delayed: true },
-        ].map(s => (
-          <div key={s.n} style={{
-            display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 6,
-            background: s.delayed ? 'rgba(249,115,22,0.06)' : 'rgba(255,255,255,0.02)',
-            border: `1px solid ${s.delayed ? 'rgba(249,115,22,0.2)' : 'rgba(255,255,255,0.05)'}`,
-          }}>
-            <span style={{ fontSize: 9, color: '#475569', width: 12 }}>{s.n}</span>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 10, color: '#e2e8f0', fontWeight: 500 }}>{s.title}</div>
-              <div style={{ fontSize: 9, color: '#64748b' }}>
-                {s.delayed ? (
-                  <><span style={{ textDecoration: 'line-through', color: '#475569' }}>{s.time}</span> → <span style={{ color: '#fdba74', fontWeight: 600 }}>{s.newTime}</span> <span style={{ color: '#f97316', fontSize: 8 }}>+10min</span></>
-                ) : (
-                  <span>{s.time}</span>
-                )}
-              </div>
-            </div>
-            <span style={{
-              fontSize: 7, padding: '1px 6px', borderRadius: 99, fontWeight: 700,
-              background: s.status === 'LIVE' ? 'rgba(255,59,48,0.15)' : s.status === 'READY' ? 'rgba(34,197,94,0.12)' : 'rgba(59,130,246,0.12)',
-              color: s.status === 'LIVE' ? '#ff3b30' : s.status === 'READY' ? '#22c55e' : '#3b82f6',
-            }}>{s.status}</span>
-          </div>
-        ))}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 4, marginTop: 4 }}>
-          <span style={{ fontSize: 8, padding: '3px 10px', borderRadius: 4, background: 'rgba(255,255,255,0.05)', color: '#94a3b8', border: '1px solid rgba(255,255,255,0.1)' }}>Reset to planned</span>
-        </div>
-      </div>
-    </MockFrame>
-  );
-}
-
-// ─── Mockup: Stage Monitor ──────────────────────────────────────────────────────
-function MockStageMonitor() {
-  return (
-    <div style={{
-      borderRadius: 12, overflow: 'hidden', marginBottom: 20, marginTop: 8,
-      boxShadow: '0 8px 30px rgba(0,0,0,0.15)', maxWidth: 600, width: '100%',
-      background: '#000', border: '1px solid rgba(255,255,255,0.08)',
-    }}>
-      <div style={{ padding: '24px 20px', textAlign: 'center' }}>
-        <div style={{ fontSize: 10, color: '#64748b', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6 }}>NOW PRESENTING</div>
-        <div style={{ fontSize: 'clamp(16px, 4vw, 22px)', fontWeight: 800, color: '#fff', marginBottom: 6 }}>Keynote: The Next Wave</div>
-        <div style={{ fontSize: 14, color: '#94a3b8', marginBottom: 16 }}>Dr. Sarah Chen · Main Stage</div>
-        <div style={{ fontFamily: 'monospace', fontSize: 'clamp(28px, 8vw, 40px)', fontWeight: 800, color: '#22c55e', marginBottom: 6 }}>14:18</div>
-        <div style={{ fontSize: 11, color: '#64748b' }}>remaining</div>
-        {/* Progress bar */}
-        <div style={{ height: 4, background: 'rgba(255,255,255,0.08)', borderRadius: 99, margin: '16px auto 16px', maxWidth: 300, overflow: 'hidden' }}>
-          <div style={{ width: '68%', height: '100%', background: '#22c55e', borderRadius: 99 }} />
-        </div>
-        <div style={{
-          fontSize: 10, color: '#475569', padding: '6px 12px', borderRadius: 6,
-          background: 'rgba(255,255,255,0.04)', display: 'inline-block',
-        }}>
-          NEXT: Coffee Break · 11:15
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Mockup: AI Agents Panel ────────────────────────────────────────────────────
-function MockAIAgents() {
-  return (
-    <MockFrame title="AI Agents — Director Panel">
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {[
-          { icon: '🔍', name: 'Incident Advisor', desc: 'AI diagnosis & resolution steps', status: 'Ready', statusColor: '#22c55e' },
-          { icon: '⏰', name: 'Cue Engine', desc: 'Pre-cue alerts 8 min before start', status: 'Active · 2 upcoming', statusColor: '#3b82f6' },
-          { icon: '📊', name: 'Report Generator', desc: 'Post-event summary & variance', status: 'Ready', statusColor: '#22c55e' },
-        ].map(a => (
-          <div key={a.name} style={{
-            display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px', borderRadius: 6,
-            background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
-          }}>
-            <span style={{ fontSize: 18 }}>{a.icon}</span>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 11, fontWeight: 600, color: '#f1f5f9' }}>{a.name}</div>
-              <div style={{ fontSize: 9, color: '#64748b' }}>{a.desc}</div>
-            </div>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 8, color: a.statusColor, fontWeight: 600 }}>{a.status}</div>
-              <span style={{
-                fontSize: 8, padding: '2px 8px', borderRadius: 4, marginTop: 2, display: 'inline-block',
-                background: 'rgba(59,130,246,0.1)', color: '#60a5fa', border: '1px solid rgba(59,130,246,0.25)',
-              }}>Open</span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </MockFrame>
-  );
-}
-
-// ─── Mockup: Keyboard Shortcuts ─────────────────────────────────────────────────
-function MockKeyboard() {
-  return (
-    <div style={{
-      display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16, marginTop: 8,
-    }}>
-      {[
-        { key: 'B', label: 'Broadcast' },
-        { key: 'R', label: 'Ready' },
-        { key: 'G', label: 'Go Live' },
-        { key: 'H', label: 'Hold' },
-        { key: 'E', label: 'End' },
-        { key: 'F', label: 'Filter' },
-      ].map(k => (
-        <div key={k.key} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
-          <div style={{
-            width: 36, height: 36, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center',
-            background: '#f9fafb', border: '1px solid #e5e7eb', boxShadow: '0 2px 0 #d1d5db',
-            fontSize: 14, fontWeight: 700, color: '#111827', fontFamily: 'monospace',
-          }}>{k.key}</div>
-          <span style={{ fontSize: 9, color: '#9ca3af' }}>{k.label}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 /** Line icons for sections without an emoji (marketing copy uses SVG icons) */
 function CheckinIcon() {
   return (
@@ -519,25 +204,42 @@ const SECTIONS: DocSection[] = [
     icon: '🖥️',
     content: (
       <>
-        <P>The CueDeck console is divided into five main regions:</P>
-        <MockUIOverview />
+        <P>The CueDeck console is divided into six main regions:</P>
+        <DocShot
+          src="/screenshots/cuedeck-closeup-layout-overview.jpg"
+          width={2880}
+          height={1800}
+          alt="The whole CueDeck console for Northwind Summit 2026 at 10:31: header with event switcher, clock, All systems, Crew 3/5, Displays 3 and View as director; the Now and next band for Main Stage and Hall B; the filter bar with a Running +5 min delay chip; the session list from #3 LIVE to #9; the inspector for session #3; the event log; and the broadcast bar along the bottom"
+          caption="The console during a live event. The numbers match the list below."
+          markers={[
+            { n: 1, x: 29, y: 2.9 },
+            { n: 2, x: 40, y: 10 },
+            { n: 3, x: 30, y: 77 },
+            { n: 4, x: 88, y: 8.6 },
+            { n: 5, x: 87.5, y: 70.2 },
+            { n: 6, x: 50, y: 95.6 },
+          ]}
+        />
 
-        <H3>1. Top Bar</H3>
-        <P>Contains the CueDeck logo, current event name, role switcher pills (Director / Stage / AV / etc.), database and realtime connection indicators, and the synced clock.</P>
+        <H3>1. Header</H3>
+        <P>Contains the CueDeck logo, the event switcher (current event name and date, your other events, Edit event and New event), the synced clock, the All systems status pill, Crew (who is online), Displays (directors only, with the number of displays online), View as (directors only, to see the console as another role), Help and your profile menu. The clock is NTP-synced and shows the corrected time across all connected devices. Accuracy is maintained via RTT-based offset calculation.</P>
 
-        <H3>2. Sidebar</H3>
-        <P>Navigation hub with links to: Events, Sessions (list view), Timeline, Signage, Operators, Broadcast, AI Agents (director only), Event Log, and Billing.</P>
+        <H3>2. Now and next band</H3>
+        <P>One lane per room. Each lane shows the session that is live or being called, its countdown, the main action (Hold, End, On stage) and the next session in that room with its next step.</P>
 
-        <H3>3. Session List</H3>
-        <P>The main content area showing all sessions as cards. Each card displays session number, title, speaker, room, time, status badge, and action buttons. Cards are colour-coded by status.</P>
+        <H3>3. Session list</H3>
+        <P>Every session as a row with status, number, title, speaker, room, time and the action for its current state. Rows are colour-coded by status and completed sessions fold into one line at the top. The filter bar above holds search, status and room filters, the List and Timeline toggle, and the delay chip when the programme is running late.</P>
 
-        <H3>4. Broadcast Bar</H3>
-        <P>A persistent bar at the top of the session area for sending messages to all operators. Includes quick presets and a character counter.</P>
+        <H3>4. Inspector</H3>
+        <P>Details and controls for the selected session: countdown, speaker arrival, notes, Control (Hold, End), Timing, Screens and a message to the speaker.</P>
 
-        <H3>5. Clock</H3>
-        <P>An NTP-synced clock in the top-right corner showing the corrected time across all connected devices. Accuracy is maintained via RTT-based offset calculation.</P>
+        <H3>5. Event log</H3>
+        <P>Every status change, delay, broadcast and error with its time. Filter by All, Status, Broadcast or Errors, or export the log as CSV.</P>
 
-        <Callout type="tip">The interface is fully responsive. On tablets, the sidebar collapses into a hamburger menu. The clock remains always visible.</Callout>
+        <H3>6. Broadcast bar</H3>
+        <P>A persistent bar along the bottom of the console for sending messages to all operators. Includes presets, a character counter and a level (info, warn or critical).</P>
+
+        <Callout type="tip">The interface is fully responsive. On a phone the console shows one column with Now, Schedule, Log and Send tabs at the bottom. The clock remains always visible.</Callout>
       </>
     ),
   },
@@ -627,28 +329,41 @@ const SECTIONS: DocSection[] = [
     icon: '🎛️',
     content: (
       <>
-        <P>Each session card displays action buttons appropriate to its current state. The available controls change dynamically as the session progresses.</P>
-        <MockSessionCard />
+        <P>Each session row displays the action button appropriate to its current state. The available controls change dynamically as the session progresses.</P>
+        <DocShot
+          src="/screenshots/cuedeck-closeup-session-row.jpg"
+          width={2112}
+          height={388}
+          alt="Three session rows: #3 LIVE The future of hybrid events with Tomas Okafor arrived, Main Stage, 14:00 left and End; #4 CALLING Breakout: captions and accessible stages with Jun Watanabe not arrived, Hall B, 10:35 to 11:20, was 10:30, +5 and On stage; #5 READY Panel: building crews that scale, Main Stage, 11:00 to 11:45 and Call speaker"
+          caption="Session rows in the LIVE, CALLING and READY states, each with its next action."
+        />
 
-        <H3>Card Anatomy</H3>
+        <H3>Row Anatomy</H3>
         <UL items={[
-          <><B>Session number</B> — Sequential order in the programme</>,
-          <><B>Title &amp; speaker</B> — Session name and presenter</>,
-          <><B>Room</B> — Physical location / room name</>,
-          <><B>Scheduled time</B> — Start time and duration</>,
-          <><B>Status badge</B> — Colour-coded pill showing current state</>,
-          <><B>Progress bar</B> — Visual indicator showing elapsed vs. remaining time (visible when LIVE)</>,
-          <><B>Action buttons</B> — State-specific controls (Ready, Call Speaker, Go Live, Hold, End, Cancel)</>,
+          <><B>Status badge</B>: colour-coded pill showing current state</>,
+          <><B>Session number</B>: sequential order in the programme</>,
+          <><B>Title &amp; speaker</B>: session name, presenter and company, with whether the speaker has arrived</>,
+          <><B>Room</B>: physical location or room name</>,
+          <><B>Scheduled time</B>: start and end time, with the original time and the delay when the session has moved</>,
+          <><B>Time left</B>: shown on the row while the session is LIVE</>,
+          <><B>Action button</B>: the next step for the state (Set ready, Call speaker, On stage, End)</>,
         ]} />
 
         <H3>Timing Display</H3>
-        <P>When a session is <Badge label="LIVE" color="#ff3b30" />, the card shows:</P>
+        <P>When a session is <Badge label="LIVE" color="#ff3b30" />, select it to see its timing in the inspector:</P>
         <UL items={[
+          'Remaining time as a large countdown',
           'Elapsed time since going live',
-          'Remaining time until planned end',
           'A progress bar that fills from left to right',
-          'The bar turns amber at 80% and red at 100% (overrun)',
         ]} />
+        <DocShot
+          src="/screenshots/cuedeck-closeup-inspector.jpg"
+          width={718}
+          height={1008}
+          maxWidth={360}
+          alt="Inspector for session #3 The future of hybrid events, LIVE on Main Stage: 14:00 left, 31:00 elapsed with a progress bar, Tomas Okafor arrived, a note about audience Q&A from 10:35, Control with Hold and End, and Timing with minus 1 and plus 1 minute for this session and push following by 5, 10 or 15"
+          caption="The inspector for the selected session."
+        />
 
         <H3>Notes</H3>
         <P>Each session has a notes field visible to all operators. Directors can edit notes; other roles can read them. Use notes for technical requirements, speaker preferences, or last-minute changes.</P>
@@ -664,27 +379,34 @@ const SECTIONS: DocSection[] = [
     content: (
       <>
         <P>The broadcast system lets directors send real-time messages to all connected operators. Messages appear as a banner at the top of every operator&apos;s screen.</P>
-        <MockBroadcast />
+        <DocShot
+          src="/screenshots/cuedeck-closeup-broadcast-bar.jpg"
+          width={2880}
+          height={104}
+          alt="Broadcast bar with the Presets menu, the message Doors to Hall B open in 5 minutes, a 33/200 counter, the level set to info, and Send and Clear buttons"
+          caption="The broadcast bar along the bottom of the console."
+        />
 
         <H3>Sending a Broadcast</H3>
         <OL items={[
-          'Click the broadcast bar at the top of the session list (or press B for the keyboard shortcut)',
-          'Type your message (max 280 characters — a counter shows remaining)',
+          'Click the message field in the broadcast bar at the bottom of the console (or press B for the keyboard shortcut)',
+          'Type your message (max 200 characters; a counter shows how many you have used)',
+          'Choose the level: info, warn or critical',
           'Press Enter or click Send',
         ]} />
 
         <H3>Quick Presets</H3>
-        <P>The broadcast bar includes one-click presets for common messages:</P>
+        <P>The Presets menu in the broadcast bar fills in a common message:</P>
         <UL items={[
-          '"Doors open in 5 minutes"',
-          '"Please hold — technical issue"',
-          '"All clear — resume programme"',
-          '"Break time — 15 minutes"',
-          '"VIP arrival — standby all positions"',
+          '"Coffee break starting now"',
+          '"Please take your seats, the next session is starting soon"',
+          '"Running a few minutes behind schedule"',
+          '"Please silence your phones"',
+          '"Hold, please stand by"',
         ]} />
 
         <H3>Dismissing</H3>
-        <P>Operators can dismiss a broadcast locally by clicking the X button. The message remains visible to other operators who haven&apos;t dismissed it. Sending a new broadcast replaces the previous one for everyone.</P>
+        <P>Operators can dismiss a broadcast locally by clicking Dismiss. The message remains visible to other operators who haven&apos;t dismissed it. Sending a new broadcast replaces the previous one for everyone.</P>
 
         <Callout type="tip">Broadcasts are stored in the database and survive page refreshes. If an operator reconnects, they see the latest active broadcast.</Callout>
       </>
@@ -699,28 +421,32 @@ const SECTIONS: DocSection[] = [
     content: (
       <>
         <P>When a session runs late, the delay cascade automatically adjusts all downstream sessions to maintain the correct schedule gap.</P>
-        <MockDelayCascade />
+        <DocShot
+          src="/screenshots/cuedeck-closeup-delay-cascade.jpg"
+          width={2120}
+          height={758}
+          alt="Filter bar with the amber delay chip Running +5 min, 2 affected, stops at #7 and a Reset delays button, above the session list where #4 and #6 show their new times, was 10:30 and was 11:30, and +5, followed by the line Delay stops here: below runs on the original schedule"
+          caption="A +5 minute delay: the shifted sessions show their original time, and the list marks where the delay stops."
+        />
 
         <H3>Applying a Delay</H3>
         <OL items={[
-          'Open the session that is running late',
-          'Click the delay button (clock icon) or use the keyboard shortcut',
-          'Enter the delay amount in minutes (e.g. +10)',
-          'Choose whether to cascade to downstream sessions',
-          'Confirm — all affected sessions update instantly for every operator',
+          'Select the session that is running late',
+          'In the inspector under Timing, click +5, +10 or +15 next to Push following',
+          'All affected sessions update instantly for every operator, and the filter bar shows the delay chip with how many sessions moved',
         ]} />
 
         <H3>Cascade Logic</H3>
         <UL items={[
           <><B>Same room</B> — All later sessions in the same room shift by the delay amount</>,
           <><B>Cross-room</B> — Sessions in other rooms are not affected unless they depend on the delayed session</>,
-          <><B>Anchor sessions</B> — Sessions marked as &quot;anchored&quot; will not move, creating a hard boundary</>,
+          <><B>Anchor sessions</B>: sessions marked as &quot;anchored&quot; will not move, creating a hard boundary. The list shows &quot;Delay stops here&quot; above them</>,
         ]} />
 
         <H3>Resetting Delays</H3>
-        <P>Directors can reset all delays back to the original schedule using the &quot;Reset to planned&quot; button. This reverts every session to its originally scheduled time.</P>
+        <P>Directors can reset all delays back to the original schedule using the &quot;Reset delays&quot; button in the filter bar. This reverts every session to its originally scheduled time.</P>
 
-        <Callout type="important">Only directors can apply delay cascades. Stage managers and other roles see the updated schedule but cannot modify it.</Callout>
+        <Callout type="important">Directors and stage managers can push delays, and only directors can reset them. Other roles see the updated schedule but cannot modify it.</Callout>
         <P>See how the delay cascade fits into a live show on the <a href="/solutions/command-center" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>show calling and run of show page</a>.</P>
       </>
     ),
@@ -812,7 +538,13 @@ const SECTIONS: DocSection[] = [
     content: (
       <>
         <P>The Stage Monitor (confidence monitor) provides a fullscreen overlay for speakers and stage crew showing essential session information.</P>
-        <MockStageMonitor />
+        <DocShot
+          src="/screenshots/cuedeck-display-stage-monitor.jpg"
+          width={3840}
+          height={2160}
+          alt="Stage screen for Main Stage at Northwind Summit 2026: LIVE, a large green 14:00 remaining countdown with a progress bar, the session The future of hybrid events by Tomas Okafor, the next session Panel: building crews that scale, and a yellow band reading Message from the director: Take questions from 10:35"
+          caption="The stage timer display for Main Stage, with a message to the speaker along the bottom."
+        />
 
         <H3>What It Shows</H3>
         <UL items={[
@@ -820,12 +552,12 @@ const SECTIONS: DocSection[] = [
           'Elapsed and remaining time with large countdown numbers',
           'Status badge (LIVE, OVERRUN, HOLD)',
           'Next session preview so the speaker knows what follows',
-          'Broadcast messages when sent by the director',
+          'Messages to the speaker, sent from the inspector',
         ]} />
 
         <H3>How to Use</H3>
         <OL items={[
-          'Click the "Stage Monitor" button in the top bar or sidebar',
+          'Select a session and click "Stage monitor" under Screens in the inspector',
           'The display opens in fullscreen mode',
           'Place the browser on a monitor facing the stage',
           'Press Escape to exit fullscreen',
@@ -882,8 +614,7 @@ const SECTIONS: DocSection[] = [
     icon: '🤖',
     content: (
       <>
-        <P>CueDeck includes three AI-powered agent modules that assist directors during and after events. Agents are powered by Anthropic&apos;s Claude and are available on Trial, Pro, and Enterprise plans. No setup or configuration required — AI works automatically when you&apos;re logged in.</P>
-        <MockAIAgents />
+        <P>CueDeck includes three AI-powered agent modules that assist directors during and after events. Agents are powered by Anthropic&apos;s Claude and are available on Trial, Pro, and Enterprise plans. No setup or configuration required: AI works automatically when you&apos;re logged in. Directors find the AI tools under Tools in the profile menu.</P>
 
         <H3>1. Incident Advisor</H3>
         <P>When a technical warning fires (audio loss, video signal drop, mic failure), the Incident Advisor opens automatically. It analyses the current state of your event and provides:</P>
@@ -893,7 +624,7 @@ const SECTIONS: DocSection[] = [
           'Estimated resolution time so you know how much buffer you have',
           'Escalate or mark resolved in one click, with the outcome logged to the event log',
         ]} />
-        <Callout type="tip">The Incident Advisor fires automatically when system warnings are detected. You can also trigger a test at any time from the AI Agents panel in the sidebar.</Callout>
+        <Callout type="tip">The Incident Advisor fires automatically when system warnings are detected.</Callout>
 
         <H3>2. Cue Engine</H3>
         <P>The Cue Engine monitors your session schedule and fires automatic pre-cue alerts 8 minutes before each session is due to start. It helps your team prepare by:</P>
@@ -905,7 +636,7 @@ const SECTIONS: DocSection[] = [
         ]} />
 
         <H3>3. Report Generator</H3>
-        <P>After your event ends, click &ldquo;Generate Report&rdquo; in the AI Agents panel. Claude analyses everything that happened — session timing, delays, and any incidents — and produces a comprehensive four-tab report:</P>
+        <P>After your event ends, open your profile menu and click &ldquo;Generate report&rdquo; under Tools. Claude analyses everything that happened (session timing, delays and any incidents) and produces a comprehensive four-tab report:</P>
         <UL items={[
           'Executive Summary — AI-written narrative overview of how the event ran',
           'Session Variance — Planned vs. actual timing for every session with variance flags',
@@ -990,24 +721,26 @@ const SECTIONS: DocSection[] = [
     icon: '⌨️',
     content: (
       <>
-        <P>CueDeck supports keyboard shortcuts for fast operation during live events. Shortcuts are available in all roles.</P>
-        <MockKeyboard />
+        <P>CueDeck supports keyboard shortcuts for fast operation during live events. ?, Esc and ⌘K work in every role; /, B and R are for directors. Press ? or choose Shortcuts in the profile menu to see the list.</P>
+        <DocShot
+          src="/screenshots/cuedeck-closeup-keyboard-shortcuts.jpg"
+          width={1184}
+          height={766}
+          maxWidth={592}
+          alt="Keyboard Shortcuts dialog. Navigation: Focus search bar /, Focus broadcast input B, Refresh sessions R, Navigate session cards up and down arrows. Help: Keyboard shortcuts ?, Command palette ⌘K. General: Close modal / clear filters Esc"
+          caption="The Keyboard Shortcuts dialog."
+        />
 
         <Table
           headers={['Shortcut', 'Action']}
           rows={[
-            ['B', 'Focus broadcast bar'],
-            ['F', 'Focus search / filter'],
-            ['Escape', 'Clear filters / close modals'],
-            ['1-9', 'Select session by number'],
-            ['R', 'Set selected session to READY'],
-            ['C', 'Call speaker for selected session'],
-            ['G', 'Go live on selected session'],
-            ['H', 'Hold selected session'],
-            ['E', 'End selected session'],
-            ['N', 'Open notes for selected session'],
-            ['T', 'Toggle between List and Timeline view'],
-            ['?', 'Show keyboard shortcuts help'],
+            ['/', 'Focus search bar'],
+            ['B', 'Focus broadcast input'],
+            ['R', 'Refresh sessions'],
+            ['↑ ↓', 'Navigate session cards'],
+            ['?', 'Show keyboard shortcuts'],
+            ['⌘K / Ctrl+K', 'Open the command palette'],
+            ['Esc', 'Close modal / clear filters'],
           ]}
         />
 
