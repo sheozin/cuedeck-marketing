@@ -1,9 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { alternates: { canonical: "https://cuedeck.io" } };
+export const metadata: Metadata = { alternates: { canonical: SITE_URL } };
 import EmailCapture from "../components/EmailCapture";
 import { jsonLd as safeJsonLd } from "../lib/jsonLd";
 import { createReader } from '@keystatic/core/reader'
@@ -11,6 +12,8 @@ import keystaticConfig from '../keystatic.config'
 import { getAllPosts, formatDate } from '../lib/posts'
 import { getCheckinPrice } from '../lib/checkinPrice'
 import HomePricing from '../components/HomePricing'
+import { SITE_URL } from '../lib/site'
+import { softwareApplicationJsonLd } from '../lib/plans'
 
 const APP_URL = "https://app.cuedeck.io";
 const TRIAL_URL = `${APP_URL}/#signup`;
@@ -148,8 +151,9 @@ function Hero({ heroHeadline, heroSubheadline }: { heroHeadline: string; heroSub
 
         {/* Right */}
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <img
-            src="/screenshots/cuedeck-console-now-and-next-band.jpg" width={1072} height={568} fetchPriority="high" decoding="async"
+          <Image
+            src="/screenshots/cuedeck-console-now-and-next-band.jpg" width={2144} height={1136} priority fetchPriority="high"
+            sizes="(max-width: 768px) 100vw, 600px"
             alt="CueDeck console for Northwind Summit 2026: Main Stage live with 14:00 left and the next panel ready, Hall B calling its speaker, and the session list below"
             style={{ display: "block", width: "100%", maxWidth: 600, height: "auto", borderRadius: 14, boxShadow: "0 25px 60px rgba(0,0,0,0.18), 0 8px 20px rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)" }}
           />
@@ -159,25 +163,18 @@ function Hero({ heroHeadline, heroSubheadline }: { heroHeadline: string; heroSub
   );
 }
 
-// ─── Social Proof ─────────────────────────────────────────────────────────────
-function SocialProof() {
+// ─── Built by ─────────────────────────────────────────────────────────────────
+function BuiltBy() {
   return (
     <section style={{
-      padding: "48px 40px",
+      padding: "28px 40px",
       background: "#fff",
       borderTop: "1px solid #f3f4f6",
       borderBottom: "1px solid #f3f4f6",
     }}>
-      <div style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
-        <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", color: "#9ca3af", marginBottom: 28, textTransform: "uppercase" }}>
-          Trusted by event production teams worldwide
-        </p>
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: "12px 40px" }}>
-          {["AVE Events", "StageFirst", "LiveCo", "EventPro", "ShowDrive", "ProdCraft"].map(name => (
-            <span key={name} style={{ fontSize: 16, fontWeight: 700, color: "#d1d5db", letterSpacing: "-0.3px" }}>{name}</span>
-          ))}
-        </div>
-      </div>
+      <p style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center", fontSize: 14, fontWeight: 600, color: "#6b7280" }}>
+        Built and used in production by AVE Events
+      </p>
     </section>
   );
 }
@@ -235,7 +232,7 @@ function Features() {
             FEATURES
           </p>
           <h2 style={{ fontSize: "clamp(28px, 3vw, 42px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.8px", marginBottom: 16 }}>
-            Everything your team needs
+            Live event production features
           </h2>
           <p style={{ fontSize: 17, color: "#6b7280", maxWidth: 500, margin: "0 auto", lineHeight: 1.6 }}>
             Built by event producers, for event producers. Every feature solves a real problem from the floor.
@@ -610,7 +607,7 @@ function CheckinSection() {
             NEW: EVENT CHECK-IN
           </p>
           <h2 style={{ fontSize: "clamp(28px, 3vw, 42px)", fontWeight: 800, color: "#111827", letterSpacing: "-0.8px", marginBottom: 16, lineHeight: 1.15 }}>
-            Every guest through the door in seconds
+            Event check-in with QR codes and badges
           </h2>
           <p style={{ fontSize: 17, color: "#6b7280", lineHeight: 1.65, marginBottom: 24 }}>
             Run the registration desk from any laptop or tablet. Priced per event, with or without a CueDeck plan.
@@ -627,8 +624,8 @@ function CheckinSection() {
             fontWeight: 700, fontSize: 15, textDecoration: "none", boxShadow: "0 2px 8px rgba(59,130,246,0.4)",
           }}>Explore Event Check-in</a>
         </div>
-        <img
-          src="/screenshots/checkin-desk-group-arrival.jpg" width={1440} height={900} loading="lazy" decoding="async"
+        <Image
+          src="/screenshots/checkin-desk-group-arrival.jpg" width={2880} height={1800} sizes="(max-width: 768px) 100vw, 540px"
           alt="CueDeck check-in desk: one search brings up three guests from the same company, ready to check in together"
           style={{ display: "block", width: "100%", height: "auto", borderRadius: 14, border: "1px solid #e5e7eb", boxShadow: "0 12px 40px rgba(15,23,42,0.12)" }}
         />
@@ -636,6 +633,8 @@ function CheckinSection() {
     </section>
   );
 }
+
+const SHOWCASE_LINK = { display: "inline-block", marginTop: 20, fontSize: 15, fontWeight: 600, color: "#2563eb", textDecoration: "none" } as const;
 
 function RoleShowcase() {
   return (
@@ -671,11 +670,12 @@ function RoleShowcase() {
                   </li>
                 ))}
               </ul>
+              <a href="/solutions/command-center" style={SHOWCASE_LINK}>Explore show calling and run of show →</a>
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <div style={{ width: "100%", maxWidth: 540 }}>
-                <img
-                  src="/screenshots/cuedeck-command-center-director-console.jpg" width={1440} height={900} loading="lazy" decoding="async"
+                <Image
+                  src="/screenshots/cuedeck-command-center-director-console.jpg" width={2880} height={1800} sizes="(max-width: 768px) 100vw, 540px"
                   alt="CueDeck director console: Main Stage and Hall B in the now and next band, the session list with live, calling, ready and planned sessions, the selected session's Hold and End controls, and the event log"
                   style={{ display: "block", width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
                 />
@@ -687,8 +687,8 @@ function RoleShowcase() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 64, alignItems: "center" }}>
             <div style={{ display: "flex", justifyContent: "flex-start" }}>
               <div style={{ width: "100%", maxWidth: 540 }}>
-                <img
-                  src="/screenshots/cuedeck-console-timeline-view.jpg" width={1072} height={515} loading="lazy" decoding="async"
+                <Image
+                  src="/screenshots/cuedeck-console-timeline-view.jpg" width={2144} height={1030} sizes="(max-width: 768px) 100vw, 540px"
                   alt="CueDeck timeline view: Main Stage and Hall B sessions on one time axis, coloured by status, with the Now line at 10:31"
                   style={{ display: "block", width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
                 />
@@ -729,11 +729,12 @@ function RoleShowcase() {
                   </li>
                 ))}
               </ul>
+              <a href="/solutions/stage-timer" style={SHOWCASE_LINK}>See event signage displays →</a>
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <div style={{ width: "100%", maxWidth: 540 }}>
-                <img
-                  src="/screenshots/cuedeck-console-displays-signage-control.jpg" width={1072} height={475} loading="lazy" decoding="async"
+                <Image
+                  src="/screenshots/cuedeck-console-displays-signage-control.jpg" width={2144} height={950} sizes="(max-width: 768px) 100vw, 540px"
                   alt="CueDeck Displays panel: push to all buttons for break screen, recall, sponsors and schedules, and three registered displays online"
                   style={{ display: "block", width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
                 />
@@ -745,13 +746,13 @@ function RoleShowcase() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 64, alignItems: "center" }}>
             <div style={{ display: "flex", justifyContent: "flex-start" }}>
               <div style={{ width: "100%", maxWidth: 540 }}>
-                <img
-                  src="/screenshots/cuedeck-stage-timer-live-countdown.jpg" width={1920} height={1080} loading="lazy" decoding="async"
+                <Image
+                  src="/screenshots/cuedeck-stage-timer-live-countdown.jpg" width={3840} height={2160} sizes="(max-width: 768px) 100vw, 540px"
                   alt="CueDeck stage timer: 14:00 remaining in green for The future of hybrid events, with a message from the director: Take questions from 10:35"
                   style={{ width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
                 />
-                <img
-                  src="/screenshots/cuedeck-stage-timer-overtime.jpg" width={1920} height={1080} loading="lazy" decoding="async"
+                <Image
+                  src="/screenshots/cuedeck-stage-timer-overtime.jpg" width={3840} height={2160} sizes="(max-width: 768px) 100vw, 540px"
                   alt="CueDeck stage timer in overtime: +02:15 in magenta for The future of hybrid events"
                   style={{ width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)", marginTop: 16 }}
                 />
@@ -772,6 +773,7 @@ function RoleShowcase() {
                   </li>
                 ))}
               </ul>
+              <a href="/solutions/stage-timer" style={SHOWCASE_LINK}>See the stage timer and confidence monitor →</a>
             </div>
           </div>
 
@@ -795,8 +797,8 @@ function RoleShowcase() {
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <div style={{ width: "100%", maxWidth: 540 }}>
-                <img
-                  src="/screenshots/cuedeck-display-pairing-code.jpg" width={960} height={540} loading="lazy" decoding="async"
+                <Image
+                  src="/screenshots/cuedeck-display-pairing-code.jpg" width={1920} height={1080} sizes="(max-width: 768px) 100vw, 540px"
                   alt="CueDeck display pairing screen showing the code LZN-FS4, waiting for connection, with the code expiring in 5:00"
                   style={{ width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
                 />
@@ -812,7 +814,7 @@ function RoleShowcase() {
 
 // ─── FAQ Data ─────────────────────────────────────────────────────────────────
 const homeFaqs = [
-  { q: "What is CueDeck?", a: "CueDeck is a real-time production console for live events. It gives every operator (directors, stage managers, AV techs, interpreters, registration, and signage) a role-based dashboard that updates in under 100 milliseconds." },
+  { q: "What is CueDeck?", a: "CueDeck is a real-time production console for live events. It gives every operator (directors, stage managers, AV techs, interpreters, registration, and signage) a role-based dashboard that updates instantly." },
   { q: "How does real-time sync work?", a: "CueDeck uses live database subscriptions via Supabase Realtime. When a director changes a session status, every connected operator sees the update instantly. No polling, no refreshing." },
   { q: "What roles does CueDeck support?", a: "Six roles: Director (full control), Stage (session transitions), AV (hold capability), Interpreter (read-only language view), Registration (read-only desk view), and Signage (display management)." },
   { q: "Do I need to install any software?", a: "No. CueDeck runs entirely in the browser. Open it on any device: laptop, tablet, or phone. Signage displays work the same way: open app.cuedeck.io/d on any screen and pair with a 6-character code. You can also install the display page as a fullscreen app for auto-reconnect on reboot, no app store required." },
@@ -875,7 +877,7 @@ function LatestPosts({ posts }: { posts: { slug: string; title: string; excerpt:
           {posts.map((p) => (
             <Link key={p.slug} href={`/blog/${p.slug}`} style={{ textDecoration: "none", background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden", display: "flex", flexDirection: "column", transition: "border-color 0.15s, box-shadow 0.15s" }}>
               {p.featuredImage && (
-                <img src={p.featuredImage} alt={p.title} style={{ width: "100%", height: 160, objectFit: "cover" }} />
+                <img src={p.featuredImage} alt={p.title} width={1200} height={630} loading="lazy" decoding="async" style={{ width: "100%", height: 160, objectFit: "cover" }} />
               )}
               <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 12, flex: 1 }}>
                 <time style={{ fontSize: 12, color: "#9ca3af", fontWeight: 500 }}>{formatDate(p.date)}</time>
@@ -909,9 +911,13 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLd(homeFaqJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(softwareApplicationJsonLd) }}
+      />
       <main>
         <Hero heroHeadline={heroHeadline} heroSubheadline={heroSubheadline} />
-        <SocialProof />
+        <BuiltBy />
         <RoleShowcase />
         <Features />
         <CheckinSection />
