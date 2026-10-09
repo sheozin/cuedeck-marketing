@@ -185,7 +185,7 @@ const FEATURES = [
   {
     Icon: IconUsers,
     title: "Multi-role Operations",
-    desc: "Director, Stage, AV, Interp, Reg, and Signage — each role sees exactly what they need, with role-adaptive filters and keyboard shortcuts.",
+    desc: "Director, Stage, AV, Interp, Reg, and Signage: each role sees exactly what they need, with role-adaptive filters and keyboard shortcuts.",
   },
   {
     Icon: IconZap,
@@ -195,7 +195,7 @@ const FEATURES = [
   {
     Icon: IconBrain,
     title: "AI Incident Advisor",
-    desc: "When something breaks, get instant AI-generated diagnosis and numbered resolution steps — no scrambling, no guesswork.",
+    desc: "When something breaks, get instant AI-generated diagnosis and numbered resolution steps. No scrambling, no guesswork.",
   },
   {
     Icon: IconMonitor,
@@ -210,17 +210,17 @@ const FEATURES = [
   {
     Icon: IconBarChart,
     title: "Post-event Reports",
-    desc: "AI-generated executive summary, session-by-session variance analysis, and incidents log — ready to share in one click.",
+    desc: "AI-generated executive summary, session-by-session variance analysis, and incidents log, ready to share in one click.",
   },
   {
     Icon: IconTimer,
     title: "Stage Timer",
-    desc: "Full-screen countdown visible from any stage. Colour-coded urgency (green → amber → red), HOLD freeze, OVERRUN flash — speakers always know where they stand.",
+    desc: "Full-screen countdown visible from any stage. Colour-coded urgency as time runs down, a HOLD freeze and a clear overtime state, so speakers always know where they stand.",
   },
   {
     Icon: IconLink,
     title: "Display Pairing",
-    desc: "Pair signage screens in seconds — each display shows a 6-character code, enter it in the console, done. No network setup, no IP addresses.",
+    desc: "Pair signage screens in seconds: each display shows a 6-character code, enter it in the console, done. No network setup, no IP addresses.",
   },
 ];
 
@@ -273,7 +273,7 @@ const STEPS = [
   {
     n: "01",
     title: "Create your event",
-    desc: "Add your sessions, rooms, and team members. Assign roles — each person sees only what's relevant to them. Import from a spreadsheet or build from scratch in minutes.",
+    desc: "Add your sessions, rooms, and team members. Assign roles so each person sees only what's relevant to them. Import from a spreadsheet or build from scratch in minutes.",
   },
   {
     n: "02",
@@ -598,7 +598,7 @@ function RoleShowcase() {
                 Complete session control at a glance
               </h3>
               <p style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75, marginBottom: 20 }}>
-                See every session, every status, and every operator in one screen. Trigger transitions, send broadcasts, apply delay cascades, and monitor your AI agents — all without leaving the console.
+                See every session, every status, and every operator in one screen. Trigger transitions, send broadcasts, apply delay cascades, and monitor your AI agents, all without leaving the console.
               </p>
               <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {["8-state session machine (PLANNED → LIVE → ENDED)", "One-click delay cascade across all downstream sessions", "Broadcast bar with quick presets for common messages"].map(f => (
@@ -656,7 +656,7 @@ function RoleShowcase() {
                 Drive every display from the console
               </h3>
               <p style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75, marginBottom: 20 }}>
-                Register lobby screens, wayfinding displays, and sponsor panels. Set per-display content sequences or push a global override to all screens instantly — no extra software needed.
+                Register lobby screens, wayfinding displays, and sponsor panels. Set per-display content sequences or push a global override to all screens instantly. No extra software needed.
               </p>
               <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {["Instant display pairing with 6-character codes", "Auto-rotating sequences: sponsors → agenda → schedule", "One-click global overrides for break screens or recall"].map(f => (
@@ -719,10 +719,10 @@ function RoleShowcase() {
                 Connect screens in seconds, not minutes
               </h3>
               <p style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75, marginBottom: 20 }}>
-                Open <strong style={{ color: "#111827", fontFamily: "monospace" }}>app.cuedeck.io/d</strong> on any screen — TV, tablet, or monitor. A 6-character pairing code appears. Type it into the console and the screen connects instantly. Install as an app for auto-reconnect on reboot.
+                Open <strong style={{ color: "#111827", fontFamily: "monospace" }}>app.cuedeck.io/d</strong> on any screen: TV, tablet, or monitor. A 6-character pairing code appears. Type it into the console and the screen connects instantly. Install as an app for auto-reconnect on reboot.
               </p>
               <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {["Short URL — just 11 characters to type on a TV remote", "Installs as a fullscreen app — no browser chrome, survives reboots", "Auto-reconnect — paired displays remember their connection", "6-character code with 5-minute auto-expiry for security"].map(f => (
+                {["Short URL: just 11 characters to type on a TV remote", "Installs as a fullscreen app: no browser chrome, survives reboots", "Auto-reconnect: paired displays remember their connection", "6-character code with 5-minute auto-expiry for security"].map(f => (
                   <li key={f} style={{ display: "flex", gap: 8, fontSize: 14, color: "#4b5563" }}>
                     <span style={{ color: "#22c55e", flexShrink: 0, fontWeight: 700 }}>✓</span>{f}
                   </li>
@@ -748,14 +748,14 @@ function RoleShowcase() {
 
 // ─── FAQ Data ─────────────────────────────────────────────────────────────────
 const homeFaqs = [
-  { q: "What is CueDeck?", a: "CueDeck is a real-time production console for live events. It gives every operator — directors, stage managers, AV techs, interpreters, registration, and signage — a role-based dashboard that updates in under 100 milliseconds." },
-  { q: "How does real-time sync work?", a: "CueDeck uses live database subscriptions via Supabase Realtime. When a director changes a session status, every connected operator sees the update instantly — no polling, no refreshing." },
+  { q: "What is CueDeck?", a: "CueDeck is a real-time production console for live events. It gives every operator (directors, stage managers, AV techs, interpreters, registration, and signage) a role-based dashboard that updates in under 100 milliseconds." },
+  { q: "How does real-time sync work?", a: "CueDeck uses live database subscriptions via Supabase Realtime. When a director changes a session status, every connected operator sees the update instantly. No polling, no refreshing." },
   { q: "What roles does CueDeck support?", a: "Six roles: Director (full control), Stage (session transitions), AV (hold capability), Interpreter (read-only language view), Registration (read-only desk view), and Signage (display management)." },
-  { q: "Do I need to install any software?", a: "No. CueDeck runs entirely in the browser. Open it on any device — laptop, tablet, or phone. Signage displays work the same way: open app.cuedeck.io/d on any screen and pair with a 6-character code. You can also install the display page as a fullscreen app for auto-reconnect on reboot — no app store required." },
+  { q: "Do I need to install any software?", a: "No. CueDeck runs entirely in the browser. Open it on any device: laptop, tablet, or phone. Signage displays work the same way: open app.cuedeck.io/d on any screen and pair with a 6-character code. You can also install the display page as a fullscreen app for auto-reconnect on reboot, no app store required." },
   { q: "Can I use CueDeck for multi-room events?", a: "Yes. Sessions are assigned to rooms, and operators can filter by room. Signage displays can be configured to show content for specific rooms. The director sees everything across all rooms." },
   { q: "How does digital signage work?", a: "Register displays from the console, choose a content mode (schedule, wayfinding, sponsors, break screen, and more), and launch the display URL on any browser. Displays update in real time and support global overrides." },
-  { q: "What do the AI agents actually do?", a: "CueDeck includes three AI agents powered by Anthropic's Claude. The Incident Advisor fires automatically when technical warnings are detected and gives your team a diagnosis and step-by-step fix checklist. The Cue Engine sends pre-cue alerts 8 minutes before each session with an AI-generated preparation checklist. The Report Generator produces a full post-event analysis — session variance, incidents log, and improvement recommendations — in one click." },
-  { q: "Do I need to set up anything to use the AI features?", a: "No. AI runs entirely on CueDeck's servers — there is nothing to configure, no API key to manage, and no browser extension to install. As long as you are on a Trial, Pro, or Enterprise plan and logged in, AI features work automatically." },
+  { q: "What do the AI agents actually do?", a: "CueDeck includes three AI agents powered by Anthropic's Claude. The Incident Advisor fires automatically when technical warnings are detected and gives your team a diagnosis and step-by-step fix checklist. The Cue Engine sends pre-cue alerts 8 minutes before each session with an AI-generated preparation checklist. The Report Generator produces a full post-event analysis (session variance, incidents log, and improvement recommendations) in one click." },
+  { q: "Do I need to set up anything to use the AI features?", a: "No. AI runs entirely on CueDeck's servers. There is nothing to configure: no API key to manage, and no browser extension to install. As long as you are on a Trial, Pro, or Enterprise plan and logged in, AI features work automatically." },
 ];
 
 const homeFaqJsonLd = {
