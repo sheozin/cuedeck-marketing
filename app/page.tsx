@@ -9,6 +9,8 @@ import { jsonLd as safeJsonLd } from "../lib/jsonLd";
 import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../keystatic.config'
 import { getAllPosts, formatDate } from '../lib/posts'
+import { getCheckinPrice } from '../lib/checkinPrice'
+import HomePricing from '../components/HomePricing'
 
 const APP_URL = "https://app.cuedeck.io";
 const TRIAL_URL = `${APP_URL}/#signup`;
@@ -388,7 +390,18 @@ const PLANS = [
   },
 ];
 
-function Pricing() {
+const CHECKIN_FEATURES = [
+  "Guest list import",
+  "QR code emails",
+  "Check-in desk",
+  "Door scanner phones",
+  "Badges",
+  "Live dashboard",
+  "Post-event report",
+];
+
+async function Pricing() {
+  const checkin = await getCheckinPrice();
   return (
     <section id="pricing" style={{ padding: "96px 40px", background: "#fff" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
@@ -400,10 +413,11 @@ function Pricing() {
             Simple, honest pricing
           </h2>
           <p style={{ fontSize: 17, color: "#6b7280", lineHeight: 1.6 }}>
-            3-day free trial on Starter and Pro. No credit card required.
+            3-day free trial on Starter and Pro, no credit card required. Event Check-in is priced per event.
           </p>
         </div>
 
+        <HomePricing commandCenter={
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 24, alignItems: "stretch" }}>
           {PLANS.map(p => (
             <div key={p.name} style={{
@@ -459,6 +473,56 @@ function Pricing() {
             </div>
           ))}
         </div>
+        } checkin={
+        <div style={{
+          maxWidth: 400, margin: "0 auto",
+          borderRadius: 16, padding: "32px 28px",
+          display: "flex", flexDirection: "column",
+          background: "#fff", border: "1px solid #e5e7eb", boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+        }}>
+          <div style={{ marginBottom: 24 }}>
+            <p style={{ fontSize: 13, fontWeight: 600, marginBottom: 8, color: "#9ca3af" }}>Event Check-in</p>
+            {checkin ? (
+              <div style={{ display: "flex", alignItems: "flex-end", flexWrap: "wrap", gap: 4, marginBottom: 8 }}>
+                <span style={{ fontSize: 44, fontWeight: 800, letterSpacing: "-1px", color: "#111827", lineHeight: 1 }}>{checkin.label}</span>
+                <span style={{ fontSize: 14, color: "#9ca3af", paddingBottom: 6 }}>per event{checkin.taxExclusive ? ", excl. VAT" : ""}</span>
+              </div>
+            ) : (
+              <p style={{ fontSize: 22, fontWeight: 700, color: "#111827", marginBottom: 8 }}>See pricing when you sign up</p>
+            )}
+            <p style={{ fontSize: 13, color: "#6b7280" }}>No subscription and no per-attendee fees. It works with or without a CueDeck plan.</p>
+          </div>
+
+          <ul style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20, flex: 1 }}>
+            {CHECKIN_FEATURES.map(f => (
+              <li key={f} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#374151" }}>
+                <span style={{ color: "#22c55e", flexShrink: 0 }}><IconCheck /></span>
+                {f}
+              </li>
+            ))}
+          </ul>
+
+          <p style={{ fontSize: 13, color: "#6b7280", marginBottom: 20 }}>Set up and test free. Pay when you go live.</p>
+
+          <a href={TRIAL_URL} style={{
+            display: "block", textAlign: "center",
+            padding: "12px 20px", borderRadius: 10,
+            fontWeight: 700, fontSize: 14, textDecoration: "none",
+            background: "#3b82f6", color: "#fff",
+            boxShadow: "0 2px 8px rgba(59,130,246,0.3)",
+          }}>
+            Set up your event free
+          </a>
+          <a href="/solutions/check-in" style={{
+            display: "block", textAlign: "center", marginTop: 10,
+            padding: "12px 20px", borderRadius: 10,
+            fontWeight: 700, fontSize: 14, textDecoration: "none",
+            background: "#fff", color: "#3b82f6", border: "1px solid #bfdbfe",
+          }}>
+            Learn about Event Check-in
+          </a>
+        </div>
+        } />
 
         <p style={{ textAlign: "center", marginTop: 32, fontSize: 14, color: "#9ca3af" }}>
           Need more? <a href="mailto:hello@cuedeck.io" style={{ color: "#3b82f6", textDecoration: "none", fontWeight: 500 }}>Contact us</a> for Enterprise pricing.
