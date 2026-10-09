@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import CookieBanner from "../components/CookieBanner";
 import { jsonLd as safeJsonLd } from "../lib/jsonLd";
+import { SITE_URL } from "../lib/site";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
-const BASE_URL = "https://cuedeck.io";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(BASE_URL),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "CueDeck: The Command Center for Live Events",
     template: "%s | CueDeck",
@@ -22,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "CueDeck: The Command Center for Live Events",
     description: "Real-time session management for live event production teams.",
-    url: BASE_URL,
+    url: SITE_URL,
     siteName: "CueDeck",
     type: "website",
     locale: "en_US",
@@ -48,31 +47,23 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Organization",
-      "@id": `${BASE_URL}/#organization`,
+      "@id": `${SITE_URL}/#organization`,
       name: "CueDeck",
-      url: BASE_URL,
-      logo: { "@type": "ImageObject", url: `${BASE_URL}/logo.png` },
+      url: SITE_URL,
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.png`, width: 512, height: 512 },
+      sameAs: [
+        "https://x.com/cuedeck",
+        "https://www.linkedin.com/company/cuedeck",
+        "https://www.youtube.com/@CueDeckApp",
+      ],
       contactPoint: { "@type": "ContactPoint", email: "hello@cuedeck.io", contactType: "customer service" },
     },
     {
       "@type": "WebSite",
-      "@id": `${BASE_URL}/#website`,
-      url: BASE_URL,
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
       name: "CueDeck",
-      publisher: { "@id": `${BASE_URL}/#organization` },
-    },
-    {
-      "@type": "SoftwareApplication",
-      name: "CueDeck",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-      url: BASE_URL,
-      offers: [
-        { "@type": "Offer", name: "Pay-per-event", price: "39",  priceCurrency: "EUR" },
-        { "@type": "Offer", name: "Starter",        price: "59",  priceCurrency: "EUR", billingIncrement: "month" },
-        { "@type": "Offer", name: "Pro",             price: "99",  priceCurrency: "EUR", billingIncrement: "month" },
-      ],
-      description: "Real-time live event management platform for production teams.",
+      publisher: { "@id": `${SITE_URL}/#organization` },
     },
   ],
 };
