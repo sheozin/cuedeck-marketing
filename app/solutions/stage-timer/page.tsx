@@ -94,6 +94,40 @@ export default function StageTimerPage() {
           </div>
         </Section>
         <Showcase
+          eyebrow="On the stage screen"
+          title="The speaker sees the time and the director's message"
+          desc="The stage screen shows the live session, its speaker and the time remaining in large type, with the next session underneath. When the director sends a message, it appears across the bottom where the speaker cannot miss it."
+          points={[
+            "Countdown with a progress bar for the session",
+            "Next session and its speakers underneath",
+            "Messages from the director in large type",
+          ]}
+          img={{ src: "/screenshots/cuedeck-display-stage-monitor.jpg", width: 1920, height: 1080,
+            alt: "Stage screen for Northwind Summit 2026: live, 14:00 remaining, The future of hybrid events with Tomas Okafor, the next session, and a message from the director: Take questions from 10:35" }}
+          device="monitor"
+          labels={[
+            { dot: DOT.ok, title: "Live, 14:00 remaining", sub: "The future of hybrid events", pos: { left: -24, top: "4%" } },
+            { dot: DOT.calling, title: "Message from the director", sub: "Take questions from 10:35", pos: { right: -10, top: -14 } },
+          ]}
+        />
+        <Showcase
+          flip
+          eyebrow="Lobby screens"
+          title="The whole day on the lobby screens"
+          desc="The same displays can show the programme for everyone outside the room. The day grid lays out sessions by time and room, and the programme list runs through them in order with the speaker, room and length of each one. Both mark the session that is live."
+          img={{ src: "/screenshots/cuedeck-display-day-grid.jpg", width: 1920, height: 1080,
+            alt: "Day grid display for the lobby: Hall B and Main Stage columns with sessions from 09:00 to 16:30 and the live session highlighted" }}
+          device="monitor"
+          labels={[{ dot: DOT.info, title: "Day grid", sub: "Hall B and Main Stage, 09:00 to 16:30", pos: { left: -14, top: -16 } }]}
+          second={{
+            layout: "pair",
+            device: "monitor",
+            img: { src: "/screenshots/cuedeck-display-programme-list.jpg", width: 1920, height: 1080,
+              alt: "Programme list display for the lobby: sessions in order with start time, speaker, room and duration, finished sessions dimmed and the live session highlighted" },
+            labels: [{ dot: DOT.live, title: "Programme list", sub: "Live session highlighted", pos: { right: -10, top: -14 } }],
+          }}
+        />
+        <Showcase
           eyebrow="Behind the screens"
           title="Controlled from the console"
           desc="The stage timer and every signage screen read the same schedule your crew is running. When the director goes live, holds or adds time, the screens follow within a second."
