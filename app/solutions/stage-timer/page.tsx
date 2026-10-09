@@ -26,7 +26,7 @@ const details = [
   },
   {
     title: "Hold, delays and the director's clock",
-    body: "When the director puts a session on hold, the countdown freezes and shows HOLD until the session resumes. When a delay is applied in the console, the timer and every other screen follow the new schedule. The stage timer counts from the same synced clock as the console, so the stage and the director never disagree about how much time is left.",
+    body: "When the director puts a session on hold, the countdown freezes and shows HOLD until the session resumes. When a delay is applied in the console, the timer and every other screen follow the new schedule. The stage timer counts from the same synced clock as the console, so the stage and the director never disagree about how much time is left. A message to the speaker sent from the console shows on that room's stage timer and stage monitor, and clears by itself when the session ends.",
   },
   {
     title: "The confidence monitor",
@@ -93,23 +93,6 @@ export default function StageTimerPage() {
             ))}
           </div>
         </Section>
-        <Showcase
-          eyebrow="On the stage screen"
-          title="The speaker sees the time and the director's message"
-          desc="The stage screen shows the live session, its speaker and the time remaining in large type, with the next session underneath. When the director sends a message, it appears across the bottom where the speaker cannot miss it."
-          points={[
-            "Countdown with a progress bar for the session",
-            "Next session and its speakers underneath",
-            "Messages from the director in large type",
-          ]}
-          img={{ src: "/screenshots/cuedeck-display-stage-monitor.jpg", width: 1920, height: 1080,
-            alt: "Stage screen for Northwind Summit 2026: live, 14:00 remaining, The future of hybrid events with Tomas Okafor, the next session, and a message from the director: Take questions from 10:35" }}
-          device="monitor"
-          labels={[
-            { dot: DOT.ok, title: "Live, 14:00 remaining", sub: "The future of hybrid events", pos: { left: -24, top: "4%" } },
-            { dot: DOT.calling, title: "Message from the director", sub: "Take questions from 10:35", pos: { right: -10, top: -14 } },
-          ]}
-        />
         <Showcase
           flip
           eyebrow="Lobby screens"
