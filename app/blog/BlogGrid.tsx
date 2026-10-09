@@ -85,7 +85,7 @@ export default function BlogGrid({ posts, tags }: Props) {
             gap: '24px',
           }}
         >
-          {filtered.map((post) => (
+          {filtered.map((post, index) => (
             <Link
               key={post.id}
               href={`/blog/${post.slug}`}
@@ -105,9 +105,15 @@ export default function BlogGrid({ posts, tags }: Props) {
             >
               {/* Cover image or gradient placeholder */}
               {post.cover_image ? (
+                // Covers are 1200x630; the first row is above the fold.
                 <img
                   src={post.cover_image}
                   alt={post.title}
+                  width={1200}
+                  height={630}
+                  loading={index < 2 ? 'eager' : 'lazy'}
+                  fetchPriority={index < 2 ? 'high' : undefined}
+                  decoding="async"
                   style={{
                     width: '100%',
                     height: '180px',

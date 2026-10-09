@@ -6,6 +6,8 @@ import { createClient } from '@supabase/supabase-js'
 import Nav from '../../../components/Nav'
 import Footer from '../../../components/Footer'
 import ReadingProgress from '../../../components/ReadingProgress'
+import { jsonLd as safeJsonLd } from '../../../lib/jsonLd'
+import { SITE_URL } from '../../../lib/site'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -29,12 +31,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const sb = sbClient()
   const { data } = await sb
     .from('blog_posts')
-    .select('title, excerpt')
+    .select('title, excerpt, published_at, updated_at')
     .eq('slug', slug)
     .eq('status', 'published')
     .single()
   if (!data) return {}
-  return pageMeta(`/blog/${slug}`, data.title, data.excerpt, `/blog/${slug}/opengraph-image`)
+  const meta = pageMeta(`/blog/${slug}`, data.title, data.excerpt, `/blog/${slug}/opengraph-image`)
+  return {
+    ...meta,
+    openGraph: {
+      ...meta.openGraph,
+      type: 'article',
+      publishedTime: data.published_at,
+      modifiedTime: data.updated_at ?? data.published_at,
+    },
+  }
 }
 
 // Content comes from developer-controlled MDX files or admin-authored DB content (trusted server-side source)
@@ -44,7 +55,7 @@ function renderMarkdown(md: string, slug: string): string {
     `![$1](/api/content-image/${slug}/$2)`
   )
 
-  return processed
+  const lines = processed
     .replace(/^## (.+)$/gm, '<h2>$1</h2>')
     .replace(/^### (.+)$/gm, '<h3>$1</h3>')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
@@ -55,6 +66,7 @@ function renderMarkdown(md: string, slug: string): string {
     .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" class="prose-link">$1</a>')
     .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
     .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/^\d+\. (.+)$/gm, '<li data-ol>$1</li>')
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/^(.+)$/gm, (line) => {
       if (
@@ -64,10 +76,51 @@ function renderMarkdown(md: string, slug: string): string {
         line.startsWith('<blockquote') ||
         line.startsWith('<figure') ||
         line.startsWith('<code') ||
+        line.startsWith('|') ||
         line.trim() === ''
       ) return line
       return `<p>${line}</p>`
     })
+    .split('\n')
+
+  // Block pass: consecutive <li> lines become one list, consecutive pipe
+  // lines one table. Cells already went through the same inline transforms
+  // as paragraphs above (no extra escaping, as for paragraphs).
+  const out: string[] = []
+  for (let i = 0; i < lines.length; ) {
+    const line = lines[i]
+    if (line.startsWith('<li')) {
+      const ordered = line.startsWith('<li data-ol>')
+      const items: string[] = []
+      while (i < lines.length && lines[i].startsWith(ordered ? '<li data-ol>' : '<li>')) {
+        items.push(lines[i].replace('<li data-ol>', '<li>'))
+        i++
+      }
+      out.push(ordered ? `<ol>${items.join('')}</ol>` : `<ul>${items.join('')}</ul>`)
+      continue
+    }
+    if (line.startsWith('|')) {
+      const rows: string[][] = []
+      while (i < lines.length && lines[i].startsWith('|')) {
+        const row = lines[i].trim()
+        i++
+        if (/^\|[\s:|-]+\|$/.test(row)) continue // |---|---| separator
+        rows.push(row.replace(/^\|/, '').replace(/\|$/, '').split('|').map((c) => c.trim()))
+      }
+      const [head, ...body] = rows
+      const cells = (r: string[], tag: string) => r.map((c) => `<${tag}>${c}</${tag}>`).join('')
+      out.push(
+        '<div class="table-wrap"><table>' +
+          (head ? `<thead><tr>${cells(head, 'th')}</tr></thead>` : '') +
+          `<tbody>${body.map((r) => `<tr>${cells(r, 'td')}</tr>`).join('')}</tbody>` +
+          '</table></div>'
+      )
+      continue
+    }
+    out.push(line)
+    i++
+  }
+  return out.join('\n')
 }
 
 interface TiptapNode {
@@ -152,9 +205,35 @@ export default async function BlogPostPage({ params }: Props) {
   const contentHtml = renderContent(post.content_json as Record<string, unknown>, slug)
   const readMin = post.read_time_minutes ?? 5
 
+  const postUrl = `${SITE_URL}/blog/${slug}`
+  const postJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt,
+    ...(post.cover_image ? { image: new URL(post.cover_image, SITE_URL).href } : {}),
+    datePublished: post.published_at,
+    dateModified: post.updated_at ?? post.published_at,
+    author: { '@type': 'Organization', name: 'CueDeck Team', url: SITE_URL },
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+    url: postUrl,
+  }
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog` },
+      { '@type': 'ListItem', position: 3, name: post.title, item: postUrl },
+    ],
+  }
+
   return (
     <>
       <Nav />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(postJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbJsonLd) }} />
 
       <style dangerouslySetInnerHTML={{ __html: `
         .post-prose { color: #374151; font-size: 17px; line-height: 1.8; }
@@ -164,7 +243,15 @@ export default async function BlogPostPage({ params }: Props) {
         .post-prose strong { font-weight: 600; color: #111827; }
         .post-prose a.prose-link { color: #3b82f6; text-decoration: underline; text-decoration-color: rgba(59,130,246,0.4); text-underline-offset: 3px; }
         .post-prose a.prose-link:hover { text-decoration-color: #3b82f6; }
-        .post-prose li { margin: 0 0 0.4em 1.4em; list-style: disc; }
+        .post-prose ul, .post-prose ol { margin: 0 0 1.4em; padding-left: 1.4em; }
+        .post-prose li { margin: 0 0 0.4em; }
+        .post-prose ul > li { list-style: disc; }
+        .post-prose ol > li { list-style: decimal; }
+        .post-prose .table-wrap { overflow-x: auto; margin: 0 0 1.8em; border: 1px solid #e5e7eb; border-radius: 10px; }
+        .post-prose table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.5; }
+        .post-prose th { background: #f9fafb; color: #111827; font-weight: 600; text-align: left; padding: 10px 14px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; }
+        .post-prose td { padding: 10px 14px; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
+        .post-prose tbody tr:last-child td { border-bottom: none; }
         .post-prose code { background: #f3f4f6; padding: 2px 7px; border-radius: 5px; font-size: 14px; color: #1f2937; font-family: ui-monospace, monospace; }
         .post-prose figure { margin: 2em 0; }
         .post-prose figure img { width: 100%; height: auto; border-radius: 10px; box-shadow: 0 2px 16px rgba(0,0,0,0.08); display: block; }
@@ -239,9 +326,13 @@ export default async function BlogPostPage({ params }: Props) {
         {/* Featured image */}
         {post.cover_image && (
           <div style={{ maxWidth: 860, margin: '0 auto', padding: '36px 40px 0' }}>
+            {/* Covers are 1200x630 (1.91:1); the attributes reserve that box. */}
             <img
               src={post.cover_image}
               alt={post.title}
+              width={1200}
+              height={630}
+              fetchPriority="high"
               style={{
                 width: '100%', height: 'auto',
                 borderRadius: 14, display: 'block',
@@ -324,6 +415,10 @@ export default async function BlogPostPage({ params }: Props) {
                         <img
                           src={r.cover_image}
                           alt={r.title}
+                          width={1200}
+                          height={630}
+                          loading="lazy"
+                          decoding="async"
                           style={{ width: '100%', height: 120, objectFit: 'cover', display: 'block' }}
                         />
                       )}
