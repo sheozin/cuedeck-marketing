@@ -8,10 +8,11 @@ import Footer from '../../components/Footer'
 import BlogGrid from './BlogGrid'
 import { jsonLd as safeJsonLd } from '../../lib/jsonLd'
 import { pageMeta } from '../../lib/pageMeta'
+import { SITE_URL } from '../../lib/site'
 
-const BASE_URL = 'https://cuedeck.io'
+const BASE_URL = SITE_URL
 
-export const metadata: Metadata = pageMeta("/blog", "Blog", "Insights, tips, and updates from the CueDeck team on live event production.");
+export const metadata: Metadata = pageMeta("/blog", "Live Event Production Blog and Guides", "Run of show templates, show calling workflows, delay management and event signage guides from the CueDeck production team.");
 
 export default async function BlogPage() {
   const sb = createClient(
@@ -34,7 +35,7 @@ export default async function BlogPage() {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'CueDeck Blog',
-    description: 'Insights, tips, and updates from the CueDeck team on live event production.',
+    description: 'Run of show templates, show calling workflows, delay management and event signage guides from the CueDeck production team.',
     url: `${BASE_URL}/blog`,
     mainEntity: {
       '@type': 'ItemList',
@@ -66,7 +67,7 @@ export default async function BlogPage() {
         <div style={{ background: 'linear-gradient(135deg, #f0f7ff 0%, #fafafa 100%)', padding: '80px 40px 60px', textAlign: 'center' }}>
           <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', color: '#3b82f6', textTransform: 'uppercase', marginBottom: 12 }}>BLOG</p>
           <h1 style={{ fontSize: 'clamp(28px,4vw,48px)', fontWeight: 800, color: '#111827', letterSpacing: '-1px', marginBottom: 16 }}>
-            Insights & Updates
+            Live event production guides
           </h1>
           <p style={{ fontSize: 17, color: '#6b7280', maxWidth: 480, margin: '0 auto' }}>
             Tips, tutorials, and news from the CueDeck team.

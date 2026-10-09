@@ -3,17 +3,58 @@ import { pageMeta } from "../../../lib/pageMeta";
 import Nav from "../../../components/Nav";
 import Footer from "../../../components/Footer";
 import { jsonLd } from "../../../lib/jsonLd";
-import { Hero, Section, FeatureGrid, Showcase, CtaStrip, breadcrumbs, TRIAL_URL } from "../../../components/Solutions";
+import { Hero, Section, FeatureGrid, Showcase, Faq, CtaStrip, breadcrumbs, faqJsonLd, TRIAL_URL } from "../../../components/Solutions";
 
-export const metadata: Metadata = pageMeta("/solutions/stage-timer", "Stage Timer and Event Signage Displays", "A full-screen speaker countdown and 11 signage display modes, driven from your run of show. Pair any screen with a code. Included in every CueDeck plan.", "/solutions/stage-timer/opengraph-image");
+export const metadata: Metadata = pageMeta("/solutions/stage-timer", "Stage Timer and Confidence Monitor for Events", "A full-screen stage timer, a confidence monitor for speakers and 11 signage display modes, all driven by your run of show. Pair any screen with a code.", "/solutions/stage-timer/opengraph-image");
 
 const features = [
   { title: "Colour-coded countdown", desc: "Green, then amber, then red as time runs down, readable from the back of the stage." },
   { title: "Hold and overrun", desc: "HOLD freezes the clock. When a session runs over, the timer flashes so the speaker cannot miss it." },
+  { title: "Confidence monitor", desc: "A fullscreen view for speakers and stage crew: the session title and speaker, elapsed and remaining time, the LIVE, OVERRUN or HOLD status, the next session and the director's broadcasts." },
   { title: "Next session underneath", desc: "The stage timer shows what comes next, so the speaker and the stage manager are ready for the handover." },
   { title: "11 display modes", desc: "Stage timer, schedule, agenda, timeline, programme, wayfinding, sponsors, break, Wi-Fi, recall and custom messages." },
   { title: "Pair with a code", desc: "Each screen shows a short code. Enter it in the console and the screen is yours. No network setup, no IP addresses." },
   { title: "Driven from the run of show", desc: "Screens follow the live schedule. Apply a delay in the console and every screen updates." },
+];
+
+// Every statement here comes from the Digital Signage, Stage Monitor and Stage Timer docs sections.
+const details = [
+  {
+    title: "How the stage timer works",
+    body: "Register a display, set its mode to Stage Timer and open it on a screen facing the stage. It picks up the session that is live in the console and counts down on its own. The numbers turn from green to amber to red as the end approaches. If the speaker runs over, the timer flashes and counts the time over, for example +2:15. When no session is live, it shows a standby screen with the next scheduled session, and a progress bar along the bottom shows how far through the session the speaker is.",
+  },
+  {
+    title: "Hold, delays and the director's clock",
+    body: "When the director puts a session on hold, the countdown freezes and shows HOLD until the session resumes. When a delay is applied in the console, the timer and every other screen follow the new schedule. The stage timer counts from the same synced clock as the console, so the stage and the director never disagree about how much time is left.",
+  },
+  {
+    title: "The confidence monitor",
+    body: "The Stage Monitor is the confidence monitor for speakers and stage crew. Open it from the Stage Monitor button in the console and it goes fullscreen. Put that browser on a monitor facing the stage and it shows the current session title and speaker in large type, elapsed and remaining time, the session status and a preview of what follows. Broadcast messages from the director appear on it too. It uses a high-contrast dark theme, and Escape closes it.",
+  },
+  {
+    title: "Connecting a screen",
+    body: "On the TV, tablet or monitor, open app.cuedeck.io/d in any browser. A 6-character pairing code appears. Type it into the Signage panel, click Pair and the screen is connected. Install the display from the browser and it runs as a fullscreen app that survives reboots. Paired displays reconnect on their own if the network drops, and the Signage panel shows which ones are online.",
+  },
+  {
+    title: "Signage for the rest of the venue",
+    body: "The same screens can show the agenda, a time and room programme grid, sponsor logos, the Wi-Fi details, a break countdown or a custom message. A display can rotate through a sequence of modes, such as sponsors, then the agenda, then the Wi-Fi details. The director can push an override such as a break screen, a 5-minute recall or an emergency message to every display at once, and it stays up until it is cleared.",
+  },
+];
+
+const faqs = [
+  { q: "Do I need special hardware for the stage timer?", a: "No. Any screen with a web browser works, such as a TV, a tablet or a monitor on a laptop. Open app.cuedeck.io/d on it and pair it with a code. You can also install the display as a fullscreen app from the browser." },
+  { q: "How do I connect a screen?", a: "Open app.cuedeck.io/d on the screen and a 6-character pairing code appears. Type the code into the Signage panel in the console and click Pair. The code expires after 5 minutes if it is not used." },
+  { q: "What happens when a speaker runs over time?", a: "The countdown goes from green to amber to red as time runs low. Once the session passes its planned end, the timer flashes and shows the time over, for example +2:15, and the session shows as OVERRUN in the console." },
+  { q: "What does HOLD do?", a: "HOLD pauses a live session, for example during a technical issue. The stage timer freezes and shows HOLD until the director or stage manager resumes the session." },
+  { q: "How many display modes are there?", a: "Eleven: stage timer, schedule, agenda, timeline, programme, wayfinding, sponsors, break, Wi-Fi, recall and custom message. A display can show one mode or rotate through a sequence of them." },
+  { q: "How many screens can I connect?", a: "Pay-per-event includes 2 signage displays, Starter includes 5 and Pro has no limit. The stage timer is included in every plan." },
+];
+
+const related = [
+  { href: "/solutions/command-center", label: "Show calling and run of show software", desc: "Run the live schedule the screens follow." },
+  { href: "/solutions/check-in", label: "Event check-in with QR codes", desc: "Run the registration desk from a laptop or tablet." },
+  { href: "/blog/digital-signage-live-events", label: "Digital signage for live events", desc: "What to show on each screen in the venue." },
+  { href: "/blog/stage-manager-workflow-guide", label: "Stage manager workflow", desc: "From ready to live, with the confidence monitor." },
 ];
 
 export default function StageTimerPage() {
@@ -21,11 +62,12 @@ export default function StageTimerPage() {
     <>
       <Nav />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbs("Stage Timer & Displays", "/solutions/stage-timer")) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(faqJsonLd(faqs)) }} />
       <main style={{ paddingTop: 64, background: "#fff" }}>
         <Hero
           eyebrow="Stage Timer & Displays"
           title={<>Every speaker knows exactly where they stand</>}
-          lead="A full-screen countdown for the stage and signage for every other screen in the venue, all driven by the same live run of show."
+          lead="A stage timer and confidence monitor for every speaker, and signage for every other screen in the venue, all driven by the same live run of show."
           primary={{ label: "Start free trial", href: TRIAL_URL }}
           secondary={{ label: "See pricing", href: "/pricing" }}
           note={<>Included in every CueDeck plan</>}
@@ -35,6 +77,16 @@ export default function StageTimerPage() {
         <Section eyebrow="On every screen" title="One schedule, every display" bg="#f9fafb">
           <FeatureGrid items={features} />
         </Section>
+        <Section eyebrow="In detail" title="The stage timer, the confidence monitor and the signage" lead="What each screen shows, and how it stays in step with the console.">
+          <div style={{ maxWidth: 760, margin: "0 auto" }}>
+            {details.map(d => (
+              <div key={d.title} style={{ marginBottom: 32 }}>
+                <h3 style={{ fontSize: 19, fontWeight: 700, color: "#111827", marginBottom: 8 }}>{d.title}</h3>
+                <p style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75 }}>{d.body}</p>
+              </div>
+            ))}
+          </div>
+        </Section>
         <Showcase
           eyebrow="Behind the screens"
           title="Controlled from the console"
@@ -42,6 +94,19 @@ export default function StageTimerPage() {
           img={{ src: "/screenshots/cuedeck-command-center-director-console.jpg", width: 1440, height: 900,
             alt: "CueDeck director console with the live session selected: its 14:00 countdown, Hold and End controls, and the event log below" }}
         />
+        <Section eyebrow="Questions" title="Stage timer questions" bg="#f9fafb">
+          <Faq items={faqs} />
+        </Section>
+        <Section eyebrow="Related" title="Keep reading">
+          <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))" }}>
+            {related.map(r => (
+              <a key={r.href} href={r.href} style={{ display: "block", padding: 24, borderRadius: 14, border: "1px solid #e5e7eb", background: "#fff", textDecoration: "none" }}>
+                <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: "#2563eb", marginBottom: 6 }}>{r.label}</span>
+                <span style={{ display: "block", fontSize: 14, color: "#6b7280", lineHeight: 1.6 }}>{r.desc}</span>
+              </a>
+            ))}
+          </div>
+        </Section>
         <CtaStrip title="Put the clock where the speaker can see it" lead="Included in every CueDeck plan. 3-day free trial, no credit card." label="Start free trial" href={TRIAL_URL} />
       </main>
       <Footer cta={false} />

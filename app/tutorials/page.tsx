@@ -3,8 +3,9 @@ import { pageMeta } from "../../lib/pageMeta";
 import Nav from '../../components/Nav'
 import Footer from '../../components/Footer'
 import TutorialsClient from './TutorialsClient'
+import TutorialsJsonLd from '../../components/TutorialsJsonLd'
 
-export const metadata: Metadata = pageMeta("/tutorials", "Tutorials", "Learn CueDeck with our complete 21-episode tutorial series — from setting up your first event to running AI-assisted live productions.");
+export const metadata: Metadata = pageMeta("/tutorials", "Video Tutorials for the CueDeck Console", "Free video tutorials for the CueDeck console: set up your first event, call a live show, cascade delays, drive signage and use the AI agents.");
 
 const EPISODES = [
   { num: '01', shortTitle: 'Welcome & Overview', duration: '4–5 min', category: 'start', youtubeUrl: 'https://www.youtube.com/watch?v=YzZuZiprSao', accentColor: '#3b82f6',
@@ -17,15 +18,15 @@ const EPISODES = [
     desc: 'Explore all 6 roles and exactly what each can see and do. Walk through the team invite flow to get your whole crew connected before show day.' },
   { num: '05', shortTitle: 'Broadcast Bar', duration: '4 min', category: 'start', youtubeUrl: 'https://www.youtube.com/watch?v=2ZqYHw2TI_E', accentColor: '#3b82f6',
     desc: 'No more group chats during a live event. Send a message to every connected device instantly. One-click presets for your most common announcements.' },
-  { num: '06', shortTitle: 'Delay Cascade', duration: '6–7 min', category: 'prod', youtubeUrl: 'https://www.youtube.com/watch?v=vq4hef-0uCg', accentColor: '#f59e0b',
+  { num: '06', related: { href: '/solutions/command-center', label: 'See the delay cascade in the command center' }, shortTitle: 'Delay Cascade', duration: '6–7 min', category: 'prod', youtubeUrl: 'https://www.youtube.com/watch?v=vq4hef-0uCg', accentColor: '#f59e0b',
     desc: 'When a session runs long, CueDeck automatically shifts every subsequent session. See anchor sessions, cascade visualiser, and instant reset.' },
-  { num: '07', shortTitle: 'Signage Setup', duration: '6–7 min', category: 'signage', youtubeUrl: 'https://www.youtube.com/watch?v=ZD8xXyBt7ec', accentColor: '#10b981',
+  { num: '07', related: { href: '/solutions/stage-timer', label: 'See event signage displays' }, shortTitle: 'Signage Setup', duration: '6–7 min', category: 'signage', youtubeUrl: 'https://www.youtube.com/watch?v=ZD8xXyBt7ec', accentColor: '#10b981',
     desc: 'Turn any browser tab into a live venue display. Lobby monitors, stage-side screens, backstage tablets — all updating in realtime from your console.' },
-  { num: '08', shortTitle: 'All 11 Display Modes', duration: '8–10 min', category: 'signage', youtubeUrl: 'https://www.youtube.com/watch?v=ntM9NZkPWR8', accentColor: '#10b981',
+  { num: '08', related: { href: '/solutions/stage-timer', label: 'See all 11 display modes' }, shortTitle: 'All 11 Display Modes', duration: '8–10 min', category: 'signage', youtubeUrl: 'https://www.youtube.com/watch?v=ntM9NZkPWR8', accentColor: '#10b981',
     desc: 'A complete walkthrough of every display mode: schedule, agenda, timeline, programme grid, next-up, sponsors, stage timer, and more.' },
-  { num: '09', shortTitle: 'Stage Monitor', duration: '5–6 min', category: 'signage', youtubeUrl: 'https://www.youtube.com/watch?v=5pnrAtIQBZI', accentColor: '#10b981',
+  { num: '09', related: { href: '/solutions/stage-timer', label: 'See the confidence monitor' }, shortTitle: 'Stage Monitor', duration: '5–6 min', category: 'signage', youtubeUrl: 'https://www.youtube.com/watch?v=5pnrAtIQBZI', accentColor: '#10b981',
     desc: 'A fullscreen overlay showing the current LIVE session in giant text. Colour-coded by urgency — green, amber, red, OVERRUN, HOLD.' },
-  { num: '10', shortTitle: 'Stage Timer', duration: '5–6 min', category: 'signage', youtubeUrl: 'https://www.youtube.com/watch?v=33BRPEqgbc4', accentColor: '#10b981',
+  { num: '10', related: { href: '/solutions/stage-timer', label: 'See the stage timer' }, shortTitle: 'Stage Timer', duration: '5–6 min', category: 'signage', youtubeUrl: 'https://www.youtube.com/watch?v=33BRPEqgbc4', accentColor: '#10b981',
     desc: 'A fullscreen speaker countdown — standby, green, amber, red, overrun flash, and hold freeze. Set up once, runs for the whole event.' },
   { num: '11', shortTitle: 'AI Incident Advisor', duration: '5–6 min', category: 'ai', youtubeUrl: 'https://www.youtube.com/watch?v=TIT9jqmMRNo', accentColor: '#8b5cf6',
     desc: 'When something goes wrong on stage, the AI Incident Advisor gives you a prioritised action plan in seconds. Demo with a real incident scenario.' },
@@ -54,6 +55,7 @@ const EPISODES = [
 export default function TutorialsPage() {
   return (
     <>
+      <TutorialsJsonLd />
       <Nav />
       <main style={{ paddingTop: 64, minHeight: '80vh', background: '#fff' }}>
         <TutorialsClient episodes={EPISODES} />
