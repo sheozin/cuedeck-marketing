@@ -119,7 +119,7 @@ export default function StageTimerPage() {
           device="laptop"
           labels={[
             { dot: DOT.live, title: "Selected session live", sub: "Hold and End controls", pos: { right: -20, bottom: "26%" } },
-            { dot: DOT.delay, title: "Running +5 min", sub: "2 sessions affected", pos: { left: -18, bottom: "16%" } },
+            { dot: DOT.delay, title: "Running +5 min", sub: "3 sessions affected", pos: { left: -18, bottom: "16%" } },
           ]}
         />
         <Section eyebrow="Questions" title="Stage timer questions" bg="#f9fafb">

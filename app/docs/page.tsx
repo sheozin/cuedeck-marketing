@@ -334,7 +334,7 @@ const SECTIONS: DocSection[] = [
           src="/screenshots/cuedeck-closeup-session-row.jpg"
           width={2112}
           height={388}
-          alt="Three session rows: #3 LIVE The future of hybrid events with Tomas Okafor arrived, Main Stage, 14:00 left and End; #4 CALLING Breakout: captions and accessible stages with Jun Watanabe not arrived, Hall B, 10:35 to 11:20, was 10:30, +5 and On stage; #5 READY Panel: building crews that scale, Main Stage, 11:00 to 11:45 and Call speaker"
+          alt="Three session rows: #3 LIVE The future of hybrid events with Tomas Okafor arrived, Main Stage, 14:00 left and End; #4 CALLING Breakout: captions and accessible stages with Jun Watanabe not arrived, Hall B, 10:35 to 11:20, was 10:30, +5 and On stage; #5 READY Panel: building crews that scale, Main Stage, 11:05 to 11:50, was 11:00, +5 and Call speaker"
           caption="Session rows in the LIVE, CALLING and READY states, each with its next action."
         />
 
@@ -425,7 +425,7 @@ const SECTIONS: DocSection[] = [
           src="/screenshots/cuedeck-closeup-delay-cascade.jpg"
           width={2120}
           height={758}
-          alt="Filter bar with the amber delay chip Running +5 min, 2 affected, stops at #7 and a Reset delays button, above the session list where #4 and #6 show their new times, was 10:30 and was 11:30, and +5, followed by the line Delay stops here: below runs on the original schedule"
+          alt="Filter bar with the amber delay chip Running +5 min, 3 affected, stops at #7 and a Reset delays button, above the session list where #4, #5 and #6 show their new times, was 10:30, was 11:00 and was 11:30, and +5, followed by the line Delay stops here: below runs on the original schedule"
           caption="A +5 minute delay: the shifted sessions show their original time, and the list marks where the delay stops."
         />
 

@@ -220,7 +220,7 @@ const FEATURES: { Icon: () => React.JSX.Element; title: string; desc: string; sh
   {
     Icon: IconClock,
     title: "Delay Cascade",
-    shot: { src: "/screenshots/cuedeck-closeup-delay-cascade.jpg", width: 2120, height: 758, pos: "right top", alt: "Session list running 5 minutes late: two sessions moved by +5 and a line where the delay stops" },
+    shot: { src: "/screenshots/cuedeck-closeup-delay-cascade.jpg", width: 2120, height: 758, pos: "right top", alt: "Session list running 5 minutes late: three sessions moved by +5 and a line where the delay stops" },
     desc: "Apply a delay to one session and it cascades downstream automatically. Every operator sees the new schedule instantly.",
   },
   {
@@ -716,7 +716,7 @@ function RoleShowcase() {
                       alt: "CueDeck director console: Main Stage and Hall B in the now and next band, the session list with live, calling, ready and planned sessions, the selected session's Hold and End controls, and the event log" }}
                     sizes="(max-width: 900px) 92vw, 480px"
                   >
-                    <LiveLabel dot={DOT.delay} title="Running +5 min" sub="2 sessions affected" pos={{ left: -18, bottom: "16%" }} />
+                    <LiveLabel dot={DOT.delay} title="Running +5 min" sub="3 sessions affected" pos={{ left: -18, bottom: "16%" }} />
                     <LiveLabel dot={DOT.live} title="Selected session" sub="Hold and End controls" pos={{ right: -20, bottom: "26%" }} />
                   </Laptop>
                 </DeviceStage>

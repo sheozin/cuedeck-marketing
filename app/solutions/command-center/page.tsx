@@ -162,7 +162,7 @@ export default function CommandCenterPage() {
           imgMaxWidth={270}
           labels={[
             { dot: DOT.live, title: "Main Stage live", sub: "14:00 left", pos: { left: -110, top: "14%" } },
-            { dot: DOT.info, title: "Next at 11:00", sub: "Call speaker", pos: { right: -110, top: "56%" } },
+            { dot: DOT.info, title: "Next at 11:05 (+5)", sub: "Call speaker", pos: { right: -130, top: "56%" } },
           ]}
         />
         <Showcase
@@ -171,10 +171,10 @@ export default function CommandCenterPage() {
           title="Late in one room, on time everywhere else"
           desc="Push the following sessions by five, ten or fifteen minutes and the list shows the new times beside the old ones. The delay stops at the next anchored session, and everything below it runs on the original schedule."
           img={{ src: "/screenshots/cuedeck-closeup-delay-cascade.jpg", width: 2120, height: 758,
-            alt: "Session list running 5 minutes late: two sessions show +5 with their original times, and a line marks where the delay stops" }}
+            alt: "Session list running 5 minutes late: three sessions show +5 with their original times, and a line marks where the delay stops" }}
           device="card"
           labels={[
-            { dot: DOT.delay, title: "Running +5 min", sub: "2 affected, stops at #7", pos: { left: -14, top: -26 } },
+            { dot: DOT.delay, title: "Running +5 min", sub: "3 affected, stops at #7", pos: { left: -14, top: -26 } },
             { dot: DOT.info, title: "Delay stops here", sub: "Below runs on the original schedule", pos: { right: -14, bottom: -26 } },
           ]}
         />
