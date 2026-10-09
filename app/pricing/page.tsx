@@ -5,76 +5,16 @@ import Footer from "../../components/Footer";
 import PricingClient from "../../components/PricingClient";
 import { jsonLd as safeJsonLd } from "../../lib/jsonLd";
 import { getCheckinPrice } from "../../lib/checkinPrice";
+import { SITE_URL } from "../../lib/site";
+import { plans, softwareApplicationJsonLd, TRIAL_URL } from "../../lib/plans";
+import { currencyForCountry } from "../../lib/currency";
+import { headers } from "next/headers";
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = pageMeta("/pricing", "Pricing", "Simple, transparent pricing for professional event teams. Start free, scale as you grow.");
 
-const TRIAL_URL = "https://app.cuedeck.io/#signup";
 const CONTACT_URL = "/contact";
-
-const plans = [
-  {
-    name: "Pay-per-event",
-    price: { monthly: 39, annual: 39 },
-    period: "per event",
-    description: "Perfect for freelancers and one-off productions.",
-    highlight: false,
-    badge: null as string | null,
-    features: [
-      "1 event",
-      "Up to 5 operators",
-      "All 6 roles included",
-      "Real-time sync",
-      "Basic signage (2 displays)",
-    ],
-    cta: "Buy single event",
-    ctaHref: TRIAL_URL,
-    ctaStyle: "outline",
-  },
-  {
-    name: "Starter",
-    price: { monthly: 59, annual: 47 },
-    period: "/month",
-    description: "For small teams running regular events.",
-    highlight: false,
-    badge: null as string | null,
-    features: [
-      "1 active event at a time",
-      "Up to 5 operators",
-      "All 6 roles included",
-      "Real-time sync",
-      "5 signage displays",
-      "Post-event reports",
-      "3-day free trial",
-    ],
-    cta: "Start free trial",
-    ctaHref: TRIAL_URL,
-    ctaStyle: "outline",
-  },
-  {
-    name: "Pro",
-    price: { monthly: 99, annual: 79 },
-    period: "/month",
-    description: "Full power for production companies.",
-    highlight: true,
-    badge: "Most popular" as string | null,
-    features: [
-      "Unlimited active events",
-      "Up to 20 operators",
-      "All 6 roles included",
-      "Unlimited signage displays",
-      "AI Incident Advisor",
-      "AI post-event reports",
-      "Delay cascade",
-      "Priority support",
-      "3-day free trial",
-    ],
-    cta: "Start free trial",
-    ctaHref: TRIAL_URL,
-    ctaStyle: "filled",
-  },
-];
 
 const faqs = [
   {
@@ -116,28 +56,12 @@ const includedFeatures = [
   { icon: "🔁", title: "Auto-reconnect",      desc: "If a device drops, it reconnects and catches up automatically." },
 ];
 
-const BASE_URL = "https://cuedeck.io";
-
-const productJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  name: "CueDeck",
-  description: "Real-time live event management platform for production teams.",
-  url: BASE_URL,
-  brand: { "@type": "Brand", name: "CueDeck" },
-  offers: [
-    { "@type": "Offer", name: "Pay-per-event", price: "39",  priceCurrency: "EUR", priceValidUntil: "2027-12-31", availability: "https://schema.org/InStock", url: `${BASE_URL}/pricing` },
-    { "@type": "Offer", name: "Starter",        price: "59",  priceCurrency: "EUR", priceValidUntil: "2027-12-31", availability: "https://schema.org/InStock", url: `${BASE_URL}/pricing` },
-    { "@type": "Offer", name: "Pro",             price: "99",  priceCurrency: "EUR", priceValidUntil: "2027-12-31", availability: "https://schema.org/InStock", url: `${BASE_URL}/pricing` },
-  ],
-};
-
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
-    { "@type": "ListItem", position: 2, name: "Pricing", item: `${BASE_URL}/pricing` },
+    { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+    { "@type": "ListItem", position: 2, name: "Pricing", item: `${SITE_URL}/pricing` },
   ],
 };
 
@@ -153,17 +77,20 @@ const faqJsonLd = {
 
 export default async function PricingPage() {
   const checkin = await getCheckinPrice();
+  // Vercel's geo header picks the starting currency on the server, so no
+  // third-party geolocation call runs in the browser before consent.
+  const defaultCurrency = currencyForCountry((await headers()).get("x-vercel-ip-country"));
   // Only from the live Stripe price; no Offer at all if the fetch failed.
   const checkinJsonLd = checkin && {
     "@context": "https://schema.org",
     "@type": "Product",
     name: "CueDeck Event Check-in",
     description: "Guest list, QR code emails, check-in desk, door scanners, badges and a live dashboard for one event.",
-    url: `${BASE_URL}/solutions/check-in`,
+    url: `${SITE_URL}/solutions/check-in`,
     brand: { "@type": "Brand", name: "CueDeck" },
     offers: {
       "@type": "Offer", name: "Event Check-in, per event", price: String(checkin.amount), priceCurrency: checkin.currency,
-      availability: "https://schema.org/InStock", url: `${BASE_URL}/solutions/check-in`,
+      availability: "https://schema.org/InStock", url: `${SITE_URL}/solutions/check-in`,
       priceSpecification: { "@type": "UnitPriceSpecification", price: String(checkin.amount), priceCurrency: checkin.currency, valueAddedTaxIncluded: !checkin.taxExclusive },
     },
   };
@@ -172,7 +99,7 @@ export default async function PricingPage() {
       <Nav />
       {checkinJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(checkinJsonLd) }} />}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(faqJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(productJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(softwareApplicationJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbJsonLd) }} />
       <main style={{ paddingTop: 64, background: "#fff" }}>
 
@@ -228,7 +155,7 @@ export default async function PricingPage() {
           </div>
 
           {/* PricingClient at full width (its own maxWidth: 1100) */}
-          <PricingClient plans={plans} />
+          <PricingClient plans={plans} defaultCurrency={defaultCurrency} />
 
           <div style={{ maxWidth: 720, margin: "0 auto" }}>
             <p style={{

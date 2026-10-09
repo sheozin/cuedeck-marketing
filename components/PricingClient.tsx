@@ -55,34 +55,21 @@ function IconCheck({ highlighted }: { highlighted: boolean }) {
 }
 
 // ─── PricingClient ────────────────────────────────────────────────────────────
-export default function PricingClient({ plans }: { plans: Plan[] }) {
+export default function PricingClient({ plans, defaultCurrency }: { plans: Plan[]; defaultCurrency: string }) {
   const [annual, setAnnual] = useState(false);
-  const [currencyCode, setCurrencyCode] = useState<string>(DEFAULT_CURRENCY);
-  const [currencyLoaded, setCurrencyLoaded] = useState(false);
+  // Server picks the start currency from the visitor's country, so the first
+  // paint is already right; only a saved manual choice can change it here.
+  const [currencyCode, setCurrencyCode] = useState<string>(
+    SUPPORTED_CODES.includes(defaultCurrency) ? defaultCurrency : DEFAULT_CURRENCY,
+  );
 
-  // Detect currency on mount
   useEffect(() => {
-    const stored = typeof window !== 'undefined' ? localStorage.getItem(LS_KEY) : null;
-    if (stored && SUPPORTED_CODES.includes(stored)) {
-      setCurrencyCode(stored);
-      setCurrencyLoaded(true);
-      return;
+    try {
+      const stored = localStorage.getItem(LS_KEY);
+      if (stored && SUPPORTED_CODES.includes(stored)) setCurrencyCode(stored);
+    } catch {
+      // storage blocked: keep the server default
     }
-
-    (async () => {
-      try {
-        const res = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(4000) });
-        if (!res.ok) throw new Error('ipapi failed');
-        const data = await res.json();
-        const detected: string = data?.currency ?? DEFAULT_CURRENCY;
-        const code = SUPPORTED_CODES.includes(detected) ? detected : DEFAULT_CURRENCY;
-        setCurrencyCode(code);
-      } catch {
-        // silent fallback to EUR
-      } finally {
-        setCurrencyLoaded(true);
-      }
-    })();
   }, []);
 
   function handleCurrencyChange(code: string) {
@@ -170,30 +157,28 @@ export default function PricingClient({ plans }: { plans: Plan[] }) {
         </div>
 
         {/* Currency selector */}
-        {currencyLoaded && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 13, color: '#9ca3af', fontWeight: 500 }}>Currency:</span>
-            <select
-              value={currencyCode}
-              onChange={e => handleCurrencyChange(e.target.value)}
-              style={{
-                fontSize: 13,
-                fontWeight: 600,
-                color: '#374151',
-                background: '#fff',
-                border: '1px solid #e5e7eb',
-                borderRadius: 8,
-                padding: '5px 10px',
-                cursor: 'pointer',
-                outline: 'none',
-              }}
-            >
-              {SUPPORTED_CODES.map(code => (
-                <option key={code} value={code}>{code}</option>
-              ))}
-            </select>
-          </div>
-        )}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, minHeight: 32 }}>
+          <span style={{ fontSize: 13, color: '#9ca3af', fontWeight: 500 }}>Currency:</span>
+          <select
+            value={currencyCode}
+            onChange={e => handleCurrencyChange(e.target.value)}
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              color: '#374151',
+              background: '#fff',
+              border: '1px solid #e5e7eb',
+              borderRadius: 8,
+              padding: '5px 10px',
+              cursor: 'pointer',
+              outline: 'none',
+            }}
+          >
+            {SUPPORTED_CODES.map(code => (
+              <option key={code} value={code}>{code}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {/* Plan cards */}
@@ -264,6 +249,7 @@ export default function PricingClient({ plans }: { plans: Plan[] }) {
                     letterSpacing: '-1px',
                     color: plan.highlight ? '#fff' : '#111827',
                     lineHeight: 1,
+                    whiteSpace: 'nowrap',
                   }}>
                     {formatPrice(annual && plan.name !== 'Pay-per-event' ? plan.price.annual : plan.price.monthly)}
                   </span>
@@ -288,11 +274,13 @@ export default function PricingClient({ plans }: { plans: Plan[] }) {
                 </div>
               )}
 
-              {annual && plan.price && (
-                <p style={{
+              {/* Line always rendered so toggling billing never changes card height */}
+              {plan.price && (
+                <p aria-hidden={!annual} style={{
                   fontSize: 12,
                   color: plan.highlight ? 'rgba(255,255,255,0.55)' : '#9ca3af',
                   marginBottom: 4,
+                  visibility: annual ? 'visible' : 'hidden',
                 }}>
                   Billed annually
                 </p>
