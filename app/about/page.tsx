@@ -5,7 +5,7 @@ import Footer from "../../components/Footer";
 import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../../keystatic.config'
 
-export const metadata: Metadata = pageMeta("/about", "About", "Built by event professionals, for event professionals. Learn about the mission behind CueDeck.");
+export const metadata: Metadata = pageMeta("/about", "About CueDeck, built by AVE Events", "CueDeck is built by AVE Events, an AV production company that runs live events. Learn why we built a real-time console for live event teams.");
 
 export default async function AboutPage() {
   const reader = createReader(process.cwd(), keystaticConfig)
@@ -15,8 +15,8 @@ export default async function AboutPage() {
   const heroTagline = about?.heroTagline ?? 'CueDeck was born in the chaos of live events — backstage, on comms, watching schedules slip. We built the tool we always wished existed.'
   const missionHeading = about?.missionHeading ?? 'Calm under pressure. Always.'
   const missionBody = about?.missionBody ?? 'Live events are unforgiving. When a speaker is late, a session overruns, or AV goes down, every second counts.\n\nCueDeck replaces that friction with a single real-time console.\n\nWe believe the best events look effortless because the team behind them has the right tools. CueDeck is that tool.'
-  const quoteText = about?.quoteText ?? 'We cut our pre-event briefing from 45 minutes to 10. Everyone already knows their role, their cues, and their fallback. CueDeck made that possible.'
-  const quoteAuthor = about?.quoteAuthor ?? '— Lead Producer, AVE Events International'
+  const quoteText = about?.quoteText ?? 'We cut our pre-event briefing from 45 minutes to 9. Everyone already knows their role, their cues, and their fallback. CueDeck made that possible.'
+  const quoteAuthor = about?.quoteAuthor ?? 'Lead Producer, AVE Events International (AVE Events is the company behind CueDeck)'
   const ctaHeading = about?.ctaHeading ?? 'Ready to run your event like a pro?'
   const ctaSubtext = about?.ctaSubtext ?? 'Start your free 3-day trial. No credit card required.'
 
@@ -60,9 +60,9 @@ export default async function AboutPage() {
             display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24,
           }}>
             {[
-              { stat: "500+", label: "Events Powered" },
-              { stat: "50+",  label: "Teams Trust CueDeck" },
-              { stat: "8",    label: "Operator Roles" },
+              { stat: "6",  label: "Operator roles" },
+              { stat: "8",  label: "Session states" },
+              { stat: "11", label: "Signage display modes" },
             ].map(item => (
               <div key={item.label} style={{
                 textAlign: "center", padding: "32px 24px",
