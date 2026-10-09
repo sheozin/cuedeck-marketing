@@ -10,7 +10,7 @@ import {
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = pageMeta("/solutions/check-in", "Event Check-in with QR Codes and Badges", "Import your guest list, email QR codes, check whole teams in with one scan and print badges. Works offline. One price per event, no subscription.", "/solutions/check-in/opengraph-image");
+export const metadata: Metadata = pageMeta("/solutions/check-in", "Event Check-in App with QR Codes and Badges", "Import your guest list, email QR codes, check whole teams in with one scan and print badges. Works offline. One price per event, no subscription.", "/solutions/check-in/opengraph-image");
 
 const steps = [
   { title: "Build your guest list", desc: "Share a registration link so guests sign themselves up, or upload a CSV and see who will be added, updated or skipped before anything is saved." },
