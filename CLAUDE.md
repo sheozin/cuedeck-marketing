@@ -70,7 +70,7 @@ keystatic.config.ts — CMS config (local storage mode)
 - **Pro:** €99/month (annual: €79/mo, saves 20%) — "Most popular"
 - All prices **tax-inclusive** (EU VAT handled by Stripe Tax)
 - Base currency: **EUR** (factor 1.0)
-- Multi-currency via `ipapi.co` geolocation: USD ×1.08, GBP ×0.85, AED ×3.95, SGD ×1.45
+- Multi-currency from the visitor's country (middleware copies Vercel's `x-vercel-ip-country` into the first-party `cd_country` cookie; `lib/currency.ts` maps it; no third-party lookup): USD ×1.08, GBP ×0.85, AED ×3.95, SGD ×1.45
 - `DEFAULT_CURRENCY = 'EUR'` in PricingClient.tsx
 
 ## Mobile Responsive Strategy

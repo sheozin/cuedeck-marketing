@@ -1,5 +1,5 @@
 // Starting currency for /pricing from the visitor's country (Vercel's
-// x-vercel-ip-country header). Same outcome as the old ipapi.co lookup, which
+// x-vercel-ip-country, via the cd_country cookie set in middleware). Same outcome as the old ipapi.co lookup, which
 // returned the country's own currency: countries whose currency we price in
 // get it, everyone else gets EUR. The visitor can still override it.
 const COUNTRY_CURRENCY: Record<string, string> = {

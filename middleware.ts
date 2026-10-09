@@ -1,7 +1,24 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+// Public pages: copy Vercel's geo country into a first-party cookie so the
+// statically rendered /pricing can pick a currency in the browser without a
+// third-party lookup. No auth work on these paths.
+export function setCountryCookie(request: NextRequest): NextResponse {
+  const response = NextResponse.next();
+  const country = request.headers.get('x-vercel-ip-country');
+  if (country && /^[A-Za-z]{2}$/.test(country) && !request.cookies.has('cd_country')) {
+    response.cookies.set('cd_country', country.toUpperCase(), {
+      path: '/', sameSite: 'lax', maxAge: 60 * 60 * 24, httpOnly: false,
+    });
+  }
+  return response;
+}
+
 export async function middleware(request: NextRequest) {
+  const path = request.nextUrl.pathname;
+  if (path === '/' || path === '/pricing') return setCountryCookie(request);
+
   let supabaseResponse = NextResponse.next({ request });
 
   // Build a server client that reads/refreshes session cookies.
@@ -43,5 +60,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/login'],
+  matcher: ['/admin/:path*', '/login', '/pricing', '/'],
 };

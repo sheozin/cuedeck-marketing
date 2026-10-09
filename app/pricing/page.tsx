@@ -7,8 +7,6 @@ import { jsonLd as safeJsonLd } from "../../lib/jsonLd";
 import { getCheckinPrice } from "../../lib/checkinPrice";
 import { SITE_URL } from "../../lib/site";
 import { plans, softwareApplicationJsonLd, TRIAL_URL } from "../../lib/plans";
-import { currencyForCountry } from "../../lib/currency";
-import { headers } from "next/headers";
 
 export const revalidate = 3600;
 
@@ -77,9 +75,6 @@ const faqJsonLd = {
 
 export default async function PricingPage() {
   const checkin = await getCheckinPrice();
-  // Vercel's geo header picks the starting currency on the server, so no
-  // third-party geolocation call runs in the browser before consent.
-  const defaultCurrency = currencyForCountry((await headers()).get("x-vercel-ip-country"));
   // Only from the live Stripe price; no Offer at all if the fetch failed.
   const checkinJsonLd = checkin && {
     "@context": "https://schema.org",
@@ -155,7 +150,7 @@ export default async function PricingPage() {
           </div>
 
           {/* PricingClient at full width (its own maxWidth: 1100) */}
-          <PricingClient plans={plans} defaultCurrency={defaultCurrency} />
+          <PricingClient plans={plans} />
 
           <div style={{ maxWidth: 720, margin: "0 auto" }}>
             <p style={{

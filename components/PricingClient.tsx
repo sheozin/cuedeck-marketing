@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { currencyForCountry } from '../lib/currency';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Plan {
@@ -55,21 +56,20 @@ function IconCheck({ highlighted }: { highlighted: boolean }) {
 }
 
 // ─── PricingClient ────────────────────────────────────────────────────────────
-export default function PricingClient({ plans, defaultCurrency }: { plans: Plan[]; defaultCurrency: string }) {
+export default function PricingClient({ plans }: { plans: Plan[] }) {
   const [annual, setAnnual] = useState(false);
-  // Server picks the start currency from the visitor's country, so the first
-  // paint is already right; only a saved manual choice can change it here.
-  const [currencyCode, setCurrencyCode] = useState<string>(
-    SUPPORTED_CODES.includes(defaultCurrency) ? defaultCurrency : DEFAULT_CURRENCY,
-  );
+  const [currencyCode, setCurrencyCode] = useState<string>(DEFAULT_CURRENCY);
 
+  // A saved manual choice wins; otherwise the country from the first-party
+  // cd_country cookie (set by middleware from Vercel's geo header). No
+  // third-party lookup. The selector row has reserved height, so a switch
+  // after hydration changes only the digits, not the layout.
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(LS_KEY);
-      if (stored && SUPPORTED_CODES.includes(stored)) setCurrencyCode(stored);
-    } catch {
-      // storage blocked: keep the server default
-    }
+    let stored: string | null = null;
+    try { stored = localStorage.getItem(LS_KEY); } catch { /* storage blocked */ }
+    if (stored && SUPPORTED_CODES.includes(stored)) { setCurrencyCode(stored); return; }
+    const country = document.cookie.match(/(?:^|;\s*)cd_country=([A-Za-z]{2})/)?.[1];
+    setCurrencyCode(currencyForCountry(country));
   }, []);
 
   function handleCurrencyChange(code: string) {
