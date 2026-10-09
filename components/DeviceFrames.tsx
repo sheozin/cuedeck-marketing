@@ -5,6 +5,7 @@
 // selectors; React dedupes it by href, so a page with many stages ships it once.
 import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
+import LabelClamp from "./LabelClamp";
 
 const CSS = `
 .cd-dev-stage{--cd-dev-lid:#1d1d1f;--cd-dev-edge:#48484a;--cd-dev-shadow:0 30px 60px -18px rgba(30,64,175,.35);
@@ -117,6 +118,7 @@ export function DeviceStage({ layout = "single", children }: { layout?: "single"
     <div className="cd-dev-stage">
       <style href="cd-dev-frames" precedence="medium">{CSS}</style>
       <div className={layout === "single" ? "cd-dev-in" : `cd-dev-in cd-dev-${layout}`}>{children}</div>
+      <LabelClamp />
     </div>
   );
 }
