@@ -18,6 +18,7 @@ type Episode = {
   category: string
   youtubeUrl: string | null
   accentColor: string
+  related?: { href: string; label: string }
 }
 
 function getVideoId(url: string): string {
@@ -204,21 +205,30 @@ function EpisodeCard({ ep, onPlay }: { ep: Episode; onPlay: (ep: Episode) => voi
     </div>
   )
 
-  if (ep.youtubeUrl) {
-    return (
-      <div
-        onClick={() => onPlay(ep)}
-        className="tutorial-card"
-        style={{ cursor: 'pointer' }}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => { if (e.key === 'Enter') onPlay(ep) }}
-      >
-        {cardBody}
-      </div>
-    )
-  }
-  return <div style={{ display: 'flex', flexDirection: 'column' }}>{cardBody}</div>
+  const card = ep.youtubeUrl ? (
+    <div
+      onClick={() => onPlay(ep)}
+      className="tutorial-card"
+      style={{ cursor: 'pointer' }}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === 'Enter') onPlay(ep) }}
+    >
+      {cardBody}
+    </div>
+  ) : (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>{cardBody}</div>
+  )
+  if (!ep.related) return card
+  // The link sits outside the clickable card so it is not nested inside a role="button".
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      {card}
+      <a href={ep.related.href} style={{ fontSize: 12.5, fontWeight: 600, color: ep.accentColor, textDecoration: 'none', paddingLeft: 4 }}>
+        {ep.related.label} →
+      </a>
+    </div>
+  )
 }
 
 export default function TutorialsClient({ episodes }: { episodes: Episode[] }) {
@@ -228,6 +238,7 @@ export default function TutorialsClient({ episodes }: { episodes: Episode[] }) {
     ...cat,
     episodes: episodes.filter(ep => ep.category === cat.id),
   }))
+  const liveCount = episodes.filter(ep => ep.youtubeUrl).length
 
   return (
     <>
@@ -251,8 +262,8 @@ export default function TutorialsClient({ episodes }: { episodes: Episode[] }) {
         <p style={{
           fontSize: 18, color: '#93c5fd', maxWidth: 560, margin: '0 auto 44px', lineHeight: 1.6,
         }}>
-          The complete guide to running live events with CueDeck — from first setup to
-          AI-assisted production. 21 episodes covering every feature.
+          The complete guide to running live events with CueDeck, from first setup to
+          AI-assisted production. {liveCount} episodes to watch now.
         </p>
 
         <div className="tutorials-hero-stats" style={{
@@ -260,8 +271,7 @@ export default function TutorialsClient({ episodes }: { episodes: Episode[] }) {
           alignItems: 'center', flexWrap: 'wrap',
         }}>
           {[
-            { value: '21',      label: 'Episodes' },
-            { value: '~5 hrs',  label: 'Total runtime' },
+            { value: String(liveCount), label: 'Episodes live' },
             { value: '5',       label: 'Categories' },
             { value: 'Free',    label: 'Always free' },
           ].map(s => (
@@ -282,7 +292,7 @@ export default function TutorialsClient({ episodes }: { episodes: Episode[] }) {
             background: '#34d399', boxShadow: '0 0 8px #34d399',
           }} />
           <span style={{ fontSize: 13, color: '#e2e8f0', fontWeight: 500 }}>
-            {episodes.filter(ep => ep.youtubeUrl).length} of {episodes.length} episodes live. More coming soon.
+            {liveCount} of {episodes.length} episodes live. More coming soon.
           </span>
         </div>
       </div>
@@ -292,7 +302,7 @@ export default function TutorialsClient({ episodes }: { episodes: Episode[] }) {
         {/* Written guides: features that have no video yet */}
         <a href="/docs#check-in-first-event" style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap',
-          padding: '20px 24px', marginBottom: 56, borderRadius: 14, textDecoration: 'none',
+          padding: '20px 24px', marginBottom: 12, borderRadius: 14, textDecoration: 'none',
           background: '#eff6ff', border: '1px solid #bfdbfe',
         }}>
           <span>
@@ -308,6 +318,11 @@ export default function TutorialsClient({ episodes }: { episodes: Episode[] }) {
           </span>
           <span style={{ fontSize: 14, fontWeight: 700, color: '#2563eb' }}>Read the guide</span>
         </a>
+        <p style={{ margin: '0 0 56px', paddingLeft: 4 }}>
+          <a href="/solutions/check-in" style={{ fontSize: 14, fontWeight: 600, color: '#2563eb', textDecoration: 'none' }}>
+            See the event check-in app with QR codes and badges →
+          </a>
+        </p>
         {episodesByCategory.map(cat => (
           <section key={cat.id} style={{ marginBottom: 68 }}>
             <div style={{

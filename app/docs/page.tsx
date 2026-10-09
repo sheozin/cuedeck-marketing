@@ -721,6 +721,7 @@ const SECTIONS: DocSection[] = [
         <P>Directors can reset all delays back to the original schedule using the &quot;Reset to planned&quot; button. This reverts every session to its originally scheduled time.</P>
 
         <Callout type="important">Only directors can apply delay cascades. Stage managers and other roles see the updated schedule but cannot modify it.</Callout>
+        <P>See how the delay cascade fits into a live show on the <a href="/solutions/command-center" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>show calling and run of show page</a>.</P>
       </>
     ),
   },
@@ -798,6 +799,7 @@ const SECTIONS: DocSection[] = [
         <P>Directors can push a global override to ALL displays at once. Common overrides include Break Screen, 5-Min Recall, and Emergency Message. Overrides take priority until manually cleared.</P>
 
         <Callout type="note">Displays auto-reconnect if the network drops or the device reboots. The short URL <B>app.cuedeck.io/d</B> works on any device with a browser. Status indicators in the signage panel show which displays are online.</Callout>
+        <P>For an overview of every screen CueDeck can drive, see <a href="/solutions/stage-timer" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>event signage displays and the stage timer</a>.</P>
       </>
     ),
   },
@@ -830,6 +832,7 @@ const SECTIONS: DocSection[] = [
         ]} />
 
         <Callout type="tip">The stage monitor uses a high-contrast dark theme with large typography. It is designed to be readable from 10+ meters away.</Callout>
+        <P>See the <a href="/solutions/stage-timer" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>stage timer and confidence monitor</a> overview for how both screens work together.</P>
       </>
     ),
   },
@@ -867,6 +870,7 @@ const SECTIONS: DocSection[] = [
         ]} />
 
         <Callout type="tip">The Stage Timer uses high-contrast colours and massive typography. It is readable from the back of a large stage — even in bright lighting conditions.</Callout>
+        <P>Read more about the <a href="/solutions/stage-timer" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>stage timer for speakers</a> and the screens it runs on.</P>
       </>
     ),
   },
@@ -1197,6 +1201,7 @@ const SECTIONS: DocSection[] = [
 
         <H3>Post-event report</H3>
         <P>About two hours after check-in closes, the event owner receives the report by email: turnout by ticket type, the busiest fifteen minutes, check-ins per desk, check-ins that were made offline and synced later, and companies with people missing.</P>
+        <P>For a summary of what Event Check-in does and what it costs, see the <a href="/solutions/check-in" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>event check-in app with QR codes and badges</a>.</P>
       </>
     ),
   },
@@ -1374,7 +1379,7 @@ export default function DocsPage() {
 
       <Nav />
 
-      <div className="docs-page-wrap">
+      <main className="docs-page-wrap">
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <section className="docs-hero" style={{
         paddingBottom: 48,
@@ -1452,7 +1457,7 @@ export default function DocsPage() {
           </a>
         </div>
       </section>
-      </div>{/* end docs-page-wrap */}
+      </main>{/* end docs-page-wrap */}
 
       <Footer cta={false} />
     </>
