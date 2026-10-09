@@ -44,7 +44,7 @@ export default function StageTimerPage() {
         />
         <CtaStrip title="Put the clock where the speaker can see it" lead="Included in every CueDeck plan. 3-day free trial, no credit card." label="Start free trial" href={TRIAL_URL} />
       </main>
-      <Footer />
+      <Footer cta={false} />
     </>
   );
 }

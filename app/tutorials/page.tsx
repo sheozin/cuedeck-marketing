@@ -58,7 +58,7 @@ export default function TutorialsPage() {
       <main style={{ paddingTop: 64, minHeight: '80vh', background: '#fff' }}>
         <TutorialsClient episodes={EPISODES} />
       </main>
-      <Footer />
+      <Footer cta={false} />
     </>
   )
 }

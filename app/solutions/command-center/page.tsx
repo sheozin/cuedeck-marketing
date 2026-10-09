@@ -54,7 +54,7 @@ export default function CommandCenterPage() {
         />
         <CtaStrip title="Ready to run your next event?" lead="3-day free trial. No credit card. Cancel anytime." label="Start free trial" href={TRIAL_URL} />
       </main>
-      <Footer />
+      <Footer cta={false} />
     </>
   );
 }

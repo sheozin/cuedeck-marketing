@@ -447,7 +447,7 @@ export default async function PricingPage() {
         </section>
 
       </main>
-      <Footer />
+      <Footer cta={false} />
     </>
   );
 }

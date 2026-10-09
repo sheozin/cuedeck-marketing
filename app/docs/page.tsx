@@ -1454,7 +1454,7 @@ export default function DocsPage() {
       </section>
       </div>{/* end docs-page-wrap */}
 
-      <Footer />
+      <Footer cta={false} />
     </>
   );
 }

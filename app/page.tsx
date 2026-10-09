@@ -1092,7 +1092,7 @@ export default async function HomePage() {
         <EmailCapture />
         <FinalCTA />
       </main>
-      <Footer />
+      <Footer cta={false} />
     </>
   );
 }

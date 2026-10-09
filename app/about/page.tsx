@@ -172,7 +172,7 @@ export default async function AboutPage() {
         </section>
 
       </main>
-      <Footer />
+      <Footer cta={false} />
     </>
   );
 }
