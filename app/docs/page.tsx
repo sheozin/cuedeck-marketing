@@ -157,11 +157,11 @@ const SECTIONS: DocSection[] = [
       <>
         <P>Get your first event running in five steps:</P>
         <OL items={[
-          <><B>Sign up</B> — Go to <a href={TRIAL_URL} style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>app.cuedeck.io</a> and create an account with the invite code provided by your director (or start a free trial).</>,
-          <><B>Create an event</B> — Click <B>+ New Event</B> in the sidebar. Give it a name, date, and venue.</>,
-          <><B>Add sessions</B> — Click <B>+ Add Session</B> to create your programme. Set title, speaker, room, start time, and duration for each session.</>,
-          <><B>Invite your team</B> — Go to <B>Operators</B> in the sidebar and invite stage managers, AV techs, and other crew by email. Assign each person a role.</>,
-          <><B>Go live!</B> — On event day, open the console. Move sessions through the state machine: <Badge label="PLANNED" color="#3b82f6" /> → <Badge label="READY" color="#22c55e" /> → <Badge label="CALLING" color="#f97316" /> → <Badge label="LIVE" color="#ff3b30" /> → <Badge label="ENDED" color="#6b7280" /></>,
+          <><B>Sign up</B>: Go to <a href={TRIAL_URL} style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>app.cuedeck.io</a> and create an account. Crew you invite do not sign up: they open the link in their invitation email.</>,
+          <><B>Create an event</B>: Open the event switcher in the header and choose <B>New event</B>. Give it a name, date, and venue.</>,
+          <><B>Add sessions</B>: Click <B>Add session</B> to create your programme. Set title, speaker, room, start time, and duration for each session.</>,
+          <><B>Invite your team</B>: Open your profile menu, choose <B>Team</B> and invite stage managers, AV techs, and other crew to this event by email. Assign each person a role.</>,
+          <><B>Go live!</B>: On event day, open the console. Move sessions through the state machine: <Badge label="PLANNED" color="#3b82f6" /> → <Badge label="READY" color="#22c55e" /> → <Badge label="CALLING" color="#f97316" /> → <Badge label="LIVE" color="#ff3b30" /> → <Badge label="ENDED" color="#6b7280" /></>,
         ]} />
         <Callout type="tip">Every status change propagates to all connected operators in real time. No need to refresh.</Callout>
       </>
@@ -176,21 +176,21 @@ const SECTIONS: DocSection[] = [
     content: (
       <>
         <H3>Creating an Account</H3>
-        <P>Navigate to <a href={APP_URL} style={{ color: '#3b82f6', textDecoration: 'none' }}>app.cuedeck.io</a> and click <B>Sign up</B>. You will need:</P>
+        <P>Navigate to <a href={APP_URL} style={{ color: '#3b82f6', textDecoration: 'none' }}>app.cuedeck.io</a> and click <B>Create account</B>. You will need:</P>
         <UL items={[
-          'A valid email address',
-          'A password (minimum 6 characters)',
-          'An invite code from your director, or select "Start free trial" if you are the director',
+          'Your full name and organization',
+          'A work email address',
+          'A password (minimum 10 characters)',
         ]} />
 
         <H3>Signing In</H3>
         <P>Enter your email and password on the login screen. CueDeck uses Supabase Auth with secure session tokens. Your session persists across browser tabs.</P>
 
         <H3>The Welcome Modal</H3>
-        <P>First-time users see a welcome modal that explains the console layout, role assignments, and key shortcuts. You can revisit this anytime from the sidebar help menu.</P>
+        <P>First-time users see a welcome modal that explains the console layout, role assignments, and key shortcuts. The Help menu in the header has a quick reference, keyboard shortcuts and what&apos;s new.</P>
 
         <H3>Choosing a Role</H3>
-        <P>Your director assigns you a role when inviting you. Each role shows a different view of the console optimised for that crew position. See the <a href="#roles" style={{ color: '#3b82f6', textDecoration: 'none' }}>Roles</a> section for details.</P>
+        <P>Your director assigns you a role on each event when inviting you. Each role shows a different view of the console optimised for that crew position. See the <a href="#roles" style={{ color: '#3b82f6', textDecoration: 'none' }}>Roles</a> section for details.</P>
 
         <Callout type="note">If you are the director (account owner), you automatically have full access to all features and settings.</Callout>
       </>
@@ -256,16 +256,16 @@ const SECTIONS: DocSection[] = [
         <Table
           headers={['Role', 'What They See', 'What They Can Do']}
           rows={[
-            ['Director', 'Everything — full console with all panels', 'All session transitions, broadcast, signage, delay cascade, AI agents, billing, operator management'],
+            ['Director', 'Everything: the full console, Displays, Team and View as', 'All session transitions, broadcast, signage, delay cascade, AI agents, billing, operator management'],
             ['Stage', 'Sessions for assigned rooms, speaker info, timing', 'Call speaker, set ready, go live, end session, hold stage'],
             ['AV', 'Session titles, rooms, technical notes, timing', 'Mark AV ready, view technical notes, monitor transitions'],
             ['Interpreter', 'Session titles, speaker names, languages, timing', 'View language assignments, monitor session progress'],
             ['Registration', 'Session list, room assignments, attendee-relevant info', 'View session schedule, check room capacity'],
-            ['Signage', 'Signage panel with display management', 'Configure displays, set modes, manage sponsor carousel, push overrides'],
+            ['Signage', 'The Displays view with display management', 'Configure displays, set modes, manage sponsor carousel, push overrides'],
           ]}
         />
 
-        <Callout type="important">Only directors can manage billing, invite operators, configure AI agents, or apply delay cascades. All other roles are read-heavy with limited write actions.</Callout>
+        <Callout type="important">Only directors can manage billing, invite operators, use AI agents, or reset delays. Directors and stage managers can push delays. All other roles are read-heavy with limited write actions.</Callout>
       </>
     ),
   },
@@ -378,7 +378,7 @@ const SECTIONS: DocSection[] = [
     icon: '📢',
     content: (
       <>
-        <P>The broadcast system lets directors send real-time messages to all connected operators. Messages appear as a banner at the top of every operator&apos;s screen.</P>
+        <P>The broadcast system lets directors send real-time messages to all connected operators. Messages are typed in the broadcast bar at the bottom of the console and appear as a banner on every operator&apos;s screen.</P>
         <DocShot
           src="/screenshots/cuedeck-closeup-broadcast-bar.jpg"
           width={2880}
@@ -438,8 +438,8 @@ const SECTIONS: DocSection[] = [
 
         <H3>Cascade Logic</H3>
         <UL items={[
-          <><B>Same room</B> — All later sessions in the same room shift by the delay amount</>,
-          <><B>Cross-room</B> — Sessions in other rooms are not affected unless they depend on the delayed session</>,
+          <><B>Following sessions</B>: the session and every later session in the programme shift by the delay amount, in every room. Ended and cancelled sessions are skipped</>,
+          <><B>Rooms</B>: the cascade follows programme order, not rooms. To keep another room on time, place an anchor before its sessions</>,
           <><B>Anchor sessions</B>: sessions marked as &quot;anchored&quot; will not move, creating a hard boundary. The list shows &quot;Delay stops here&quot; above them</>,
         ]} />
 
@@ -462,10 +462,10 @@ const SECTIONS: DocSection[] = [
         <P>The filter bar sits above the session list and lets you quickly narrow down what you see.</P>
 
         <H3>Search</H3>
-        <P>Type in the search box to filter sessions by title, speaker name, or room. Results update as you type.</P>
+        <P>Type in the <B>Search title or speaker</B> box to filter sessions by title or speaker name. Results update as you type.</P>
 
         <H3>Status Filter</H3>
-        <P>Click any status badge in the filter bar to show only sessions in that state. Click again to deselect. You can select multiple statuses.</P>
+        <P>Pick a state from the <B>All statuses</B> dropdown to show only sessions in that state, or choose Active to hide ended and cancelled sessions.</P>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
           <Badge label="PLANNED" color="#3b82f6" />
           <Badge label="READY" color="#22c55e" />
@@ -475,7 +475,7 @@ const SECTIONS: DocSection[] = [
         </div>
 
         <H3>Room Filter</H3>
-        <P>Select a room from the dropdown to show only sessions in that location. Useful when your event spans multiple rooms or halls.</P>
+        <P>Select a room from the <B>All rooms</B> dropdown to show only sessions in that location. Useful when your event spans multiple rooms or halls.</P>
 
         <Callout type="tip">Filters are additive — you can combine search, status, and room filters simultaneously. Press Escape to clear all filters.</Callout>
       </>
@@ -495,7 +495,7 @@ const SECTIONS: DocSection[] = [
         <OL items={[
           'On the TV or screen, open app.cuedeck.io/d in any browser',
           'A 6-character pairing code appears on screen (e.g. A7K-3M2)',
-          'In the console, go to the Signage panel and type the pairing code',
+          'In the console, click Displays in the header and type the pairing code',
           'Click Pair — the display connects instantly via realtime',
         ]} />
         <Callout type="tip">Tap &ldquo;Install&rdquo; or &ldquo;Add to Home Screen&rdquo; in the browser to install the display as a fullscreen app. It survives reboots and auto-reconnects — no reconfiguration needed.</Callout>
@@ -524,7 +524,7 @@ const SECTIONS: DocSection[] = [
         <H3>Global Overrides</H3>
         <P>Directors can push a global override to ALL displays at once. Common overrides include Break Screen, 5-Min Recall, and Emergency Message. Overrides take priority until manually cleared.</P>
 
-        <Callout type="note">Displays auto-reconnect if the network drops or the device reboots. The short URL <B>app.cuedeck.io/d</B> works on any device with a browser. Status indicators in the signage panel show which displays are online.</Callout>
+        <Callout type="note">Displays auto-reconnect if the network drops or the device reboots. The short URL <B>app.cuedeck.io/d</B> works on any device with a browser. The Displays button in the header shows how many displays are online.</Callout>
         <P>For an overview of every screen CueDeck can drive, see <a href="/solutions/stage-timer" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 500 }}>event signage displays and the stage timer</a>.</P>
       </>
     ),
@@ -655,27 +655,24 @@ const SECTIONS: DocSection[] = [
     icon: '👤',
     content: (
       <>
-        <P>Directors manage their team from the Operators panel in the sidebar. This is where you invite crew, assign roles, and monitor who is connected.</P>
+        <P>Each event has its own team. Directors manage it from the Team window: open your profile menu and choose <B>Team</B>. The window shows everyone on the event with their role, status and when they were last seen. The Crew pill in the header shows who is online right now.</P>
 
         <H3>Inviting Operators</H3>
         <OL items={[
-          'Go to Operators in the sidebar',
-          'Click "+ Invite Operator"',
-          'Enter their email address',
-          'Select a role (Stage, AV, Interpreter, Registration, or Signage)',
-          'They receive an email with a signup link and invite code',
+          'Open your profile menu and choose Team',
+          'Under "Invite to this event", enter their email address and, optionally, their name',
+          'Select a role (Stage, AV, Interp, Reg, Signage, or Director)',
+          'Click "Send invite"',
+          'A new person receives an invitation email that names the event and the role. Someone who already has an account is added straight away and gets a short email with a link to the console',
         ]} />
 
         <H3>Role Assignment</H3>
-        <P>Each invited operator is assigned a role that determines their view and permissions. You can change roles at any time from the Operators panel.</P>
+        <P>Each person has one role per event, which determines their view and permissions. You can change it at any time from the role dropdown next to their name in the Team window. The same person can hold a different role on another event.</P>
 
-        <H3>Approval Flow</H3>
-        <P>New operators who sign up with an invite code start in a <B>pending</B> state. The director must approve them before they gain access to the console. This prevents unauthorised access.</P>
+        <H3>Suspending and Removing Operators</H3>
+        <P>In the Team window, <B>Suspend</B> blocks someone on this event until you click <B>Reactivate</B>. <B>Remove from this event</B> takes them off this event only, and <B>Remove from all my events</B> takes them off every event you organise. Both ask you to press again to confirm.</P>
 
-        <H3>Removing Operators</H3>
-        <P>Directors can remove operators from their team at any time. Removed operators lose access to the console immediately.</P>
-
-        <Callout type="important">Each CueDeck plan has an operator limit. Pay-per-event and Starter support up to 5 operators. Pro supports up to 20.</Callout>
+        <Callout type="important">Seats count per event and follow the organiser&apos;s plan. Pay-per-event and Starter allow up to 5 people on an event&apos;s team, Pro up to 20. The Team window shows how many seats are used. An organiser can send up to 20 invitations a day.</Callout>
       </>
     ),
   },
@@ -704,7 +701,7 @@ const SECTIONS: DocSection[] = [
         <P>New directors automatically start on a 3-day free trial of the Pro plan. When the trial expires, you can choose any plan to continue. Your data is preserved regardless of which plan you choose.</P>
 
         <H3>Upgrading</H3>
-        <P>Go to the Billing panel in the sidebar and click &quot;Upgrade&quot;. You will be redirected to a secure Stripe Checkout page. Payments are processed by Stripe — CueDeck never stores your card details.</P>
+        <P>Open your profile menu, choose Billing and click &quot;Upgrade&quot;. You will be redirected to a secure Stripe Checkout page. Payments are processed by Stripe, and CueDeck never stores your card details.</P>
 
         <H3>Annual Billing</H3>
         <P>Save 20% by choosing annual billing on Starter and Pro plans. Switch between monthly and annual from the Stripe customer portal.</P>
@@ -767,7 +764,7 @@ const SECTIONS: DocSection[] = [
         ]} />
 
         <H3>Reconnection</H3>
-        <P>If the connection drops and recovers, CueDeck automatically re-syncs the clock. The console shows connection status indicators (database + realtime) in the top bar.</P>
+        <P>If the connection drops and recovers, CueDeck automatically re-syncs the clock. The All systems pill in the header shows the connection status (database, realtime, clock and edge functions).</P>
 
         <Callout type="note">Clock accuracy is typically within ±50ms. This is more than sufficient for live event operations where actions are measured in seconds.</Callout>
       </>
@@ -784,7 +781,7 @@ const SECTIONS: DocSection[] = [
         <P>CueDeck logs every significant action during your event — session transitions, broadcasts, delays, and operator actions. This log is invaluable for post-event review.</P>
 
         <H3>Viewing the Log</H3>
-        <P>Go to <B>Event Log</B> in the sidebar. Entries are displayed in reverse chronological order with timestamps, actor (who triggered it), and the action description.</P>
+        <P>The <B>Event log</B> sits at the bottom right of the console, under the inspector; use its arrow to minimise or show it. Entries are displayed in reverse chronological order with timestamps, actor (who triggered it), and the action description.</P>
 
         <H3>Log Entry Types</H3>
         <UL items={[
