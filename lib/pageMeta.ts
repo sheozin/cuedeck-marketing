@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_URL } from "./site";
 
 // Per-page metadata. The root layout's openGraph/twitter blocks describe the
 // homepage; a page that sets only title/description inherits them whole, so
@@ -9,7 +10,7 @@ import type { Metadata } from "next";
 export function pageMeta(path: string, title: string, description: string, image?: string): Metadata {
   const socialTitle = `${title} | CueDeck`;
   const card = (url: string) => [{ url, width: 1200, height: 630, alt: socialTitle }];
-  const url = `https://cuedeck.io${path}`;
+  const url = `${SITE_URL}${path}`;
   return {
     title,
     description,
