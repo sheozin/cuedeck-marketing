@@ -3,6 +3,7 @@ import { pageMeta } from "../../../lib/pageMeta";
 import Nav from "../../../components/Nav";
 import Footer from "../../../components/Footer";
 import { jsonLd } from "../../../lib/jsonLd";
+import { DOT } from "../../../components/DeviceFrames";
 import { getCheckinPrice } from "../../../lib/checkinPrice";
 import {
   Hero, Section, Steps, FeatureGrid, Showcase, Faq, CtaStrip, breadcrumbs, faqJsonLd, TRIAL_URL,
@@ -66,6 +67,11 @@ export default async function CheckinPage() {
             : <>Free to set up and test · No subscription · See pricing when you sign up</>}
           img={{ src: "/screenshots/checkin-desk-group-arrival.jpg", width: 1440, height: 900,
             alt: "CueDeck check-in desk: one search brings up three guests from the same company, ready to check in together" }}
+          device="laptop"
+          labels={[
+            { dot: DOT.ok, title: "5 of 9 arrived", sub: "All synced", pos: { right: -20, top: 18 } },
+            { dot: DOT.info, title: "Contoso Demo", sub: "3 people expected", pos: { left: -18, top: "52%" } },
+          ]}
         />
 
         <Section id="how" eyebrow="How it works" title="Ready before the doors open" lead="Three steps, all in your browser. No app to install and no hardware to rent." bg="#f9fafb">
@@ -78,6 +84,11 @@ export default async function CheckinPage() {
           desc="Drop in a CSV and CueDeck shows who will be added, updated or skipped. Track who has their QR email, who has arrived, and test everything before you pay."
           img={{ src: "/screenshots/checkin-setup-guest-list.jpg", width: 1440, height: 900,
             alt: "Check-in setup: attendee list with company, ticket type, QR email status and arrival status" }}
+          device="laptop"
+          labels={[
+            { dot: DOT.delay, title: "Test mode", sub: "3 of 25 check-ins used", pos: { left: -18, top: "62%" } },
+            { dot: DOT.info, title: "9 people on the list", sub: "QR email sent to each", pos: { right: -20, top: "52%" } },
+          ]}
         />
 
         <Showcase
@@ -88,7 +99,11 @@ export default async function CheckinPage() {
           points={["No app to install", "Each scanner is tied to one entrance", "Revoke a phone from the desk at any time"]}
           img={{ src: "/screenshots/checkin-door-scanner-phone.jpg", width: 390, height: 844,
             alt: "Door scanner on a phone showing a green Checked in confirmation for a delegate" }}
-          imgMaxWidth={300}
+          device="phone"
+          labels={[
+            { dot: DOT.ok, title: "Checked in", sub: "Maya, Delegate", pos: { left: "66%", bottom: "24%" } },
+          ]}
+          imgMaxWidth={280}
         />
 
         <Showcase
@@ -98,6 +113,11 @@ export default async function CheckinPage() {
           points={["Arrivals per 15 minutes and turnout by ticket type", "Company board: who is here, who is partly here, who has not arrived", "Desk health, including check-ins waiting to sync"]}
           img={{ src: "/screenshots/checkin-dashboard-live.jpg", width: 1440, height: 1250,
             alt: "Check-in dashboard with arrival totals, desk status, arrival alerts, company board and arrivals chart" }}
+          device="tablet"
+          labels={[
+            { dot: DOT.ok, title: "184 checked in", sub: "45% turnout", pos: { left: -18, top: "64%" } },
+            { dot: DOT.delay, title: "East entrance syncing", sub: "3 waiting", pos: { right: -20, top: "30%" } },
+          ]}
         />
 
         <Section eyebrow="Built for the busy hour" title="The queue moves, the desk stays calm" lead="Designed for the twenty minutes when everyone arrives at once." bg="#f9fafb">
@@ -111,6 +131,11 @@ export default async function CheckinPage() {
           desc="When check-in closes, a report lands in your inbox: turnout by ticket type, the busiest fifteen minutes, how each desk performed, and which companies had people missing."
           img={{ src: "/screenshots/checkin-post-event-report.jpg", width: 1440, height: 1080,
             alt: "Post-event check-in report with turnout, ticket types, desk totals and companies with people missing" }}
+          device="tablet"
+          labels={[
+            { dot: DOT.ok, title: "371 of 412 checked in", sub: "90% turnout", pos: { right: -20, top: "24%" } },
+            { dot: DOT.info, title: "Busiest 15 minutes", sub: "64 arrivals, 09:30 to 09:45", pos: { left: -18, bottom: "6%" } },
+          ]}
         />
 
         <Section eyebrow="Pricing" title="One price per event. Everything included." lead="No per-attendee fees, no ticket commission, no subscription." bg="#f9fafb">

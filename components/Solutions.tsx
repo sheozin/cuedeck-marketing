@@ -2,7 +2,7 @@
 // like the rest of the site; grids use min(…, 100%) so nothing overflows at
 // 375px without needing the layout.tsx overrides.
 import type { ReactNode } from "react";
-import Image from "next/image";
+import { DeviceStage, Laptop, Monitor, Tablet, Phone, LiveLabel, type LiveLabelProps } from "./DeviceFrames";
 import { SITE_URL } from "../lib/site";
 
 export const TRIAL_URL = "https://app.cuedeck.io/#signup";
@@ -19,27 +19,29 @@ const h2Style = {
 
 export type Img = { src: string; alt: string; width: number; height: number };
 
-// next/image serves AVIF/WebP at the right width. The hero shot is the LCP
-// element on these pages, so it loads eagerly at high priority; the rest lazy.
-export function Shot({ img, maxWidth, dark, priority }: { img: Img; maxWidth?: number; dark?: boolean; priority?: boolean }) {
+// Every screenshot sits in a CSS device frame on the approved soft blue stage
+// (components/DeviceFrames). The hero shot is the LCP element on these pages,
+// so it loads eagerly at high priority; the rest lazy.
+export type Device = "laptop" | "monitor" | "tablet" | "phone";
+const FRAMES = { laptop: Laptop, monitor: Monitor, tablet: Tablet, phone: Phone };
+
+function Framed({ img, device, labels, maxWidth, priority }: {
+  img: Img; device: Device; labels?: LiveLabelProps[]; maxWidth?: number; priority?: boolean;
+}) {
+  const Frame = FRAMES[device];
   return (
-    <Image
-      src={img.src} alt={img.alt} width={img.width} height={img.height}
-      sizes={priority ? "(max-width: 768px) 100vw, 600px" : "(max-width: 768px) 100vw, 540px"}
-      loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : undefined}
-      style={{
-        display: "block", width: "100%", height: "auto", maxWidth: maxWidth ?? "100%", margin: "0 auto",
-        borderRadius: 14, border: `1px solid ${dark ? "#1f2937" : "#e5e7eb"}`,
-        boxShadow: "0 12px 40px rgba(15,23,42,0.12)",
-      }}
-    />
+    <DeviceStage>
+      <Frame img={img} maxWidth={maxWidth} priority={priority} sizes={priority ? "(max-width: 900px) 92vw, 520px" : "(max-width: 900px) 92vw, 500px"}>
+        {labels?.map(l => <LiveLabel key={l.title} {...l} />)}
+      </Frame>
+    </DeviceStage>
   );
 }
 
-export function Hero({ eyebrow, title, lead, primary, secondary, note, img }: {
+export function Hero({ eyebrow, title, lead, primary, secondary, note, img, device, labels }: {
   eyebrow: string; title: ReactNode; lead: string;
   primary: { label: string; href: string }; secondary?: { label: string; href: string };
-  note?: ReactNode; img: Img;
+  note?: ReactNode; img: Img; device: Device; labels?: LiveLabelProps[];
 }) {
   return (
     <section style={{ padding: "80px 24px 72px", background: "linear-gradient(135deg, #f0f7ff 0%, #fafafa 60%, #fff 100%)" }}>
@@ -67,7 +69,7 @@ export function Hero({ eyebrow, title, lead, primary, secondary, note, img }: {
           </div>
           {note && <p style={{ fontSize: 13, color: "#6b7280" }}>{note}</p>}
         </div>
-        <Shot img={img} priority />
+        <Framed img={img} device={device} labels={labels} priority />
       </div>
     </section>
   );
@@ -132,8 +134,9 @@ export function FeatureGrid({ items }: { items: { title: string; desc: string }[
 }
 
 // A screenshot beside its explanation; flip puts the picture on the left.
-export function Showcase({ eyebrow, title, desc, points, img, flip, imgMaxWidth }: {
-  eyebrow: string; title: string; desc: string; points?: string[]; img: Img; flip?: boolean; imgMaxWidth?: number;
+export function Showcase({ eyebrow, title, desc, points, img, device, labels, flip, imgMaxWidth }: {
+  eyebrow: string; title: string; desc: string; points?: string[]; img: Img; device: Device; labels?: LiveLabelProps[];
+  flip?: boolean; imgMaxWidth?: number;
 }) {
   const text = (
     <div>
@@ -149,7 +152,7 @@ export function Showcase({ eyebrow, title, desc, points, img, flip, imgMaxWidth 
       )}
     </div>
   );
-  const pic = <Shot img={img} maxWidth={imgMaxWidth} />;
+  const pic = <Framed img={img} device={device} labels={labels} maxWidth={imgMaxWidth} />;
   return (
     <section style={{ padding: "72px 24px" }}>
       <div style={{

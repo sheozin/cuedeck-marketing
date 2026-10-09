@@ -3,6 +3,7 @@ import { pageMeta } from "../../../lib/pageMeta";
 import Nav from "../../../components/Nav";
 import Footer from "../../../components/Footer";
 import { jsonLd } from "../../../lib/jsonLd";
+import { DOT } from "../../../components/DeviceFrames";
 import { Hero, Section, Steps, FeatureGrid, Showcase, Faq, CtaStrip, breadcrumbs, faqJsonLd, TRIAL_URL } from "../../../components/Solutions";
 
 export const metadata: Metadata = pageMeta("/solutions/command-center", "Show Calling and Run of Show Software", "Show calling software for live events. Build the run of show, call cues and push delays to every operator in real time. Six roles, one browser console.", "/solutions/command-center/opengraph-image");
@@ -91,6 +92,11 @@ export default function CommandCenterPage() {
           note={<>3-day free trial on every plan · No credit card required</>}
           img={{ src: "/screenshots/cuedeck-command-center-director-console.jpg", width: 1440, height: 900,
             alt: "CueDeck director console: Main Stage live with 14:00 left and Hall B calling its speaker, the session list, the selected session's Hold and End controls, and the event log" }}
+          device="laptop"
+          labels={[
+            { dot: DOT.live, title: "Main Stage live", sub: "14:00 left", pos: { left: -18, top: 22 } },
+            { dot: DOT.calling, title: "Hall B calling its speaker", sub: "On stage in 4 min", pos: { right: -20, bottom: "16%" } },
+          ]}
         />
         <Section eyebrow="How it works" title="From spreadsheet to show day" bg="#f9fafb">
           <Steps items={steps} />
@@ -118,6 +124,8 @@ export default function CommandCenterPage() {
           desc="Send the live session to a stage timer with one click. It counts down from the console's clock, so the stage and the director never disagree."
           img={{ src: "/screenshots/cuedeck-stage-timer-full-screen-countdown.jpg", width: 1600, height: 900,
             alt: "Stage timer showing 14:00 remaining for the live session, with the next session underneath" }}
+          device="monitor"
+          labels={[{ dot: DOT.ok, title: "Live on the stage screen", sub: "14:00 remaining", pos: { right: -10, top: -14 } }]}
         />
         <Section eyebrow="Questions" title="Show calling questions" bg="#f9fafb">
           <Faq items={faqs} />

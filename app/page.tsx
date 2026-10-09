@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { DeviceStage, Laptop, Monitor, Tablet, LiveLabel, DOT } from "../components/DeviceFrames";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import type { Metadata } from "next";
@@ -93,10 +93,10 @@ function Hero({ heroHeadline, heroSubheadline }: { heroHeadline: string; heroSub
       alignItems: "center",
     }}>
       <div style={{
-        maxWidth: 1200, width: "100%", margin: "0 auto", padding: "0 24px",
-        display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 60, alignItems: "center",
+        maxWidth: 1280, width: "100%", margin: "0 auto", padding: "0 24px",
+        display: "grid", gap: 48, alignItems: "center",
         overflow: "hidden",
-      }}>
+      }} className="cd-hero-grid">
         {/* Left */}
         <div>
           <div style={{
@@ -149,15 +149,24 @@ function Hero({ heroHeadline, heroSubheadline }: { heroHeadline: string; heroSub
           <p style={{ fontSize: 13, color: "#9ca3af" }}>No credit card required · 3-day free trial on all plans</p>
         </div>
 
-        {/* Right */}
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <Image
-            src="/screenshots/cuedeck-console-now-and-next-band.jpg" width={2144} height={1136} priority fetchPriority="high"
-            sizes="(max-width: 768px) 100vw, 600px"
-            alt="CueDeck console for Northwind Summit 2026: Main Stage live with 14:00 left and the next panel ready, Hall B calling its speaker, and the session list below"
-            style={{ display: "block", width: "100%", maxWidth: 600, height: "auto", borderRadius: 14, boxShadow: "0 25px 60px rgba(0,0,0,0.18), 0 8px 20px rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)" }}
-          />
-        </div>
+        {/* Right: the console on a laptop beside the stage timer it drives */}
+        <DeviceStage layout="pair">
+          <Laptop
+            img={{ src: "/screenshots/cuedeck-console-now-and-next-band.jpg", width: 2144, height: 1136,
+              alt: "CueDeck console for Northwind Summit 2026: Main Stage live with 14:00 left and the next panel ready, Hall B calling its speaker, and the session list below" }}
+            sizes="(max-width: 900px) 92vw, 420px" priority
+          >
+            <LiveLabel dot={DOT.live} title="Main Stage live" sub="14:00 left" pos={{ left: -18, top: 22 }} />
+            <LiveLabel dot={DOT.calling} title="Hall B calling its speaker" sub="On stage in 4 min" pos={{ left: 18, bottom: -8 }} />
+          </Laptop>
+          <Monitor
+            img={{ src: "/screenshots/cuedeck-stage-timer-live-countdown.jpg", width: 3840, height: 2160,
+              alt: "CueDeck stage timer: 14:00 remaining in green for The future of hybrid events, with a message from the director: Take questions from 10:35" }}
+            sizes="(max-width: 900px) 92vw, 320px"
+          >
+            <LiveLabel dot={DOT.info} title="Director message on stage" sub="Take questions from 10:35" pos={{ right: -10, top: -14 }} />
+          </Monitor>
+        </DeviceStage>
       </div>
     </section>
   );
@@ -574,6 +583,8 @@ const GlobalStyle = () => (
     html { scroll-behavior: smooth; overflow-x: hidden; }
     body { font-family: -apple-system, 'Inter', BlinkMacSystemFont, 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased; background: #fff; overflow-x: hidden; }
     a { transition: opacity 0.15s; }
+    .cd-hero-grid { grid-template-columns: minmax(0, 4.6fr) minmax(0, 7.4fr); }
+    @media (max-width: 900px) { .cd-hero-grid { grid-template-columns: minmax(0, 1fr); } }
     a:hover { opacity: 0.82; }
     @media (max-width: 1023px) {
       nav { padding: 0 20px !important; }
@@ -624,11 +635,16 @@ function CheckinSection() {
             fontWeight: 700, fontSize: 15, textDecoration: "none", boxShadow: "0 2px 8px rgba(59,130,246,0.4)",
           }}>Explore Event Check-in</a>
         </div>
-        <Image
-          src="/screenshots/checkin-desk-group-arrival.jpg" width={2880} height={1800} sizes="(max-width: 768px) 100vw, 540px"
-          alt="CueDeck check-in desk: one search brings up three guests from the same company, ready to check in together"
-          style={{ display: "block", width: "100%", height: "auto", borderRadius: 14, border: "1px solid #e5e7eb", boxShadow: "0 12px 40px rgba(15,23,42,0.12)" }}
-        />
+        <DeviceStage>
+          <Laptop
+            img={{ src: "/screenshots/checkin-desk-group-arrival.jpg", width: 2880, height: 1800,
+              alt: "CueDeck check-in desk: one search brings up three guests from the same company, ready to check in together" }}
+            sizes="(max-width: 900px) 92vw, 520px"
+          >
+            <LiveLabel dot={DOT.ok} title="5 of 9 arrived" sub="All synced" pos={{ right: -20, top: 18 }} />
+            <LiveLabel dot={DOT.info} title="Contoso Demo" sub="3 people expected" pos={{ left: -18, top: "52%" }} />
+          </Laptop>
+        </DeviceStage>
       </div>
     </section>
   );
@@ -674,11 +690,16 @@ function RoleShowcase() {
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <div style={{ width: "100%", maxWidth: 540 }}>
-                <Image
-                  src="/screenshots/cuedeck-command-center-director-console.jpg" width={2880} height={1800} sizes="(max-width: 768px) 100vw, 540px"
-                  alt="CueDeck director console: Main Stage and Hall B in the now and next band, the session list with live, calling, ready and planned sessions, the selected session's Hold and End controls, and the event log"
-                  style={{ display: "block", width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
-                />
+                <DeviceStage>
+                  <Laptop
+                    img={{ src: "/screenshots/cuedeck-command-center-director-console.jpg", width: 2880, height: 1800,
+                      alt: "CueDeck director console: Main Stage and Hall B in the now and next band, the session list with live, calling, ready and planned sessions, the selected session's Hold and End controls, and the event log" }}
+                    sizes="(max-width: 900px) 92vw, 480px"
+                  >
+                    <LiveLabel dot={DOT.delay} title="Running +5 min" sub="2 sessions affected" pos={{ left: -18, bottom: "16%" }} />
+                    <LiveLabel dot={DOT.live} title="Selected session" sub="Hold and End controls" pos={{ right: -20, bottom: "26%" }} />
+                  </Laptop>
+                </DeviceStage>
               </div>
             </div>
           </div>
@@ -687,11 +708,15 @@ function RoleShowcase() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 64, alignItems: "center" }}>
             <div style={{ display: "flex", justifyContent: "flex-start" }}>
               <div style={{ width: "100%", maxWidth: 540 }}>
-                <Image
-                  src="/screenshots/cuedeck-console-timeline-view.jpg" width={2144} height={1030} sizes="(max-width: 768px) 100vw, 540px"
-                  alt="CueDeck timeline view: Main Stage and Hall B sessions on one time axis, coloured by status, with the Now line at 10:31"
-                  style={{ display: "block", width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
-                />
+                <DeviceStage>
+                  <Laptop
+                    img={{ src: "/screenshots/cuedeck-console-timeline-view.jpg", width: 2144, height: 1030,
+                      alt: "CueDeck timeline view: Main Stage and Hall B sessions on one time axis, coloured by status, with the Now line at 10:31" }}
+                    sizes="(max-width: 900px) 92vw, 480px"
+                  >
+                    <LiveLabel dot={DOT.info} title="Now line at 10:31" sub="Main Stage and Hall B on one axis" pos={{ right: -20, top: 18 }} />
+                  </Laptop>
+                </DeviceStage>
               </div>
             </div>
             <div>
@@ -733,11 +758,15 @@ function RoleShowcase() {
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <div style={{ width: "100%", maxWidth: 540 }}>
-                <Image
-                  src="/screenshots/cuedeck-console-displays-signage-control.jpg" width={2144} height={950} sizes="(max-width: 768px) 100vw, 540px"
-                  alt="CueDeck Displays panel: push to all buttons for break screen, recall, sponsors and schedules, and three registered displays online"
-                  style={{ display: "block", width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
-                />
+                <DeviceStage>
+                  <Laptop
+                    img={{ src: "/screenshots/cuedeck-console-displays-signage-control.jpg", width: 2144, height: 950,
+                      alt: "CueDeck Displays panel: push to all buttons for break screen, recall, sponsors and schedules, and three registered displays online" }}
+                    sizes="(max-width: 900px) 92vw, 480px"
+                  >
+                    <LiveLabel dot={DOT.ok} title="3 displays online" sub="Stage timer, foyer, Hall B door" pos={{ right: -20, top: -14 }} />
+                  </Laptop>
+                </DeviceStage>
               </div>
             </div>
           </div>
@@ -746,16 +775,22 @@ function RoleShowcase() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 64, alignItems: "center" }}>
             <div style={{ display: "flex", justifyContent: "flex-start" }}>
               <div style={{ width: "100%", maxWidth: 540 }}>
-                <Image
-                  src="/screenshots/cuedeck-stage-timer-live-countdown.jpg" width={3840} height={2160} sizes="(max-width: 768px) 100vw, 540px"
-                  alt="CueDeck stage timer: 14:00 remaining in green for The future of hybrid events, with a message from the director: Take questions from 10:35"
-                  style={{ width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
-                />
-                <Image
-                  src="/screenshots/cuedeck-stage-timer-overtime.jpg" width={3840} height={2160} sizes="(max-width: 768px) 100vw, 540px"
-                  alt="CueDeck stage timer in overtime: +02:15 in magenta for The future of hybrid events"
-                  style={{ width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)", marginTop: 16 }}
-                />
+                <DeviceStage layout="twin">
+                  <Monitor
+                    img={{ src: "/screenshots/cuedeck-stage-timer-live-countdown.jpg", width: 3840, height: 2160,
+                      alt: "CueDeck stage timer: 14:00 remaining in green for The future of hybrid events, with a message from the director: Take questions from 10:35" }}
+                    sizes="(max-width: 900px) 46vw, 240px"
+                  >
+                    <LiveLabel dot={DOT.ok} title="14:00 remaining" sub="Take questions from 10:35" pos={{ left: -14, top: -16 }} />
+                  </Monitor>
+                  <Monitor
+                    img={{ src: "/screenshots/cuedeck-stage-timer-overtime.jpg", width: 3840, height: 2160,
+                      alt: "CueDeck stage timer in overtime: +02:15 in magenta for The future of hybrid events" }}
+                    sizes="(max-width: 900px) 46vw, 240px"
+                  >
+                    <LiveLabel dot={DOT.over} title="Overtime" sub="+02:15 over" pos={{ right: -14, top: -16 }} />
+                  </Monitor>
+                </DeviceStage>
               </div>
             </div>
             <div>
@@ -797,11 +832,15 @@ function RoleShowcase() {
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <div style={{ width: "100%", maxWidth: 540 }}>
-                <Image
-                  src="/screenshots/cuedeck-display-pairing-code.jpg" width={1920} height={1080} sizes="(max-width: 768px) 100vw, 540px"
-                  alt="CueDeck display pairing screen showing the code LZN-FS4, waiting for connection, with the code expiring in 5:00"
-                  style={{ width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
-                />
+                <DeviceStage>
+                  <Tablet
+                    img={{ src: "/screenshots/cuedeck-display-pairing-code.jpg", width: 1920, height: 1080,
+                      alt: "CueDeck display pairing screen showing the code LZN-FS4, waiting for connection, with the code expiring in 5:00" }}
+                    sizes="(max-width: 900px) 92vw, 440px" maxWidth="90%"
+                  >
+                    <LiveLabel dot={DOT.ok} title="Pairing code on screen" sub="Expires in 5:00" pos={{ right: -20, top: -14 }} />
+                  </Tablet>
+                </DeviceStage>
               </div>
             </div>
           </div>

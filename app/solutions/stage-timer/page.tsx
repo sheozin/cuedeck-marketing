@@ -3,6 +3,7 @@ import { pageMeta } from "../../../lib/pageMeta";
 import Nav from "../../../components/Nav";
 import Footer from "../../../components/Footer";
 import { jsonLd } from "../../../lib/jsonLd";
+import { DOT } from "../../../components/DeviceFrames";
 import { Hero, Section, FeatureGrid, Showcase, Faq, CtaStrip, breadcrumbs, faqJsonLd, TRIAL_URL } from "../../../components/Solutions";
 
 export const metadata: Metadata = pageMeta("/solutions/stage-timer", "Stage Timer and Confidence Monitor for Events", "A full-screen stage timer, a confidence monitor for speakers and 11 signage display modes, all driven by your run of show. Pair any screen with a code.", "/solutions/stage-timer/opengraph-image");
@@ -73,6 +74,11 @@ export default function StageTimerPage() {
           note={<>Included in every CueDeck plan</>}
           img={{ src: "/screenshots/cuedeck-stage-timer-full-screen-countdown.jpg", width: 1600, height: 900,
             alt: "Full-screen stage timer: 14:00 remaining in green, the session title, speaker and next session" }}
+          device="monitor"
+          labels={[
+            { dot: DOT.ok, title: "Live on the stage screen", sub: "14:00 remaining", pos: { right: -10, top: -14 } },
+            { dot: DOT.info, title: "Next session underneath", sub: "Panel: building crews that scale", pos: { left: -14, bottom: "12%" } },
+          ]}
         />
         <Section eyebrow="On every screen" title="One schedule, every display" bg="#f9fafb">
           <FeatureGrid items={features} />
@@ -93,6 +99,11 @@ export default function StageTimerPage() {
           desc="The stage timer and every signage screen read the same schedule your crew is running. When the director goes live, holds or adds time, the screens follow within a second."
           img={{ src: "/screenshots/cuedeck-command-center-director-console.jpg", width: 1440, height: 900,
             alt: "CueDeck director console with the live session selected: its 14:00 countdown, Hold and End controls, and the event log below" }}
+          device="laptop"
+          labels={[
+            { dot: DOT.live, title: "Selected session live", sub: "Hold and End controls", pos: { right: -20, bottom: "26%" } },
+            { dot: DOT.delay, title: "Running +5 min", sub: "2 sessions affected", pos: { left: -18, bottom: "16%" } },
+          ]}
         />
         <Section eyebrow="Questions" title="Stage timer questions" bg="#f9fafb">
           <Faq items={faqs} />
