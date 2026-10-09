@@ -2,9 +2,11 @@
 // like the rest of the site; grids use min(…, 100%) so nothing overflows at
 // 375px without needing the layout.tsx overrides.
 import type { ReactNode } from "react";
+import Image from "next/image";
+import { SITE_URL } from "../lib/site";
 
 export const TRIAL_URL = "https://app.cuedeck.io/#signup";
-export const BASE_URL = "https://cuedeck.io";
+export const BASE_URL = SITE_URL;
 
 const eyebrowStyle = {
   fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", color: "#3b82f6",
@@ -17,10 +19,14 @@ const h2Style = {
 
 export type Img = { src: string; alt: string; width: number; height: number };
 
-export function Shot({ img, maxWidth, dark }: { img: Img; maxWidth?: number; dark?: boolean }) {
+// next/image serves AVIF/WebP at the right width. The hero shot is the LCP
+// element on these pages, so it loads eagerly at high priority; the rest lazy.
+export function Shot({ img, maxWidth, dark, priority }: { img: Img; maxWidth?: number; dark?: boolean; priority?: boolean }) {
   return (
-    <img
-      src={img.src} alt={img.alt} width={img.width} height={img.height} loading="lazy" decoding="async"
+    <Image
+      src={img.src} alt={img.alt} width={img.width} height={img.height}
+      sizes={priority ? "(max-width: 768px) 100vw, 600px" : "(max-width: 768px) 100vw, 540px"}
+      loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : undefined}
       style={{
         display: "block", width: "100%", height: "auto", maxWidth: maxWidth ?? "100%", margin: "0 auto",
         borderRadius: 14, border: `1px solid ${dark ? "#1f2937" : "#e5e7eb"}`,
@@ -61,7 +67,7 @@ export function Hero({ eyebrow, title, lead, primary, secondary, note, img }: {
           </div>
           {note && <p style={{ fontSize: 13, color: "#6b7280" }}>{note}</p>}
         </div>
-        <Shot img={img} />
+        <Shot img={img} priority />
       </div>
     </section>
   );
