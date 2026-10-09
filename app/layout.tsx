@@ -11,7 +11,7 @@ const BASE_URL = "https://cuedeck.io";
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: "CueDeck — The Command Center for Live Events",
+    default: "CueDeck: The Command Center for Live Events",
     template: "%s | CueDeck",
   },
   description:
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   authors: [{ name: "CueDeck" }],
   creator: "CueDeck",
   openGraph: {
-    title: "CueDeck — The Command Center for Live Events",
+    title: "CueDeck: The Command Center for Live Events",
     description: "Real-time session management for live event production teams.",
     url: BASE_URL,
     siteName: "CueDeck",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "CueDeck — The Command Center for Live Events",
+    title: "CueDeck: The Command Center for Live Events",
     description: "Real-time session management for live event production teams.",
     creator: "@cuedeck",
   },

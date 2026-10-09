@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const alt = 'CueDeck — The Command Center for Live Events'
+export const alt = 'CueDeck: The Command Center for Live Events'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
