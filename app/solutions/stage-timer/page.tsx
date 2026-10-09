@@ -29,8 +29,8 @@ export default function StageTimerPage() {
           primary={{ label: "Start free trial", href: TRIAL_URL }}
           secondary={{ label: "See pricing", href: "/pricing" }}
           note={<>Included in every CueDeck plan</>}
-          img={{ src: "/screenshots/display-stage-timer.jpg", width: 1600, height: 900,
-            alt: "Full-screen stage timer: 13:50 remaining in green, the session title, speaker and next session" }}
+          img={{ src: "/screenshots/cuedeck-stage-timer-full-screen-countdown.jpg", width: 1600, height: 900,
+            alt: "Full-screen stage timer: 14:00 remaining in green, the session title, speaker and next session" }}
         />
         <Section eyebrow="On every screen" title="One schedule, every display" bg="#f9fafb">
           <FeatureGrid items={features} />
@@ -39,8 +39,8 @@ export default function StageTimerPage() {
           eyebrow="Behind the screens"
           title="Controlled from the console"
           desc="The stage timer and every signage screen read the same schedule your crew is running. When the director goes live, holds or adds time, the screens follow within a second."
-          img={{ src: "/screenshots/console-director-view.jpg", width: 1440, height: 900,
-            alt: "CueDeck director console with Stage Monitor and Stage Timer buttons beside the live session" }}
+          img={{ src: "/screenshots/cuedeck-command-center-director-console.jpg", width: 1440, height: 900,
+            alt: "CueDeck director console with the live session selected: its 14:00 countdown, Hold and End controls, and the event log below" }}
         />
         <CtaStrip title="Put the clock where the speaker can see it" lead="Included in every CueDeck plan. 3-day free trial, no credit card." label="Start free trial" href={TRIAL_URL} />
       </main>

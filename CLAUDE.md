@@ -60,7 +60,7 @@ keystatic.config.ts — CMS config (local storage mode)
 
 ## Branding Rules
 - Logo: **Cue** (dark/white) + **Deck** (blue `#3b82f6`), fontWeight 800, letterSpacing -0.3px
-- This applies everywhere: Nav, DashboardMockup toolbar, loading screen
+- This applies everywhere: Nav, loading screen
 - The console app (LEOD) uses the same styling: `.logo { font-size:16px; font-weight:800; letter-spacing:-.3px } .logo span { color:#3b82f6 }`
 - **NEVER** show "LEOD" on the marketing site — always "CueDeck"
 
@@ -84,9 +84,9 @@ keystatic.config.ts — CMS config (local storage mode)
   - Mockup max-widths clamped to 100%
 
 ## Homepage Sections (in order)
-1. Hero — headline + DashboardMockup (right col)
+1. Hero — headline + console screenshot (right col)
 2. SocialProof — logo bar
-3. RoleShowcase — Director/Timeline/Signage mockups with descriptions
+3. RoleShowcase — Director/Timeline/Signage/Stage timer/Pairing screenshots with descriptions
 4. Features — 6 cards, `repeat(3, 1fr)` grid (3 per row)
 5. HowItWorks — 3 numbered steps
 6. Pricing — 3 plans, `repeat(3, 1fr)` grid
@@ -95,10 +95,9 @@ keystatic.config.ts — CMS config (local storage mode)
 9. CTA strip
 10. Footer
 
-## Mockup Components (in page.tsx)
-- `DashboardMockup` — dark console UI, toolbar shows `Cue[white]Deck[blue]`, session list
-- `TimelineMockup` — SVG-style horizontal timeline, 3 rooms, NOW marker
-- `SignageMockup` — display registry panel with override buttons, sponsor library
+## Product Screenshots (public/screenshots)
+- Real captures of the console and display (fictional Northwind Summit 2026 demo data), 2x, JPEG q88 progressive 4:4:4
+- Homepage hero and RoleShowcase use `<img>` with these files; the old code-built mockups were removed
 
 ## Known Quirks
 - `app/page.tsx` contains an embedded `<style>` tag (inside a `Nav` component or similar at ~line 730) with `@media (max-width: 900px)` rules — these collapse 2-col and 3-col grids to 1 col on tablet

@@ -35,8 +35,8 @@ export default function CommandCenterPage() {
           primary={{ label: "Start free trial", href: TRIAL_URL }}
           secondary={{ label: "See pricing", href: "/pricing" }}
           note={<>3-day free trial on every plan · No credit card required</>}
-          img={{ src: "/screenshots/console-director-view.jpg", width: 1440, height: 900,
-            alt: "CueDeck director console with a live session, its time remaining, the next session ready and quick actions" }}
+          img={{ src: "/screenshots/cuedeck-command-center-director-console.jpg", width: 1440, height: 900,
+            alt: "CueDeck director console: Main Stage live with 14:00 left and Hall B calling its speaker, the session list, the selected session's Hold and End controls, and the event log" }}
         />
         <Section eyebrow="How it works" title="From spreadsheet to show day" bg="#f9fafb">
           <Steps items={steps} />
@@ -49,8 +49,8 @@ export default function CommandCenterPage() {
           eyebrow="On stage"
           title="Speakers see the same clock you do"
           desc="Send the live session to a stage timer with one click. It counts down from the console's clock, so the stage and the director never disagree."
-          img={{ src: "/screenshots/display-stage-timer.jpg", width: 1600, height: 900,
-            alt: "Stage timer showing 13:50 remaining for the live session, with the next session underneath" }}
+          img={{ src: "/screenshots/cuedeck-stage-timer-full-screen-countdown.jpg", width: 1600, height: 900,
+            alt: "Stage timer showing 14:00 remaining for the live session, with the next session underneath" }}
         />
         <CtaStrip title="Ready to run your next event?" lead="3-day free trial. No credit card. Cancel anytime." label="Start free trial" href={TRIAL_URL} />
       </main>

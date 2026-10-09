@@ -76,262 +76,6 @@ const IconCheck = () => (
   </svg>
 );
 
-// ─── Dashboard Mockup ─────────────────────────────────────────────────────────
-function DashboardMockup() {
-  const sessions = [
-    { n: 1, title: "Opening Ceremony",       room: "Main Stage", status: "ENDED",   color: "#6b7280" },
-    { n: 2, title: "Panel: Future of AI",    room: "Main Stage", status: "ENDED",   color: "#6b7280" },
-    { n: 3, title: "Keynote: The Next Wave", room: "Main Stage", status: "LIVE",    color: "#22c55e" },
-    { n: 4, title: "Coffee Break",           room: "Foyer",      status: "READY",   color: "#3b82f6" },
-    { n: 5, title: "Workshop: Data & Design",room: "Room 101",   status: "PLANNED", color: "#9ca3af" },
-  ];
-  return (
-    <div style={{
-      width: "100%", maxWidth: 540, borderRadius: 14, overflow: "hidden",
-      boxShadow: "0 25px 60px rgba(0,0,0,0.18), 0 8px 20px rgba(0,0,0,0.1)",
-      border: "1px solid rgba(255,255,255,0.1)",
-    }}>
-      {/* Titlebar */}
-      <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 16px", background: "#0d1220", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#ef4444", opacity: 0.7, display: "inline-block" }} />
-        <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#eab308", opacity: 0.7, display: "inline-block" }} />
-        <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#22c55e", opacity: 0.7, display: "inline-block" }} />
-        <span style={{ marginLeft: 10, fontSize: 11, color: "#475569" }}>app.cuedeck.io</span>
-        <div style={{ marginLeft: "auto", display: "flex", gap: 12, fontSize: 11, color: "#475569" }}>
-          <span>● db ✓</span><span>● realtime ✓</span>
-        </div>
-      </div>
-      {/* Toolbar */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", background: "#0f1623", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontWeight: 800, letterSpacing: "-0.3px", fontSize: 13, display: "flex", alignItems: "center", gap: 5 }}>
-            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style={{ width: 16, height: 16, flexShrink: 0 }}><defs><linearGradient id="mock-bg" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#1d4ed8"/><stop offset="100%" stopColor="#3b82f6"/></linearGradient></defs><rect width="40" height="40" rx="12" fill="url(#mock-bg)"/><path d="M 25 10 A 10.5 10.5 0 1 0 25 30" stroke="white" strokeWidth="5" strokeLinecap="round" fill="none"/></svg>
-            <span><span style={{ color: "#fff" }}>Cue</span><span style={{ color: "#3b82f6" }}>Deck</span></span>
-          </span>
-          <span style={{ fontSize: 11, color: "#64748b" }}>AVE Annual Summit</span>
-        </div>
-        <div style={{ display: "flex", gap: 6 }}>
-          {["DIRECTOR","STAGE","AV","SIGNAGE"].map(r => (
-            <span key={r} style={{
-              fontSize: 10, padding: "2px 7px", borderRadius: 4,
-              background: r === "DIRECTOR" ? "#1e3a5f" : "transparent",
-              color: r === "DIRECTOR" ? "#60a5fa" : "#475569",
-              border: r === "DIRECTOR" ? "1px solid rgba(59,130,246,0.4)" : "none",
-            }}>{r}</span>
-          ))}
-        </div>
-        <span style={{ fontFamily: "monospace", color: "#fff", fontWeight: 700, fontSize: 13 }}>14:32:07</span>
-      </div>
-      {/* Sessions */}
-      <div style={{ padding: "10px 10px 0", background: "#111827", display: "flex", flexDirection: "column", gap: 6 }}>
-        {sessions.map(s => (
-          <div key={s.n} style={{
-            display: "flex", alignItems: "center", gap: 10,
-            padding: "10px 12px", borderRadius: 8,
-            background: s.status === "LIVE" ? "rgba(34,197,94,0.07)" : "rgba(255,255,255,0.025)",
-            border: `1px solid ${s.status === "LIVE" ? "rgba(34,197,94,0.25)" : "rgba(255,255,255,0.06)"}`,
-          }}>
-            <span style={{ fontSize: 11, color: "#475569", width: 14, textAlign: "right" }}>{s.n}</span>
-            <div style={{ flex: 1 }}>
-              <span style={{ fontSize: 12, fontWeight: 500, color: s.status === "LIVE" ? "#f1f5f9" : "#94a3b8" }}>{s.title}</span>
-              <span style={{ fontSize: 10, color: "#475569", marginLeft: 6 }}>{s.room}</span>
-            </div>
-            <span style={{
-              fontSize: 10, padding: "2px 8px", borderRadius: 99, fontWeight: 600,
-              background: `${s.color}22`, color: s.color, border: `1px solid ${s.color}44`,
-            }}>{s.status}</span>
-            {s.status === "LIVE" && (
-              <div style={{ display: "flex", gap: 5 }}>
-                <span style={{ fontSize: 10, padding: "3px 8px", borderRadius: 5, background: "#7c3aed22", color: "#a78bfa", border: "1px solid #7c3aed44" }}>HOLD</span>
-                <span style={{ fontSize: 10, padding: "3px 8px", borderRadius: 5, background: "#dc262622", color: "#f87171", border: "1px solid #dc262644" }}>END</span>
-              </div>
-            )}
-            {s.status === "READY" && (
-              <span style={{ fontSize: 10, padding: "3px 8px", borderRadius: 5, background: "#22c55e22", color: "#4ade80", border: "1px solid #22c55e44" }}>GO LIVE</span>
-            )}
-          </div>
-        ))}
-      </div>
-      {/* Fade */}
-      <div style={{ height: 36, background: "linear-gradient(to bottom, transparent, #111827)", marginTop: -4 }} />
-    </div>
-  );
-}
-
-// ─── Timeline Mockup ──────────────────────────────────────────────────────────
-function TimelineMockup() {
-  const rooms = [
-    { name: "Main Stage", color: "#3b82f6", sessions: [
-      { title: "Opening Ceremony",  start: 9,   end: 10.25, status: "ENDED" },
-      { title: "Keynote: Future AI", start: 10.5, end: 11.5, status: "ENDED" },
-      { title: "Closing & Network", start: 13,  end: 14.5, status: "ENDED" },
-    ]},
-    { name: "Room B", color: "#8b5cf6", sessions: [
-      { title: "Workshop: AI Tools", start: 11, end: 12.5, status: "ENDED" },
-    ]},
-    { name: "Foyer", color: "#f59e0b", sessions: [
-      { title: "Coffee Break", start: 10,  end: 10.5, status: "ENDED" },
-      { title: "Lunch Break",  start: 12.5, end: 13.5, status: "ENDED" },
-    ]},
-  ];
-  const startHr = 9, endHr = 15;
-  const totalHrs = endHr - startHr;
-  const nowHr = 14.68; // 14:41 in decimal
-  const toPercent = (hr: number) => ((hr - startHr) / totalHrs) * 100;
-  const hours = [9,10,11,12,13,14,15];
-
-  return (
-    <div style={{
-      width: "100%", maxWidth: 560, borderRadius: 14, overflow: "hidden",
-      boxShadow: "0 25px 60px rgba(0,0,0,0.18), 0 8px 20px rgba(0,0,0,0.1)",
-    }}>
-      {/* Titlebar */}
-      <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 16px", background: "#0d1220", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#ef4444", opacity: 0.7, display: "inline-block" }} />
-        <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#eab308", opacity: 0.7, display: "inline-block" }} />
-        <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#22c55e", opacity: 0.7, display: "inline-block" }} />
-        <span style={{ marginLeft: 8, fontSize: 11, color: "#475569" }}>Timeline View</span>
-        <span style={{ marginLeft: "auto", fontSize: 11, color: "#60a5fa", fontWeight: 600 }}>AVE Test Event</span>
-      </div>
-      {/* Toolbar */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 16px", background: "#0f1623", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <div style={{ display: "flex", gap: 8 }}>
-          {["DIRECTOR","STAGE","AV"].map(r => (
-            <span key={r} style={{ fontSize: 9, padding: "2px 6px", borderRadius: 3, background: r==="DIRECTOR"?"#1e3a5f":"transparent", color: r==="DIRECTOR"?"#60a5fa":"#475569", border: r==="DIRECTOR"?"1px solid rgba(59,130,246,0.4)":"none" }}>{r}</span>
-          ))}
-        </div>
-        <span style={{ fontFamily: "monospace", color: "#fff", fontWeight: 700, fontSize: 12 }}>14:41:22</span>
-      </div>
-      {/* Timeline grid */}
-      <div style={{ background: "#111827", padding: "12px 0 16px" }}>
-        {/* Hour axis */}
-        <div style={{ display: "flex", paddingLeft: 64, paddingRight: 12, marginBottom: 8, position: "relative" }}>
-          {hours.map(h => (
-            <div key={h} style={{ flex: 1, fontSize: 9, color: "#475569", textAlign: "left" }}>{h}:00</div>
-          ))}
-        </div>
-        {/* Rooms */}
-        {rooms.map(room => (
-          <div key={room.name} style={{ display: "flex", alignItems: "center", marginBottom: 6, padding: "0 12px 0 0" }}>
-            <div style={{ width: 64, flexShrink: 0, fontSize: 9, color: "#64748b", textAlign: "right", paddingRight: 10, overflow: "hidden", whiteSpace: "nowrap" as const }}>
-              {room.name}
-            </div>
-            <div style={{ flex: 1, height: 24, position: "relative", background: "rgba(255,255,255,0.02)", borderRadius: 3 }}>
-              {room.sessions.map(s => (
-                <div key={s.title} style={{
-                  position: "absolute",
-                  left: `${toPercent(s.start)}%`,
-                  width: `${toPercent(s.end) - toPercent(s.start)}%`,
-                  top: 2, bottom: 2,
-                  background: `${room.color}33`,
-                  border: `1px solid ${room.color}88`,
-                  borderRadius: 3,
-                  display: "flex", alignItems: "center",
-                  padding: "0 4px", overflow: "hidden",
-                }}>
-                  <span style={{ fontSize: 8, color: room.color, fontWeight: 600, whiteSpace: "nowrap" as const, overflow: "hidden", textOverflow: "ellipsis" }}>
-                    {s.title}
-                  </span>
-                </div>
-              ))}
-              {/* NOW marker */}
-              <div style={{
-                position: "absolute",
-                left: `${toPercent(nowHr)}%`,
-                top: -4, bottom: -4, width: 1,
-                background: "#f97316",
-                opacity: 0.8,
-              }} />
-            </div>
-          </div>
-        ))}
-        {/* NOW label */}
-        <div style={{ paddingLeft: 64, position: "relative" }}>
-          <span style={{
-            position: "absolute",
-            left: `calc(64px + ${toPercent(nowHr)}% * (100% - 76px) / 100%)`,
-            fontSize: 8, color: "#f97316", fontWeight: 700, transform: "translateX(-50%)",
-          }}>NOW</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Signage Mockup ───────────────────────────────────────────────────────────
-function SignageMockup() {
-  return (
-    <div style={{
-      width: "100%", maxWidth: 560, borderRadius: 14, overflow: "hidden",
-      boxShadow: "0 25px 60px rgba(0,0,0,0.18), 0 8px 20px rgba(0,0,0,0.1)",
-    }}>
-      {/* Titlebar */}
-      <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 16px", background: "#0d1220", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#ef4444", opacity: 0.7, display: "inline-block" }} />
-        <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#eab308", opacity: 0.7, display: "inline-block" }} />
-        <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#22c55e", opacity: 0.7, display: "inline-block" }} />
-        <span style={{ marginLeft: 8, fontSize: 11, color: "#475569" }}>Signage Control</span>
-        <span style={{ marginLeft: "auto", fontSize: 10, color: "#22c55e" }}>1 display online</span>
-      </div>
-      <div style={{ background: "#111827", padding: "14px 14px 18px", display: "flex", flexDirection: "column", gap: 10 }}>
-        {/* Global override section */}
-        <div>
-          <p style={{ fontSize: 9, fontWeight: 700, color: "#64748b", letterSpacing: "0.08em", textTransform: "uppercase" as const, marginBottom: 8 }}>Global Display Override</p>
-          <div style={{ display: "flex", flexWrap: "wrap" as const, gap: 5 }}>
-            {["☕ Break Screen","⚡ 5-Min Recall","🖼 Sponsors","📊 Agenda Grid","📶 WiFi Info","🗓 Schedule"].map(btn => (
-              <button key={btn} style={{
-                fontSize: 9, padding: "4px 8px", borderRadius: 4, cursor: "pointer",
-                background: "rgba(59,130,246,0.1)", color: "#60a5fa",
-                border: "1px solid rgba(59,130,246,0.25)",
-              }}>{btn}</button>
-            ))}
-          </div>
-        </div>
-        {/* Registered displays */}
-        <div>
-          <p style={{ fontSize: 9, fontWeight: 700, color: "#64748b", letterSpacing: "0.08em", textTransform: "uppercase" as const, marginBottom: 8 }}>Registered Displays (1)</p>
-          <div style={{
-            background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)",
-            borderRadius: 8, padding: "10px 12px",
-            display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8,
-          }}>
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: "#f1f5f9" }}>Lobby</span>
-                <span style={{ fontSize: 9, padding: "1px 5px", borderRadius: 3, background: "rgba(59,130,246,0.15)", color: "#60a5fa", border: "1px solid rgba(59,130,246,0.3)" }}>lobby</span>
-              </div>
-              <div style={{ display: "flex", gap: 8, fontSize: 9, color: "#64748b", marginBottom: 4 }}>
-                <span>sponsors</span><span>·</span><span>portrait</span><span>·</span><span>⟳ 2 slides</span>
-              </div>
-              <span style={{ fontSize: 9, padding: "2px 7px", borderRadius: 3, background: "rgba(234,179,8,0.12)", color: "#fbbf24", border: "1px solid rgba(234,179,8,0.3)" }}>⚡ override: sponsors</span>
-            </div>
-            <div style={{ display: "flex", gap: 5 }}>
-              {["▶ Launch","QR","Edit"].map(a => (
-                <button key={a} style={{ fontSize: 9, padding: "3px 7px", borderRadius: 4, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#94a3b8", cursor: "pointer" }}>{a}</button>
-              ))}
-            </div>
-          </div>
-        </div>
-        {/* Sponsor library */}
-        <div>
-          <p style={{ fontSize: 9, fontWeight: 700, color: "#64748b", letterSpacing: "0.08em", textTransform: "uppercase" as const, marginBottom: 8 }}>Sponsor Library (2)</p>
-          <div style={{ display: "flex", gap: 8 }}>
-            {["AVE Egypt","AVE Events"].map(name => (
-              <div key={name} style={{
-                width: 80, height: 48, borderRadius: 6,
-                background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-              }}>
-                <span style={{ fontSize: 9, color: "#64748b", textAlign: "center" as const }}>{name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 function Hero({ heroHeadline, heroSubheadline }: { heroHeadline: string; heroSubheadline: string }) {
   return (
@@ -402,7 +146,11 @@ function Hero({ heroHeadline, heroSubheadline }: { heroHeadline: string; heroSub
 
         {/* Right */}
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <DashboardMockup />
+          <img
+            src="/screenshots/cuedeck-console-now-and-next-band.jpg" width={1072} height={568} fetchPriority="high" decoding="async"
+            alt="CueDeck console for Northwind Summit 2026: Main Stage live with 14:00 left and the next panel ready, Hall B calling its speaker, and the session list below"
+            style={{ display: "block", width: "100%", maxWidth: 600, height: "auto", borderRadius: 14, boxShadow: "0 25px 60px rgba(0,0,0,0.18), 0 8px 20px rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)" }}
+          />
         </div>
       </div>
     </section>
@@ -842,7 +590,7 @@ function RoleShowcase() {
         {/* Three feature rows */}
         <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
 
-          {/* Row 1: Director view (existing DashboardMockup) */}
+          {/* Row 1: Director view */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 64, alignItems: "center" }}>
             <div>
               <div style={{ display: "inline-block", padding: "3px 10px", borderRadius: 6, background: "rgba(59,130,246,0.08)", border: "1px solid rgba(59,130,246,0.2)", fontSize: 11, fontWeight: 600, color: "#3b82f6", marginBottom: 16 }}>DIRECTOR VIEW</div>
@@ -861,14 +609,26 @@ function RoleShowcase() {
               </ul>
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <DashboardMockup />
+              <div style={{ width: "100%", maxWidth: 540 }}>
+                <img
+                  src="/screenshots/cuedeck-command-center-director-console.jpg" width={1440} height={900} loading="lazy" decoding="async"
+                  alt="CueDeck director console: Main Stage and Hall B in the now and next band, the session list with live, calling, ready and planned sessions, the selected session's Hold and End controls, and the event log"
+                  style={{ display: "block", width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
+                />
+              </div>
             </div>
           </div>
 
           {/* Row 2: Timeline (reversed) */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 64, alignItems: "center" }}>
             <div style={{ display: "flex", justifyContent: "flex-start" }}>
-              <TimelineMockup />
+              <div style={{ width: "100%", maxWidth: 540 }}>
+                <img
+                  src="/screenshots/cuedeck-console-timeline-view.jpg" width={1072} height={515} loading="lazy" decoding="async"
+                  alt="CueDeck timeline view: Main Stage and Hall B sessions on one time axis, coloured by status, with the Now line at 10:31"
+                  style={{ display: "block", width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
+                />
+              </div>
             </div>
             <div>
               <div style={{ display: "inline-block", padding: "3px 10px", borderRadius: 6, background: "rgba(139,92,246,0.08)", border: "1px solid rgba(139,92,246,0.2)", fontSize: 11, fontWeight: 600, color: "#8b5cf6", marginBottom: 16 }}>TIMELINE VIEW</div>
@@ -879,7 +639,7 @@ function RoleShowcase() {
                 Switch to Timeline view and see every session across every room plotted on a shared time axis. The NOW marker moves in real time. Spot conflicts, overruns, and gaps instantly.
               </p>
               <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {["Room-by-room horizontal layout with live NOW cursor", "Colour-coded by room for instant spatial orientation", "Toggle between List and Timeline with one click"].map(f => (
+                {["Room-by-room horizontal layout with live NOW cursor", "Colour-coded by status: live, calling, ready and planned", "Toggle between List and Timeline with one click"].map(f => (
                   <li key={f} style={{ display: "flex", gap: 8, fontSize: 14, color: "#4b5563" }}>
                     <span style={{ color: "#22c55e", flexShrink: 0, fontWeight: 700 }}>✓</span>{f}
                   </li>
@@ -907,7 +667,13 @@ function RoleShowcase() {
               </ul>
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <SignageMockup />
+              <div style={{ width: "100%", maxWidth: 540 }}>
+                <img
+                  src="/screenshots/cuedeck-console-displays-signage-control.jpg" width={1072} height={475} loading="lazy" decoding="async"
+                  alt="CueDeck Displays panel: push to all buttons for break screen, recall, sponsors and schedules, and three registered displays online"
+                  style={{ display: "block", width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
+                />
+              </div>
             </div>
           </div>
 
@@ -916,13 +682,13 @@ function RoleShowcase() {
             <div style={{ display: "flex", justifyContent: "flex-start" }}>
               <div style={{ width: "100%", maxWidth: 540 }}>
                 <img
-                  src="/screenshots/stage-timer.png"
-                  alt="CueDeck Stage Timer — full-screen countdown with 14:52 remaining, green LIVE indicator"
+                  src="/screenshots/cuedeck-stage-timer-live-countdown.jpg" width={1920} height={1080} loading="lazy" decoding="async"
+                  alt="CueDeck stage timer: 14:00 remaining in green for The future of hybrid events, with a message from the director: Take questions from 10:35"
                   style={{ width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
                 />
                 <img
-                  src="/screenshots/stage-timer-overrun.png"
-                  alt="CueDeck Stage Timer — overrun state with flashing red +2:15 warning"
+                  src="/screenshots/cuedeck-stage-timer-overtime.jpg" width={1920} height={1080} loading="lazy" decoding="async"
+                  alt="CueDeck stage timer in overtime: +02:15 in magenta for The future of hybrid events"
                   style={{ width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)", marginTop: 16 }}
                 />
               </div>
@@ -933,7 +699,7 @@ function RoleShowcase() {
                 Speaker-facing countdown your presenters will love
               </h3>
               <p style={{ fontSize: 16, color: "#4b5563", lineHeight: 1.75, marginBottom: 20 }}>
-                Open the Stage Timer on any screen facing the stage. Speakers see a massive countdown that shifts from green to amber to red as time runs low. If they overrun, the timer flashes red with the overage — no ambiguity, no awkward signals.
+                Open the Stage Timer on any screen facing the stage. Speakers see a massive countdown that shifts from green to amber to red as time runs low. If they overrun, the timer flashes in magenta with the time over: no ambiguity, no awkward signals.
               </p>
               <ul style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {["Colour-coded urgency: green → amber → red → flashing overrun", "HOLD freeze keeps the clock paused during breaks or delays", "Progress bar and live session info visible at a glance"].map(f => (
@@ -966,8 +732,8 @@ function RoleShowcase() {
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <div style={{ width: "100%", maxWidth: 540 }}>
                 <img
-                  src="/screenshots/display-pairing.png"
-                  alt="CueDeck Display Pairing — screen showing pairing code A7K-3M2 with green connection status"
+                  src="/screenshots/cuedeck-display-pairing-code.jpg" width={960} height={540} loading="lazy" decoding="async"
+                  alt="CueDeck display pairing screen showing the code LZN-FS4, waiting for connection, with the code expiring in 5:00"
                   style={{ width: "100%", height: "auto", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", border: "1px solid rgba(255,255,255,0.06)" }}
                 />
               </div>
