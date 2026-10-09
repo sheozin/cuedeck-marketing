@@ -26,7 +26,7 @@ const details = [
   },
   {
     title: "Hold, delays and the director's clock",
-    body: "When the director puts a session on hold, the countdown freezes and shows HOLD until the session resumes. When a delay is applied in the console, the timer and every other screen follow the new schedule. The stage timer counts from the same synced clock as the console, so the stage and the director never disagree about how much time is left.",
+    body: "When the director puts a session on hold, the countdown freezes and shows HOLD until the session resumes. When a delay is applied in the console, the timer and every other screen follow the new schedule. The stage timer counts from the same synced clock as the console, so the stage and the director never disagree about how much time is left. A message to the speaker sent from the console shows on that room's stage timer and stage monitor, and clears by itself when the session ends.",
   },
   {
     title: "The confidence monitor",
@@ -93,6 +93,23 @@ export default function StageTimerPage() {
             ))}
           </div>
         </Section>
+        <Showcase
+          flip
+          eyebrow="Lobby screens"
+          title="The whole day on the lobby screens"
+          desc="The same displays can show the programme for everyone outside the room. The day grid lays out sessions by time and room, and the programme list runs through them in order with the speaker, room and length of each one. Both mark the session that is live."
+          img={{ src: "/screenshots/cuedeck-display-day-grid.jpg", width: 1920, height: 1080,
+            alt: "Day grid display for the lobby: Hall B and Main Stage columns with sessions from 09:00 to 16:30 and the live session highlighted" }}
+          device="monitor"
+          labels={[{ dot: DOT.info, title: "Day grid", sub: "Hall B and Main Stage, 09:00 to 16:30", pos: { left: -14, top: -16 } }]}
+          second={{
+            layout: "pair",
+            device: "monitor",
+            img: { src: "/screenshots/cuedeck-display-programme-list.jpg", width: 1920, height: 1080,
+              alt: "Programme list display for the lobby: sessions in order with start time, speaker, room and duration, finished sessions dimmed and the live session highlighted" },
+            labels: [{ dot: DOT.live, title: "Programme list", sub: "Live session highlighted", pos: { right: -10, top: -14 } }],
+          }}
+        />
         <Showcase
           eyebrow="Behind the screens"
           title="Controlled from the console"

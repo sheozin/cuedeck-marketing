@@ -2,7 +2,7 @@
 // like the rest of the site; grids use min(…, 100%) so nothing overflows at
 // 375px without needing the layout.tsx overrides.
 import type { ReactNode } from "react";
-import { DeviceStage, Laptop, Monitor, Tablet, Phone, LiveLabel, type LiveLabelProps } from "./DeviceFrames";
+import { DeviceStage, Laptop, Monitor, Tablet, Phone, Card, LiveLabel, type LiveLabelProps } from "./DeviceFrames";
 import { SITE_URL } from "../lib/site";
 
 export const TRIAL_URL = "https://app.cuedeck.io/#signup";
@@ -22,13 +22,28 @@ export type Img = { src: string; alt: string; width: number; height: number };
 // Every screenshot sits in a CSS device frame on the approved soft blue stage
 // (components/DeviceFrames). The hero shot is the LCP element on these pages,
 // so it loads eagerly at high priority; the rest lazy.
-export type Device = "laptop" | "monitor" | "tablet" | "phone";
-const FRAMES = { laptop: Laptop, monitor: Monitor, tablet: Tablet, phone: Phone };
+// "card" is a light frame for close-ups cropped from a screen.
+export type Device = "laptop" | "monitor" | "tablet" | "phone" | "card";
+const FRAMES = { laptop: Laptop, monitor: Monitor, tablet: Tablet, phone: Phone, card: Card };
 
-function Framed({ img, device, labels, maxWidth, priority }: {
-  img: Img; device: Device; labels?: LiveLabelProps[]; maxWidth?: number; priority?: boolean;
+// A second device shown beside the first ("pair": laptop and monitor, "twin": two equal screens).
+export type SecondShot = { img: Img; device: Device; labels?: LiveLabelProps[]; layout: "pair" | "twin" };
+
+function Framed({ img, device, labels, maxWidth, priority, second }: {
+  img: Img; device: Device; labels?: LiveLabelProps[]; maxWidth?: number; priority?: boolean; second?: SecondShot;
 }) {
   const Frame = FRAMES[device];
+  if (second) {
+    const Frame2 = FRAMES[second.device];
+    // A pair stacks in the narrow Showcase column, so each device gets the full width.
+    const sizes = second.layout === "pair" ? "(max-width: 900px) 92vw, 500px" : "(max-width: 900px) 46vw, 300px";
+    return (
+      <DeviceStage layout={second.layout}>
+        <Frame img={img} sizes={sizes}>{labels?.map(l => <LiveLabel key={l.title} {...l} />)}</Frame>
+        <Frame2 img={second.img} sizes={sizes}>{second.labels?.map(l => <LiveLabel key={l.title} {...l} />)}</Frame2>
+      </DeviceStage>
+    );
+  }
   return (
     <DeviceStage>
       <Frame img={img} maxWidth={maxWidth} priority={priority} sizes={priority ? "(max-width: 900px) 92vw, 520px" : "(max-width: 900px) 92vw, 500px"}>
@@ -134,9 +149,9 @@ export function FeatureGrid({ items }: { items: { title: string; desc: string }[
 }
 
 // A screenshot beside its explanation; flip puts the picture on the left.
-export function Showcase({ eyebrow, title, desc, points, img, device, labels, flip, imgMaxWidth }: {
+export function Showcase({ eyebrow, title, desc, points, img, device, labels, flip, imgMaxWidth, second }: {
   eyebrow: string; title: string; desc: string; points?: string[]; img: Img; device: Device; labels?: LiveLabelProps[];
-  flip?: boolean; imgMaxWidth?: number;
+  flip?: boolean; imgMaxWidth?: number; second?: SecondShot;
 }) {
   const text = (
     <div>
@@ -152,7 +167,7 @@ export function Showcase({ eyebrow, title, desc, points, img, device, labels, fl
       )}
     </div>
   );
-  const pic = <Framed img={img} device={device} labels={labels} maxWidth={imgMaxWidth} />;
+  const pic = <Framed img={img} device={device} labels={labels} maxWidth={imgMaxWidth} second={second} />;
   return (
     <section style={{ padding: "72px 24px" }}>
       <div style={{

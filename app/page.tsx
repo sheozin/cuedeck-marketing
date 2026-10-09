@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { DeviceStage, Laptop, Monitor, Tablet, LiveLabel, DOT } from "../components/DeviceFrames";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
@@ -189,15 +190,20 @@ function BuiltBy() {
 }
 
 // ─── Features ─────────────────────────────────────────────────────────────────
-const FEATURES = [
+// Each card shows a close-up only where one honestly matches the title; the
+// others stay text-only. pos picks which part of the shot the 2:1 box keeps.
+type FeatureShot = { src: string; alt: string; width: number; height: number; pos: string };
+const FEATURES: { Icon: () => React.JSX.Element; title: string; desc: string; shot?: FeatureShot }[] = [
   {
     Icon: IconUsers,
     title: "Multi-role Operations",
+    shot: { src: "/screenshots/cuedeck-closeup-team-roles.jpg", width: 1200, height: 600, pos: "left top", alt: "Event team list with each person's role, Stage or AV, and Suspend or Remove controls" },
     desc: "Director, Stage, AV, Interp, Reg, and Signage: each role sees exactly what they need, with role-adaptive filters and keyboard shortcuts.",
   },
   {
     Icon: IconZap,
     title: "Real-time Sync",
+    shot: { src: "/screenshots/cuedeck-closeup-event-log.jpg", width: 718, height: 480, pos: "center top", alt: "Event log showing the realtime channel connected and session status changes with their times" },
     desc: "Session changes, broadcasts, and clock updates propagate instantly to every operator via live subscriptions. Zero polling.",
   },
   {
@@ -208,11 +214,13 @@ const FEATURES = [
   {
     Icon: IconMonitor,
     title: "Digital Signage",
+    shot: { src: "/screenshots/cuedeck-display-schedule.jpg", width: 3840, height: 2160, pos: "center", alt: "Lobby display showing the live session, its speaker, 14:00 remaining and the next session" },
     desc: "Drive lobby displays, wayfinding screens, and sponsor carousels directly from the console. Auto-rotate sequences, video support.",
   },
   {
     Icon: IconClock,
     title: "Delay Cascade",
+    shot: { src: "/screenshots/cuedeck-closeup-delay-cascade.jpg", width: 2120, height: 758, pos: "right top", alt: "Session list running 5 minutes late: two sessions moved by +5 and a line where the delay stops" },
     desc: "Apply a delay to one session and it cascades downstream automatically. Every operator sees the new schedule instantly.",
   },
   {
@@ -223,11 +231,13 @@ const FEATURES = [
   {
     Icon: IconTimer,
     title: "Stage Timer",
+    shot: { src: "/screenshots/cuedeck-stage-timer-live-countdown.jpg", width: 3840, height: 2160, pos: "center", alt: "Stage timer counting down 14:00 in green with a message from the director below" },
     desc: "Full-screen countdown visible from any stage. Colour-coded urgency as time runs down, a HOLD freeze and a clear overtime state, so speakers always know where they stand.",
   },
   {
     Icon: IconLink,
     title: "Display Pairing",
+    shot: { src: "/screenshots/cuedeck-display-pairing-code.jpg", width: 1920, height: 1080, pos: "center", alt: "Display screen showing a pairing code to enter in the CueDeck console" },
     desc: "Pair signage screens in seconds: each display shows a 6-character code, enter it in the console, done. No network setup, no IP addresses.",
   },
 ];
@@ -258,13 +268,23 @@ function Features() {
               boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
               transition: "box-shadow 0.2s, transform 0.2s",
             }}>
-              <div style={{
-                width: 44, height: 44, borderRadius: 10, marginBottom: 18,
-                background: "rgba(59,130,246,0.08)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                color: "#3b82f6",
-              }}>
-                <f.Icon />
+              {/* Same 2:1 light frame on every card so the titles line up; cards
+                  without an honest screenshot show their icon in it instead. */}
+              <div style={{ padding: 5, borderRadius: 10, background: "#eef4ff", border: "1px solid #dbeafe", marginBottom: 20 }}>
+                {f.shot ? (
+                  <div style={{ position: "relative", aspectRatio: "2 / 1", borderRadius: 6, overflow: "hidden", background: "#0b0d12" }}>
+                    <Image src={f.shot.src} alt={f.shot.alt} fill sizes="(max-width: 900px) 100vw, 360px"
+                      style={{ objectFit: "cover", objectPosition: f.shot.pos }} />
+                  </div>
+                ) : (
+                  <div style={{
+                    aspectRatio: "2 / 1", borderRadius: 6, color: "#3b82f6",
+                    background: "radial-gradient(260px 140px at 30% 20%, #dbeafe 0, transparent 70%), linear-gradient(180deg, #f8fbff, #eef4ff)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <div style={{ transform: "scale(1.8)" }}><f.Icon /></div>
+                  </div>
+                )}
               </div>
               <h3 style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 8 }}>{f.title}</h3>
               <p style={{ fontSize: 14, color: "#6b7280", lineHeight: 1.65 }}>{f.desc}</p>

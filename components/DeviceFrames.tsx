@@ -32,6 +32,8 @@ const CSS = `
 .cd-dev-phone{position:relative;border-radius:34px;padding:9% 3.6% 5%;background:#111113;box-shadow:inset 0 0 0 1.5px var(--cd-dev-edge),var(--cd-dev-shadow)}
 .cd-dev-phone .cd-dev-scr{border-radius:22px;overflow:hidden}
 .cd-dev-phone .cd-dev-notch{position:absolute;top:2.2%;left:50%;width:22%;height:1.4%;border-radius:99px;background:#000;transform:translateX(-50%)}
+.cd-dev-card{position:relative;border-radius:14px;padding:8px;background:#fff;border:1px solid rgba(59,130,246,.18);box-shadow:var(--cd-dev-shadow)}
+.cd-dev-card .cd-dev-scr{border-radius:8px;overflow:hidden}
 .cd-dev-chip{position:absolute;z-index:5;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(59,130,246,.18);border-radius:12px;padding:9px 12px;font-size:12.5px;line-height:1.3;font-weight:600;color:#0f172a;box-shadow:0 12px 30px -10px rgba(30,64,175,.35);white-space:nowrap;text-align:left}
 .cd-dev-chip small{display:block;font-weight:500;color:#64748b;font-size:11px}
 .cd-dev-dot{width:8px;height:8px;border-radius:50%;flex:none}
@@ -93,6 +95,16 @@ export function Phone(p: FrameProps) {
   return (
     <div className="cd-dev-phone" style={box(p.maxWidth)}>
       <span className="cd-dev-notch" /><div className="cd-dev-scr"><Shot {...p} /></div>
+      {p.children}
+    </div>
+  );
+}
+
+// A light card for close-ups that are a crop of a screen, not a whole screen.
+export function Card(p: FrameProps) {
+  return (
+    <div className="cd-dev-card" style={box(p.maxWidth)}>
+      <div className="cd-dev-scr"><Shot {...p} /></div>
       {p.children}
     </div>
   );

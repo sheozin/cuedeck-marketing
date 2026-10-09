@@ -118,6 +118,83 @@ export default function CommandCenterPage() {
           <FeatureGrid items={roles} />
         </Section>
         <Showcase
+          eyebrow="Event teams"
+          title="Invite people to one event, with one role"
+          desc="Each event has its own team. Invite someone by email, pick their role and they get access to that event only. People you invite work under your plan, so they do not need one of their own."
+          points={[
+            "Change a role, suspend someone or remove them from this event or from all your events",
+            "Seats follow your plan: up to 5 on Pay-per-event and Starter, up to 20 on Pro",
+            "See when each person was last seen",
+          ]}
+          img={{ src: "/screenshots/cuedeck-console-team-window.jpg", width: 1440, height: 900,
+            alt: "Team window for Northwind Summit 2026: 6 of 20 seats used, an invite row with email, name and role, and team members with their roles and when they were last seen" }}
+          device="laptop"
+          labels={[
+            { dot: DOT.info, title: "Team 6 of 20 seats", sub: "Team for Northwind Summit 2026", pos: { left: -18, top: -14 } },
+            { dot: DOT.ok, title: "Daniel Okoro, Stage", sub: "Last seen 3 minutes ago", pos: { right: -20, bottom: -10 } },
+          ]}
+        />
+        <Showcase
+          flip
+          eyebrow="Event switcher"
+          title="Every event you work on, grouped by organiser"
+          desc="Your own events sit at the top of the switcher. Events other organisers have invited you to are listed under their name, so a freelancer crewing for several companies moves between shows in one click."
+          img={{ src: "/screenshots/cuedeck-console-event-switcher.jpg", width: 1440, height: 900,
+            alt: "Event switcher open in the console: Your events, then events grouped under Harbourlight Productions and Tidewater Group, with Edit event and New event below" }}
+          device="laptop"
+          labels={[
+            { dot: DOT.info, title: "Your events", sub: "Northwind Summit 2026 and Partner Day 2027", pos: { right: -20, top: "18%" } },
+            { dot: DOT.ok, title: "Grouped by organiser", sub: "Harbourlight Productions, Tidewater Group", pos: { left: -18, bottom: "20%" } },
+          ]}
+        />
+        <Showcase
+          eyebrow="On your phone"
+          title="Run the show from a phone"
+          desc="On a phone the console turns into cards, one for each room's current and next session. Hold, end, add or take away a minute, call the next speaker or mark them arrived without going back to the laptop."
+          points={[
+            "Filter to one room or follow all of them",
+            "Now, Schedule, Log and Send along the bottom",
+            "Message to speaker from the live session's card",
+          ]}
+          img={{ src: "/screenshots/cuedeck-console-phone-now.jpg", width: 390, height: 844,
+            alt: "CueDeck console on a phone: Main Stage live with 14:00 left and Hold, End, minus and plus one minute and Message to speaker buttons, then the next session with Call speaker" }}
+          device="phone"
+          imgMaxWidth={270}
+          labels={[
+            { dot: DOT.live, title: "Main Stage live", sub: "14:00 left", pos: { left: -110, top: "14%" } },
+            { dot: DOT.info, title: "Next at 11:00", sub: "Call speaker", pos: { right: -110, top: "56%" } },
+          ]}
+        />
+        <Showcase
+          flip
+          eyebrow="Delay cascade"
+          title="Late in one room, on time everywhere else"
+          desc="Push the following sessions by five, ten or fifteen minutes and the list shows the new times beside the old ones. The delay stops at the next anchored session, and everything below it runs on the original schedule."
+          img={{ src: "/screenshots/cuedeck-closeup-delay-cascade.jpg", width: 2120, height: 758,
+            alt: "Session list running 5 minutes late: two sessions show +5 with their original times, and a line marks where the delay stops" }}
+          device="card"
+          labels={[
+            { dot: DOT.delay, title: "Running +5 min", sub: "2 affected, stops at #7", pos: { left: -14, top: -26 } },
+            { dot: DOT.info, title: "Delay stops here", sub: "Below runs on the original schedule", pos: { right: -14, bottom: -26 } },
+          ]}
+        />
+        <Showcase
+          eyebrow="Message to speaker"
+          title="Tell the speaker without walking on stage"
+          desc="Pick a preset such as 5 minutes left or Please wrap up, or type a short message of up to 60 characters. It shows on that room's stage timer and stage monitor, and clears by itself when the session ends."
+          img={{ src: "/screenshots/cuedeck-console-message-to-speaker.jpg", width: 1440, height: 900,
+            alt: "Console inspector with message presets for the Main Stage speaker and the strip On the stage timer now: Take questions from 10:35" }}
+          device="laptop"
+          labels={[{ dot: DOT.info, title: "Message sent from the console", sub: "Take questions from 10:35", pos: { left: -18, top: 18 } }]}
+          second={{
+            layout: "pair",
+            device: "monitor",
+            img: { src: "/screenshots/cuedeck-stage-timer-live-countdown.jpg", width: 1920, height: 1080,
+              alt: "Stage timer with 14:00 remaining and a yellow band below: Message from the director, Take questions from 10:35" },
+            labels: [{ dot: DOT.calling, title: "Shown on the stage timer", sub: "Take questions from 10:35", pos: { right: -10, top: -14 } }],
+          }}
+        />
+        <Showcase
           flip
           eyebrow="On stage"
           title="Speakers see the same clock you do"
