@@ -96,18 +96,21 @@ export default function StageTimerPage() {
         <Showcase
           flip
           eyebrow="Lobby screens"
-          title="The whole day on the lobby screens"
-          desc="The same displays can show the programme for everyone outside the room. The day grid lays out sessions by time and room, and the programme list runs through them in order with the speaker, room and length of each one. Both mark the session that is live."
-          img={{ src: "/screenshots/cuedeck-display-day-grid.jpg", width: 1920, height: 1080,
-            alt: "Day grid display for the lobby: Hall B and Main Stage columns with sessions from 09:00 to 16:30 and the live session highlighted" }}
+          title="The agenda on every lobby screen"
+          desc="One departures style list for the whole venue, with the time, session, room and status of each one. The day grid shows the same programme by room. Both follow delays, so a session that runs late shows its new time with the old one struck through."
+          img={{ src: "/screenshots/cuedeck-display-agenda-board.jpg", width: 3840, height: 2160,
+            alt: "Agenda board for the lobby: sessions listed with time, session, room and status, one live with 14 min left, one starting soon and two delayed 5 min with the old time struck through" }}
           device="monitor"
-          labels={[{ dot: DOT.info, title: "Day grid", sub: "Hall B and Main Stage, 09:00 to 16:30", pos: { left: -14, top: -16 } }]}
+          labels={[
+            { dot: DOT.live, title: "Live \u00b7 14 min left", sub: "The future of hybrid events", pos: { left: -14, top: -16 } },
+            { dot: DOT.delay, title: "Delayed 5 min", sub: "Old time struck through", pos: { left: -14, bottom: "14%" } },
+          ]}
           second={{
             layout: "pair",
             device: "monitor",
-            img: { src: "/screenshots/cuedeck-display-programme-list.jpg", width: 1920, height: 1080,
-              alt: "Programme list display for the lobby: sessions in order with start time, speaker, room and duration, finished sessions dimmed and the live session highlighted" },
-            labels: [{ dot: DOT.live, title: "Programme list", sub: "Live session highlighted", pos: { right: -10, top: -14 } }],
+            img: { src: "/screenshots/cuedeck-display-day-grid.jpg", width: 3840, height: 2160,
+              alt: "Day grid display for the lobby: Hall B and Main Stage columns with sessions from 09:00 to 16:30, the live session, a session starting soon and delayed sessions marked" },
+            labels: [{ dot: DOT.info, title: "Day grid", sub: "Hall B and Main Stage", pos: { right: -10, top: -14 } }],
           }}
         />
         <Showcase
