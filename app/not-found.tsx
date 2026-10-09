@@ -5,6 +5,9 @@ import Footer from "../components/Footer";
 export const metadata: Metadata = {
   title: "Page Not Found",
   description: "This page doesn't exist.",
+  // Next.js already emits <meta name="robots" content="noindex"> for a 404.
+  // null drops the root layout's index/follow tags so that is the only one.
+  robots: null,
 };
 
 export default function NotFound() {

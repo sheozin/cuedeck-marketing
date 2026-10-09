@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
-import { getAllPosts } from '../../../lib/posts'
+import { getPublishedPosts } from '../../../lib/blogPosts'
+import { SITE_URL } from '../../../lib/site'
 
-const BASE_URL = 'https://cuedeck.io'
+export const revalidate = 3600
 
 function escapeXml(s: string): string {
   return s
@@ -13,35 +14,35 @@ function escapeXml(s: string): string {
 }
 
 export async function GET() {
-  const posts = getAllPosts()
+  const posts = await getPublishedPosts()
 
   const items = posts
     .map(p => {
-      const imageTag = p.featuredImage
-        ? `<enclosure url="${BASE_URL}${p.featuredImage}" type="image/png" length="0" />`
-        : ''
       return `
     <item>
       <title>${escapeXml(p.title)}</title>
-      <link>${BASE_URL}/blog/${p.slug}</link>
-      <guid isPermaLink="true">${BASE_URL}/blog/${p.slug}</guid>
-      <pubDate>${new Date(p.date).toUTCString()}</pubDate>
+      <link>${SITE_URL}/blog/${p.slug}</link>
+      <guid isPermaLink="true">${SITE_URL}/blog/${p.slug}</guid>
+      <pubDate>${new Date(p.publishedAt).toUTCString()}</pubDate>
       <description>${escapeXml(p.excerpt)}</description>
-      <author>hello@cuedeck.io (${escapeXml(p.author)})</author>
-      ${imageTag}
+      <author>hello@cuedeck.io (CueDeck Team)</author>
     </item>`
     })
     .join('')
+
+  // The newest post change, not the request time.
+  const newest = posts.map(p => p.updatedAt).sort().at(-1)
+  const lastBuild = newest ? new Date(newest).toUTCString() : null
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>CueDeck Blog</title>
-    <link>${BASE_URL}/blog</link>
+    <link>${SITE_URL}/blog</link>
     <description>Insights, tips, and updates from the CueDeck team on live event production.</description>
     <language>en</language>
-    <atom:link href="${BASE_URL}/blog/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+    <atom:link href="${SITE_URL}/blog/feed.xml" rel="self" type="application/rss+xml" />
+    ${lastBuild ? `<lastBuildDate>${lastBuild}</lastBuildDate>` : ''}
     ${items}
   </channel>
 </rss>`
