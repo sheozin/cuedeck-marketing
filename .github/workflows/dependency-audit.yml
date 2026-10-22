@@ -1,0 +1,23 @@
+# Fails when a production dependency has a critical advisory, so a
+# vulnerable Next.js (or anything else) cannot sit in production unseen.
+# Runs on every push to main and every Monday; GitHub emails the repo
+# owner when a scheduled run fails. Added 2026-10-22 after Next.js
+# 16.2.10 (next/og and image-optimizer RCE) was found live.
+name: Dependency audit
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      # npm audit exits non-zero at or above the level; the registry
+      # being unreachable also fails the job, never passes it.
+      - run: npm audit --omit=dev --audit-level=critical
