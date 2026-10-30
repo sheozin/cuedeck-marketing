@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const APP_URL = "https://app.cuedeck.io";
 const TRIAL_URL = `${APP_URL}/#signup`;
@@ -22,6 +23,11 @@ const links = [
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [solOpen, setSolOpen] = useState(false);
+  // On the check-in page, sign in and sign up go to the check-in app, so the
+  // account is a check-in one and its confirm link returns there.
+  const checkin = usePathname()?.startsWith("/solutions/check-in");
+  const signInUrl = checkin ? `${APP_URL}/checkin` : APP_URL;
+  const signUpUrl = checkin ? `${APP_URL}/checkin#signup` : TRIAL_URL;
 
   return (
     <nav style={{
@@ -93,10 +99,10 @@ export default function Nav() {
 
         {/* Desktop CTA */}
         <div className="hidden lg:flex" style={{ alignItems: "center", gap: "12px" }}>
-          <a href={APP_URL} style={{ fontSize: 14, color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>
+          <a href={signInUrl} style={{ fontSize: 14, color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>
             Sign in
           </a>
-          <a href={TRIAL_URL} style={{
+          <a href={signUpUrl} style={{
             fontSize: 14, fontWeight: 600, padding: "9px 20px", borderRadius: "8px",
             background: "#3b82f6", color: "#fff", textDecoration: "none",
             boxShadow: "0 1px 3px rgba(59,130,246,0.4)",
@@ -148,12 +154,12 @@ export default function Nav() {
             </a>
           ))}
           <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "16px" }}>
-            <a href={APP_URL} style={{
+            <a href={signInUrl} style={{
               textAlign: "center", padding: "11px", borderRadius: "10px",
               fontSize: 14, fontWeight: 600, color: "#374151", textDecoration: "none",
               border: "1.5px solid #e5e7eb",
             }}>Sign in</a>
-            <a href={TRIAL_URL} style={{
+            <a href={signUpUrl} style={{
               textAlign: "center", padding: "11px", borderRadius: "10px",
               fontSize: 14, fontWeight: 700, color: "#fff", textDecoration: "none",
               background: "#3b82f6", boxShadow: "0 2px 6px rgba(59,130,246,0.4)",
