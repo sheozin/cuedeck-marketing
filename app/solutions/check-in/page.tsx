@@ -5,8 +5,12 @@ import Footer from "../../../components/Footer";
 import { jsonLd } from "../../../lib/jsonLd";
 import { DOT } from "../../../components/DeviceFrames";
 import { getCheckinPrice } from "../../../lib/checkinPrice";
+
+// The check-in app's own sign-up, so the account is a check-in one and the
+// confirm link returns to /checkin (TRIAL_URL is the command center's).
+const CHECKIN_SIGNUP_URL = "https://app.cuedeck.io/checkin#signup";
 import {
-  Hero, Section, Steps, FeatureGrid, Showcase, Faq, CtaStrip, breadcrumbs, faqJsonLd, TRIAL_URL,
+  Hero, Section, Steps, FeatureGrid, Showcase, Faq, CtaStrip, breadcrumbs, faqJsonLd,
 } from "../../../components/Solutions";
 
 export const revalidate = 3600;
@@ -60,7 +64,7 @@ export default async function CheckinPage() {
           eyebrow="CueDeck Event Check-in"
           title={<>Every guest through the door in seconds</>}
           lead="Import your guest list, email everyone a QR code, and run the registration desk from any laptop or tablet. Badges print as people arrive, and it keeps working when the venue Wi-Fi does not."
-          primary={{ label: "Set up your event free", href: TRIAL_URL }}
+          primary={{ label: "Set up your event free", href: CHECKIN_SIGNUP_URL }}
           secondary={{ label: "See how it works", href: "#how" }}
           note={priceText
             ? <>Free to set up and test · {priceText} per event to go live · No subscription</>
@@ -154,7 +158,7 @@ export default async function CheckinPage() {
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 8, fontSize: 14, color: "#374151" }}>
                 {["Unlimited desks and door scanner phones", "Registration page with your own questions", "QR code email to every guest", "Badge printing and self-registration kiosk", "Live dashboard, arrival alerts and post-event report", "Offline desk and attendance export"].map(x => <li key={x}>{x}</li>)}
               </ul>
-              <a href={TRIAL_URL} style={{ display: "block", textAlign: "center", padding: 13, borderRadius: 10, background: "#3b82f6", color: "#fff", fontWeight: 700, textDecoration: "none" }}>Set up your event free</a>
+              <a href={CHECKIN_SIGNUP_URL} style={{ display: "block", textAlign: "center", padding: 13, borderRadius: 10, background: "#3b82f6", color: "#fff", fontWeight: 700, textDecoration: "none" }}>Set up your event free</a>
             </div>
             <div style={{ padding: 32, borderRadius: 16, background: "#fff", border: "1px solid #e5e7eb" }}>
               <p style={{ fontSize: 13, fontWeight: 700, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 12 }}>Already on CueDeck?</p>
@@ -173,7 +177,7 @@ export default async function CheckinPage() {
           title="Set up your next event's check-in today"
           lead="Import your guest list and try the desk free. Pay only when you are ready to go live."
           label="Get started free"
-          href={TRIAL_URL}
+          href={CHECKIN_SIGNUP_URL}
         />
       </main>
       <Footer />
