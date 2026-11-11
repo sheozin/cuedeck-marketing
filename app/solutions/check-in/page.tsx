@@ -115,12 +115,12 @@ export default async function CheckinPage() {
           title="See the doors from anywhere"
           desc="Arrivals over time, every desk and its sync status, which companies are still missing people, and alerts the moment a VIP walks in."
           points={["Arrivals per 15 minutes and turnout by ticket type", "Company board: who is here, who is partly here, who has not arrived", "Desk health, including check-ins waiting to sync"]}
-          img={{ src: "/screenshots/checkin-dashboard-live.jpg", width: 1440, height: 1250,
+          img={{ src: "/screenshots/checkin-dashboard-live.jpg", width: 1440, height: 1652,
             alt: "Check-in dashboard with arrival totals, desk status, arrival alerts, company board and arrivals chart" }}
           device="tablet"
           labels={[
-            { dot: DOT.ok, title: "184 checked in", sub: "45% turnout", pos: { left: -18, top: "64%" } },
-            { dot: DOT.delay, title: "East entrance syncing", sub: "3 waiting", pos: { right: -20, top: "30%" } },
+            { dot: DOT.ok, title: "184 checked in", sub: "45% turnout", pos: { left: -18, top: "14%" } },
+            { dot: DOT.delay, title: "East entrance syncing", sub: "3 waiting", pos: { right: -20, top: "41%" } },
           ]}
         />
 
