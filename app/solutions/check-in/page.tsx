@@ -23,7 +23,14 @@ const steps = [
   { title: "Check people in", desc: "Scan or search at the desk, or point a phone at the door. Badges print as people arrive." },
 ];
 
+const ticketSteps = [
+  { title: "Add your ticket types", desc: "Under Tickets, give each type a name, a price and, if you like, how many are available. A price of 0.00 makes it free." },
+  { title: "Connect Stripe", desc: "Click Connect Stripe and sign in to your own Stripe account, or create one. Paid tickets go on sale as soon as Stripe approves the account." },
+  { title: "Guests pay, you get paid", desc: "Guests pay on Stripe's checkout and get their QR ticket by email. You see every order, and a refund is one click." },
+];
+
 const capabilities = [
+  { title: "Sell tickets", desc: "Set ticket types and prices, connect your own Stripe account, and guests pay when they register. The money goes straight to you." },
   { title: "Online registration page", desc: "Share a link and guests register themselves, with up to five questions of your own. Set a capacity and a closing time, and replace the link if it leaks." },
   { title: "Whole teams at once", desc: "One scan brings up everyone from the same company. Tick who is standing there and check them in together." },
   { title: "Badges on demand", desc: "Print from the desk to any printer Chrome can reach. No print server and no extra software." },
@@ -47,6 +54,7 @@ export default async function CheckinPage() {
         : "Setup and a test run are free: up to 25 test check-ins, cleared when you go live. Going live is a one-off payment for that event, which turns on real check-ins and QR emails. You see the price before you pay.",
     },
     { q: "Can guests register themselves before the event?", a: "Yes. Turn on the registration page in setup and share its link. Guests enter their name, email, company and your questions. Each guest confirms their email address before they join the list, then gets their QR code by email. It is included in the per-event price." },
+    { q: "Can I sell tickets?", a: "Yes. Add ticket types with prices under Tickets and connect your own Stripe account. Guests pay on Stripe's checkout page when they register and get their QR ticket by email. Payments go straight to your Stripe account and CueDeck takes no commission. Stripe's card fees apply, and free tickets work without Stripe." },
     { q: "Do I need special hardware?", a: "No. Any laptop or tablet with Chrome runs the desk. A USB QR scanner is faster but optional, phones work as door scanners, and badges print to any printer Chrome can use." },
     { q: "Is there a limit on attendees?", a: "There is no per-attendee fee and no ticket commission. Each CSV import takes up to 5,000 rows, and you can import more than once." },
     { q: "When can guests be checked in?", a: "From a week before the event until two days after it. The post-event report is emailed to you once that window closes." },
@@ -142,6 +150,10 @@ export default async function CheckinPage() {
           ]}
         />
 
+        <Section id="tickets" eyebrow="Ticket sales" title="Sell tickets with your own Stripe account" lead="Guests choose a ticket and pay when they register. Payments go straight to you, with no ticket commission.">
+          <Steps items={ticketSteps} />
+        </Section>
+
         <Section eyebrow="Pricing" title="One price per event. Everything included." lead="No per-attendee fees, no ticket commission, no subscription." bg="#f9fafb">
           <div style={{ display: "grid", gap: 20, gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", maxWidth: 860, margin: "0 auto" }}>
             <div style={{ padding: 32, borderRadius: 16, background: "#fff", border: "2px solid #3b82f6", boxShadow: "0 8px 30px rgba(59,130,246,0.12)" }}>
@@ -156,7 +168,7 @@ export default async function CheckinPage() {
               )}
               <p style={{ fontSize: 14, color: "#6b7280", marginBottom: 20 }}>Set up and test free. Pay when you go live.</p>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 8, fontSize: 14, color: "#374151" }}>
-                {["Unlimited desks and door scanner phones", "Registration page with your own questions", "QR code email to every guest", "Badge printing and self-registration kiosk", "Live dashboard, arrival alerts and post-event report", "Offline desk and attendance export"].map(x => <li key={x}>{x}</li>)}
+                {["Unlimited desks and door scanner phones", "Registration page with your own questions", "Paid tickets through your own Stripe account", "QR code email to every guest", "Badge printing and self-registration kiosk", "Live dashboard, arrival alerts and post-event report", "Offline desk and attendance export"].map(x => <li key={x}>{x}</li>)}
               </ul>
               <a href={CHECKIN_SIGNUP_URL} style={{ display: "block", textAlign: "center", padding: 13, borderRadius: 10, background: "#3b82f6", color: "#fff", fontWeight: 700, textDecoration: "none" }}>Set up your event free</a>
             </div>
